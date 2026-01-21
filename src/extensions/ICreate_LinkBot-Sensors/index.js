@@ -2,9 +2,9 @@
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
-
+const icon = require('./sensor.png');
  
-class LinkBot {
+class LinkBot_Sensors {
     
     constructor(runtime) {
         this.runtime = runtime;
@@ -12,414 +12,62 @@ class LinkBot {
 
     getInfo() {
       return {
-        id: 'LinkBot',
+        id: 'LinkBot_Sensors',
         name: formatMessage({
-            id: 'MicrobiteIcreateS4S.name',
-            default: 'Link Bot',
+            id: 'LinkBot_Sensors.name',
+            default: 'Sensors',
         }),
         color1: '#55DAD1',  // 主颜色
         color2: '#45C2B9',  // 次颜色（渐变）
         color3: '#36AAA1',   // 边框颜色
+        iconURI: icon, 
 
         //模块 
         blocks: [
-        /* {
-            blockType: BlockType.LABEL,
-            text: formatMessage({
-                id: 'LinkBot.servo',
-                default: 'Servo Motors',
-            }),
-        },
-        {
-            opcode: 'ICM_S4S_servo',//舵机
-            blockType: BlockType.COMMAND,
-            // text: '舵机[CHOICE]角度[TEXT]',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_servo',
-                default: 'set servo [CHOICE] angle [TEXT]°',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_serverPin'
-                },
-                TEXT: {
-                    type: ArgumentType.NUMRES0_180,
-                    defaultValue: 90
-                }
-            }
-        },
-        
         {
             blockType: BlockType.LABEL,
             text: formatMessage({
-                id: 'LinkBot.DCmotors',
-                default: 'DC Motors',
+                id: 'LinkBot.Ultrasonic',
+                default: 'Ultrasonic Sensor',
             }),
         },
         {
-            opcode: 'ICM_S4S_motorRunType',//电机以方向转（）【】
-            blockType: BlockType.COMMAND,
+            opcode: 'ICM_S4S_ultrGet',//超声波传感器
+            blockType: BlockType.REPORTER,
+            // text: '超声波传感器 距离值',
             text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorRunType',
-                default: 'motor [CHOICE] run [DIVERSION] for [NUM] [TYPE]',
+                id: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet',
+                default: 'distance value',
             }),
+            disableMonitor: true
+        },
+        {
+            opcode: 'ICM_S4S_ultrGetLog',//超声波传感器>mu,
+            blockType: BlockType.BOOLEAN,
+            // text: '巡线模块 探头[CHOICE]识别黑线?',
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_ultrGetLog',
+                default: 'distance value [Type] [NUM]',
+            }),
+            disableMonitor: true,
             arguments: {
-                CHOICE: {
+                Type: {
                     type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-                DIVERSION:{
-                    ype: ArgumentType.STRING,
-                    menu: 'choice_DCmotorDIVERSION'
+                    menu: 'choice_comparison'
                 },
                 NUM: {
                     type: ArgumentType.NUMRES0,
-                    defaultValue: 1
-                },
-                TYPE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorType'
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorRunDiv',//电机 端口 转向
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorRunDiv',
-                default: 'motor [CHOICE] start motor [DIVERSION] ',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-                DIVERSION:{
-                    ype: ArgumentType.STRING,
-                    menu: 'choice_DCmotorDIVERSION'
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorStop',//电机停止 端口 
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorStop',
-                default: 'motor [CHOICE] stop motor',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorSetSpeed',//电机设置 端口 速度
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorSetSpeed',
-                default: 'motor [CHOICE] set speed to [NUM]',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-                NUM: {
-                    type: ArgumentType.NUMRES0_100,
                     defaultValue: 5
                 },
             }
         },
         {
-            opcode: 'ICM_S4S_motorGetPos',//电机获取 位置
-            blockType: BlockType.REPORTER,
-            disableMonitor: true,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorGetPos',
-                default: 'motor [CHOICE] position',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorGetSpeed',//电机获取 速度
-            blockType: BlockType.REPORTER,
-            disableMonitor: true,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorGetSpeed',
-                default: 'motor [CHOICE] speed',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorSetPos',//电机设置 端口 角度
+            opcode: 'ICM_S4S_ultrSet',//设置超声波传感器
             blockType: BlockType.COMMAND,
+            // text: '超声波传感器 亮度[CHOICE]颜色[COL]',
             text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorSetPos',
-                default: 'motor [CHOICE] set relative position to 0',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorRunPower',//电机 端口 动力
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorRunPower',
-                default: 'motor [CHOICE] start motor at [NUM]% power',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-                NUM: {
-                    type: ArgumentType.NUMRES_100_100,
-                    defaultValue: 50
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_motorGetPower',//电机获取 端口 动力
-            blockType: BlockType.REPORTER,
-            disableMonitor: true,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_motorGetPower',
-                default: 'motor [CHOICE] power',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin'
-                },
-            }
-        }, */
-
-
-        // {
-        //     opcode: 'ICM_S4S_motorRun',//电机以速度运动
-        //     blockType: BlockType.COMMAND,
-        //     // text: '电机[CHOICE]速度[TEXT]',
-        //     text: formatMessage({
-        //         id: 'MicrobiteIcreateS4S.ICM_S4S_motorRun',
-        //         default: 'Motor [CHOICE] Speed [TEXT]',
-        //     }),
-        //     arguments: {
-        //         CHOICE: {
-        //             type: ArgumentType.STRING,
-        //             menu: 'choice_DCmotorPin'
-        //         },
-        //         TEXT: {
-        //             type: ArgumentType.NUMRES_1000_1000,
-        //             defaultValue: 1000
-        //         }
-        //     }
-        // },
-        // {
-        //     opcode: 'ICM_S4S_motorPosition',//电机转动编码
-        //     blockType: BlockType.COMMAND,
-        //     //text: '电机[CHOICE]编码值[TEXT]',
-        //     text: formatMessage({
-        //         id: 'MicrobiteIcreateS4S.ICM_S4S_motorPosition',
-        //         default: 'Motor [CHOICE] Encoder Value [TEXT]',
-        //         description: 'MicrobiteIcreateS4S.ICM_S4S_motorPosition'
-        //     }),
-        //     arguments: {
-        //         CHOICE: {
-        //             type: ArgumentType.STRING,
-        //             menu: 'choice_DCmotorPin'
-        //         },
-        //         TEXT: {
-        //             type: ArgumentType.NUMBER,
-        //             defaultValue: 100
-        //         }
-        //     }
-        // },
-        
-        // {
-        //     opcode: 'ICM_S4S_motorGetPosition',//获取电机编码
-        //     blockType: BlockType.REPORTER,
-        //     // text: '电机[CHOICE]编码值',
-        //     text: formatMessage({
-        //         id: 'MicrobiteIcreateS4S.ICM_S4S_motorGetPosition',
-        //         default: 'Motor [CHOICE] Encoder Value',
-        //         description: 'MicrobiteIcreateS4S.ICM_S4S_motorGetPosition'
-        //     }),
-        //     disableMonitor: true,
-        //     arguments: {
-        //         CHOICE: {
-        //             type: ArgumentType.STRING,
-        //             menu: 'choice_DCmotorPin'
-        //         }
-        //     }
-        // },
-        
-        // "---",
-
-        {
-            blockType: BlockType.LABEL,
-            text: formatMessage({
-                id: 'LinkBot.Movement',
-                default: 'Movement',
-            }),
-        },
-        {
-            opcode: 'ICM_S4S_MovSetPin',//设置双电机端口
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_MovSetPin',
-                default: 'set movement motors to [P1] and [P2] ',
-            }),
-            arguments: {
-                P1: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin',
-                    defaultValue: 0
-                },
-                P2: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_DCmotorPin',
-                    defaultValue: 1
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_MovRun',//双电机移动
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_MovRun',
-                default: 'start moving [TYPE]',
-            }),
-            arguments: {
-                TYPE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_MoveType',
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_MovRunSec',//双电机移动秒
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_MovRunSec',
-                default: 'move [TYPE] for [NUM] seconds',
-            }),
-            arguments: {
-                TYPE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_MoveType',
-                },
-                NUM: {
-                    type: ArgumentType.NUMRES0,
-                    defaultValue: 2
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_MovStop',//双电机停止
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_MovStop',
-                default: 'stop moving',
-            })
-        },
-        {
-            opcode: 'ICM_S4S_MovSetPowAll',//双电机设置动力全部
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_MovSetPowAll',
-                default: 'set movement speed to [NUM] ',
-            }),
-            arguments: {
-                NUM: {
-                    type: ArgumentType.NUMRES0_100,
-                    defaultValue: 5
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_MovSetPow',//双电机设置动力分开
-            blockType: BlockType.COMMAND,
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_MovSetPow',
-                default: 'start moving at [P1] [P2]  speed',
-            }),
-            arguments: {
-                P1: {
-                    type: ArgumentType.NUMRES0_100,
-                    defaultValue: 5
-                },
-                P2: {
-                    type: ArgumentType.NUMRES0_100,
-                    defaultValue: 5
-                },
-            }
-        },
-        
-        // {
-        //     opcode: 'ICM_S4S_CarMove',//双电机控制
-        //     blockType: BlockType.COMMAND,
-        //     // text: '小车 速度[TEXT] [CHOICE]',
-        //     text: formatMessage({
-        //         id: 'MicrobiteIcreateS4S.ICM_S4S_CarMove',
-        //         default: 'Car Speed [TEXT] [CHOICE]',
-        //         description: 'MicrobiteIcreateS4S.ICM_S4S_CarMove'
-        //     }),
-        //     disableMonitor: true,
-        //     arguments: {
-        //         TEXT: {
-        //             type: ArgumentType.NUMRES_1000_1000,
-        //             defaultValue: 1000
-        //         },
-        //         CHOICE: {
-        //             type: ArgumentType.STRING,
-        //             menu: 'choice_MoveType'
-        //         }
-        //     }
-        // },
-        // {
-        //     opcode: 'ICM_S4S_CarStop',//双电机停止
-        //     blockType: BlockType.COMMAND,
-        //     // text: '小车 停止运动',
-        //     text: formatMessage({
-        //         id: 'MicrobiteIcreateS4S.ICM_S4S_CarStop',
-        //         default: 'Car Stop Moving',
-        //         description: 'MicrobiteIcreateS4S.ICM_S4S_CarStop'
-        //     }),
-        //     disableMonitor: true
-        // },
-        
-        /* {
-            blockType: BlockType.LABEL,
-            text: formatMessage({
-                id: 'LinkBot.Atmosphere',
-                default: 'Atmosphere Lamp',
-            }),
-        },
-        {
-            opcode: 'ICM_S4S_ambient',//设置氛围灯
-            blockType: BlockType.COMMAND,
-            // text: '氛围灯 亮度[CHOICE]颜色[COL]',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_ambient',
-                default: 'atmosphere lamp brightness [CHOICE] color [COL]',
-                description: 'MicrobiteIcreateS4S.ICM_S4S_ambient'
+                id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
+                default: 'set brightness [CHOICE] color [COL]',
             }),
             arguments: {
                 CHOICE: {
@@ -428,19 +76,9 @@ class LinkBot {
                 },
                 COL: {
                     type: ArgumentType.COLOR,
-                    defaultValue:'#ff0000'
+                    defaultValue:'#0000ff'
                 }
             }
-        },
-        {
-            opcode: 'ICM_S4S_ambientOFF',//关闭氛围灯
-            blockType: BlockType.COMMAND,
-            // text: '氛围灯 关闭',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF',
-                default: 'atmosphere lamp off',
-                description: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF'
-            })
         },
 
 
@@ -547,62 +185,7 @@ class LinkBot {
         },
 
 
-        {
-            blockType: BlockType.LABEL,
-            text: formatMessage({
-                id: 'LinkBot.Ultrasonic',
-                default: 'Ultrasonic Sensor',
-            }),
-        },
-        {
-            opcode: 'ICM_S4S_ultrGet',//超声波传感器
-            blockType: BlockType.REPORTER,
-            // text: '超声波传感器 距离值',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet',
-                default: 'distance value',
-            }),
-            disableMonitor: true
-        },
-        {
-            opcode: 'ICM_S4S_ultrGetLog',//超声波传感器>mu,
-            blockType: BlockType.BOOLEAN,
-            // text: '巡线模块 探头[CHOICE]识别黑线?',
-            text: formatMessage({
-                id: 'LinkBot.ICM_S4S_ultrGetLog',
-                default: 'distance value [Type] [NUM]',
-            }),
-            disableMonitor: true,
-            arguments: {
-                Type: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_comparison'
-                },
-                NUM: {
-                    type: ArgumentType.NUMRES0,
-                    defaultValue: 5
-                },
-            }
-        },
-        {
-            opcode: 'ICM_S4S_ultrSet',//设置超声波传感器
-            blockType: BlockType.COMMAND,
-            // text: '超声波传感器 亮度[CHOICE]颜色[COL]',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
-                default: 'set brightness [CHOICE] color [COL]',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.NUMRES0_255,
-                    defaultValue: 255
-                },
-                COL: {
-                    type: ArgumentType.COLOR,
-                    defaultValue:'#0000ff'
-                }
-            }
-        },
+        
 
         
         {
@@ -612,22 +195,6 @@ class LinkBot {
                 default: 'IMU',
             }),
         },
-        // {
-        //     opcode: 'ICM_S4S_gyroOpen',//陀螺仪开启
-        //     blockType: BlockType.COMMAND,
-        //     // text: '陀螺仪 [CHOICE]',
-        //     text: formatMessage({
-        //         id: 'MicrobiteIcreateS4S.ICM_S4S_gyroOpen',
-        //         default: 'Gyroscope [CHOICE]',
-        //         description: 'MicrobiteIcreateS4S.ICM_S4S_gyroOpen'
-        //     }),
-        //     arguments: {
-        //         CHOICE: {
-        //             type: ArgumentType.STRING,
-        //             menu: 'choice_open'
-        //         }
-        //     }
-        // },
         {
             opcode: 'ICM_S4S_isTitled',//向#倾斜
             blockType: BlockType.BOOLEAN,
@@ -834,91 +401,12 @@ class LinkBot {
                     menu: 'choice_rtcTime'
                 }
             }
-        } */
+        }
         ],
 
 
 
         menus: {
-            choice_serverPin: {//选择舵机端口*
-                acceptReporters: false,
-                items: ['0','1']
-            },
-            choice_DCmotorPin: { // 直流电机端口*
-                acceptReporters: false,
-                items: [
-                    { text: '0', value: '0' },
-                    { text: '1', value: '1' },
-                    { text: '2', value: '2' },
-                    { text: '3', value: '3' }
-                ]
-            },
-            choice_DCmotorType: { // 直流电机工作模式*
-                acceptReporters: false,
-                items: [
-                    {
-                        text: formatMessage({
-                            id: 'LinkBot.choice_DCmotorType.rotations',
-                            default: 'rotations'
-                        }),
-                        value: '0'
-                    },
-                    {
-                        text: formatMessage({
-                            id: 'LinkBot.choice_DCmotorType.degrees',
-                            default: 'degrees'
-                        }),
-                        value: '1'
-                    },
-                    {
-                        text: formatMessage({
-                            id: 'LinkBot.choice_DCmotorType.seconds',
-                            default: 'seconds'
-                        }),
-                        value: '2'
-                    },
-                ]
-            },
-            choice_DCmotorDIVERSION: { // 直流电机转向
-                acceptReporters: false,
-                items: [
-                    { text: '↻', value: '0' },
-                    { text: '↺', value: '1' }
-                ]
-            },
-            choice_MoveType:{//选择移动状态*
-                acceptReporters: false,
-                items: [
-                    {
-                        text: formatMessage({
-                            id: 'robotmove.menuDir.forward',
-                            default: 'forward',
-                        }),
-                        value: '1'
-                    },
-                    {
-                        text: formatMessage({
-                            id: 'robotmove.menuDir.backward',
-                            default: 'backward',
-                        }),
-                        value: '2'
-                    },
-                    {
-                        text: formatMessage({
-                            id: 'robotmove.menuDir.turnleft',
-                            default: 'left',
-                        }),
-                        value: '3'
-                    },
-                    {
-                        text: formatMessage({
-                            id: 'robotmove.menuDir.turnright',
-                            default: 'right',
-                        }),
-                        value: '4'
-                    }
-                ]
-            },
             choice_comparison: {//比较运算符
                 acceptReporters: false,
                 items: [
@@ -1145,32 +633,14 @@ class LinkBot {
                     },
                 ]
             },
-            choice_open:{//开关
-                acceptReporters: false,
-                //items: ['开启', '关闭']
-                items: [
-                    {
-                        text: formatMessage({
-                            id: 'videoSensing.on',
-                            default: 'on',
-                            description: 'videoSensing.on'
-                        }),
-                        value: 'True'
-                    },
-                    {
-                        text: formatMessage({
-                            id: 'videoSensing.off',
-                            default: 'off',
-                            description: 'videoSensing.off'
-                        }),
-                        value: 'False'
-                    }
-                ]
-            },
             
             choice_gray: {//灰度传感器探头
                 acceptReporters: false,
-                items: ["0","1","2","3"]
+                items: [ { text: "L1", value: '0' },
+                    { text: "L2", value: '1' },
+                    { text: "L3", value: '2' },
+                    { text: "L4", value: '3' },
+                ]
             },
             choice_rtcData:{
                 acceptReporters: false,
@@ -1236,111 +706,6 @@ class LinkBot {
       };
     }
 
-  /*   //################################舵机######################################
-    //控制舵机
-    async ICM_S4S_servo(args){
-        await ICMB_send(`mainBoard.servo_set_angle(${args.CHOICE},${args.TEXT})`)
-    }
-
-    //################################dc电机######################################
-    //电机 端口 转向 NUM 类型
-    async ICM_S4S_motorRunType(args){
-        await ICMB_send(`encoder_motor_run_dir_3state(${args.CHOICE},${args.DIVERSION},${args.TYPE},${args.NUM})`)
-    }
-    //电机 端口 转向 
-    async ICM_S4S_motorRunDiv(args){
-        await ICMB_send(`encoder_motor_run(${args.CHOICE},${args.DIVERSION})`)
-    }
-    //电机停止 端口 
-    async ICM_S4S_motorStop(args){
-        await ICMB_send(`encoder_motor_stop(${args.CHOICE})`)
-    }
-    //电机设置 端口 速度
-    async ICM_S4S_motorSetSpeed(args){
-        await ICMB_send(`encoder_motor_set_speed(${args.CHOICE},${args.NUM})`)
-    }
-    // 电机获取 位置
-    ICM_S4S_motorGetPos(args) {
-        return ICMB_read(`encoder_motor_get_angle(${args.CHOICE})`);
-    }
-    // 电机获取 速度
-    ICM_S4S_motorGetSpeed(args) {
-        return ICMB_read(`encoder_motor_get_speed(${args.CHOICE})`);
-    }
-    // 电机设置 端口 相对位置为 0
-    async ICM_S4S_motorSetPos(args) {
-        await ICMB_send(`encoder_motor_reset_angle(${args.CHOICE})`)
-    }
-    // 电机 端口 动力
-    async ICM_S4S_motorRunPower(args) {
-        await ICMB_send(`encoder_motor_set_power(${args.CHOICE},${args.NUM})`)
-    }
-    // 电机获取 端口 动力
-    ICM_S4S_motorGetPower(args) {
-        return ICMB_read(`encoder_motor_get_power(${args.CHOICE})`);
-    }
-
-    // //电机以速度运动
-    // async ICM_S4S_motorRun(args){
-    //     await ICMB_send(`mainBoard.motor_setPower(${args.CHOICE},${args.TEXT})`)
-    // }
-    // //电机转编码
-    // async ICM_S4S_motorPosition(args){
-    //     await ICMB_send(`mainBoard.motor_setPosition(${args.CHOICE},${args.TEXT})`)
-    // }
-    // //获取电机编码值
-    // async ICM_S4S_motorGetPosition(args){
-    //     return ICMB_read(`mainBoard.encoder_motor_get_position(${args.CHOICE})`)
-    // }
- */
-    //################################运动######################################
-    // 设置双电机端口
-    async ICM_S4S_MovSetPin(args) {
-        await ICMB_send(`encoder_motor_pair_set_group(${args.P1},${args.P2})`)
-    }
-    // 双电机开始移动
-    async ICM_S4S_MovRun(args) {
-        await ICMB_send(`encoder_motor_pair_run(${args.TYPE})`)
-    }
-    // 双电机移动指定秒数
-    async ICM_S4S_MovRunSec(args) {
-        await ICMB_send(`encoder_motor_pair_run_time(${args.TYPE},${args.NUM})`)
-    }
-    // 双电机停止
-    async ICM_S4S_MovStop() {
-        await ICMB_send(`encoder_motor_pair_stop()`)
-    }
-    // 双电机统一设置动力
-    async ICM_S4S_MovSetPowAll(args) {
-        await ICMB_send(`encoder_motor_pair_set_speed(${args.NUM},${args.NUM})`)
-    }
-    // 双电机分别设置动力
-    async ICM_S4S_MovSetPow(args) {
-        await ICMB_send(`encoder_motor_pair_set_speed(${args.P1},${args.P2})`)
-    }
-
-    // //控制小车运动
-    // async ICM_S4S_CarMove(args){
-    //     await ICMB_send(`mainBoard.car_run(${args.TEXT},${args.CHOICE})`)
-    // }
-
-    // //控制小车停止
-    // async ICM_S4S_CarStop(args){
-    //     await ICMB_send(`mainBoard.car_run(0,0)`)
-    // }
-
-    
-    /* //################################氛围灯######################################
-    //氛围灯
-    async ICM_S4S_ambient(args){
-        const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
-        await ICMB_send(`mainBoard.ambient_light_set_state(${args.CHOICE},(${r},${g},${b}))`)
-    }
-
-    //氛围灯关闭
-    async ICM_S4S_ambientOFF(args){
-        await ICMB_send(`mainBoard.ambient_light_set_state(0,(0,0,0))`)
-    }
 
 
     //################################陀螺仪######################################
@@ -1402,6 +767,7 @@ class LinkBot {
         await ICMB_send(`ultr.set_color(${args.CHOICE},${r},${g},${b})`)
     }
 
+    //################################巡线######################################
     //灰度学习
     async ICM_S4S_grayStudy(args){
         await ICMB_send(`gray.gray_study()`)
@@ -1437,6 +803,7 @@ class LinkBot {
         return ICMB_read(`gray.black(${args.CHOICE}) == 1`)
     }
 
+    //################################RTC######################################
     //时钟设置日期
     async ICM_S4S_rtcSetData(args){
         await ICMB_send(`mainBoard.rtc_set_date(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
@@ -1455,7 +822,7 @@ class LinkBot {
     //获取时间
     ICM_S4S_rtcGetTime(args){
         return ICMB_read(`mainBoard.rtc_get_time(${args.CHOICE})`)
-    } */
+    }
 
 }
 
@@ -1503,4 +870,4 @@ async function ICMB_read(str){
 }
 
 
-module.exports = LinkBot;
+module.exports = LinkBot_Sensors;

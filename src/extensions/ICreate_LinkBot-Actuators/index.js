@@ -1,0 +1,410 @@
+// link-bot-Actuators
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
+const formatMessage = require('format-message');
+const icon = require('./actuators.png');
+
+class LinkBot_Actuators {
+
+    constructor(runtime) {
+        this.runtime = runtime;
+    }
+
+    getInfo() {
+      return {
+        id: 'LinkBot_Actuators',
+        name: formatMessage({
+            id: 'LinkBot_Actuators.name',
+            default: 'Actuators',
+        }),
+        color1: '#55DAD1',  // 主颜色
+        color2: '#45C2B9',  // 次颜色（渐变）
+        color3: '#36AAA1',   // 边框颜色
+        iconURI: icon, 
+
+        //模块 
+        blocks: [
+        {
+            blockType: BlockType.LABEL,
+            text: formatMessage({
+                id: 'LinkBot.DCmotors',
+                default: 'DC Motors',
+            }),
+        },
+        {
+            opcode: 'ICM_S4S_motorRunType',//电机以方向转（）【】
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorRunType',
+                default: 'motor [CHOICE] run [DIVERSION] for [NUM] [TYPE]',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+                DIVERSION:{
+                    ype: ArgumentType.STRING,
+                    menu: 'choice_DCmotorDIVERSION'
+                },
+                NUM: {
+                    type: ArgumentType.NUMRES0,
+                    defaultValue: 1
+                },
+                TYPE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorType'
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorRunDiv',//电机 端口 转向
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorRunDiv',
+                default: 'motor [CHOICE] start motor [DIVERSION] ',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+                DIVERSION:{
+                    ype: ArgumentType.STRING,
+                    menu: 'choice_DCmotorDIVERSION'
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorStop',//电机停止 端口 
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorStop',
+                default: 'motor [CHOICE] stop motor',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorSetSpeed',//电机设置 端口 速度
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorSetSpeed',
+                default: 'motor [CHOICE] set speed to [NUM]',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+                NUM: {
+                    type: ArgumentType.NUMRES0_100,
+                    defaultValue: 5
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorGetPos',//电机获取 位置
+            blockType: BlockType.REPORTER,
+            disableMonitor: true,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorGetPos',
+                default: 'motor [CHOICE] position',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorGetSpeed',//电机获取 速度
+            blockType: BlockType.REPORTER,
+            disableMonitor: true,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorGetSpeed',
+                default: 'motor [CHOICE] speed',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorSetPos',//电机设置 端口 角度
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorSetPos',
+                default: 'motor [CHOICE] set relative position to 0',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorRunPower',//电机 端口 动力
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorRunPower',
+                default: 'motor [CHOICE] start motor at [NUM]% power',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+                NUM: {
+                    type: ArgumentType.NUMRES_100_100,
+                    defaultValue: 50
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorGetPower',//电机获取 端口 动力
+            blockType: BlockType.REPORTER,
+            disableMonitor: true,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorGetPower',
+                default: 'motor [CHOICE] power',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+            }
+        },
+
+        {
+            blockType: BlockType.LABEL,
+            text: formatMessage({
+                id: 'LinkBot.servo',
+                default: 'Servo Motors',
+            }),
+        },
+        {
+            opcode: 'ICM_S4S_servo',//舵机
+            blockType: BlockType.COMMAND,
+            // text: '舵机[CHOICE]角度[TEXT]',
+            text: formatMessage({
+                id: 'MicrobiteIcreateS4S.ICM_S4S_servo',
+                default: 'set servo [CHOICE] angle [TEXT]°',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_serverPin'
+                },
+                TEXT: {
+                    type: ArgumentType.NUMRES0_180,
+                    defaultValue: 90
+                }
+            }
+        },
+
+
+        {
+            blockType: BlockType.LABEL,
+            text: formatMessage({
+                id: 'LinkBot.Atmosphere',
+                default: 'Atmosphere Lamp',
+            }),
+        },
+        {
+            opcode: 'ICM_S4S_ambient',//设置氛围灯
+            blockType: BlockType.COMMAND,
+            // text: '氛围灯 亮度[CHOICE]颜色[COL]',
+            text: formatMessage({
+                id: 'MicrobiteIcreateS4S.ICM_S4S_ambient',
+                default: 'atmosphere lamp brightness [CHOICE] color [COL]',
+                description: 'MicrobiteIcreateS4S.ICM_S4S_ambient'
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.NUMRES0_255,
+                    defaultValue: 255
+                },
+                COL: {
+                    type: ArgumentType.COLOR,
+                    defaultValue:'#ff0000'
+                }
+            }
+        },
+        {
+            opcode: 'ICM_S4S_ambientOFF',//关闭氛围灯
+            blockType: BlockType.COMMAND,
+            // text: '氛围灯 关闭',
+            text: formatMessage({
+                id: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF',
+                default: 'atmosphere lamp off',
+                description: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF'
+            })
+        },
+
+        ],
+
+
+        menus: {
+            choice_serverPin: {//选择舵机端口*
+                acceptReporters: false,
+                items: [
+                    { text: '1', value: '0' },
+                    { text: '2', value: '1' },
+                ]
+            },
+            choice_DCmotorPin: { // 直流电机端口*
+                acceptReporters: false,
+                items: [
+                    { text: 'M1', value: '0' },
+                    { text: 'M2', value: '1' },
+                    { text: 'M3', value: '2' },
+                    { text: 'M4', value: '3' }
+                ]
+            },
+            choice_DCmotorType: { // 直流电机工作模式*
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'LinkBot.choice_DCmotorType.rotations',
+                            default: 'rotations'
+                        }),
+                        value: '0'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'LinkBot.choice_DCmotorType.degrees',
+                            default: 'degrees'
+                        }),
+                        value: '1'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'LinkBot.choice_DCmotorType.seconds',
+                            default: 'seconds'
+                        }),
+                        value: '2'
+                    },
+                ]
+            },
+            choice_DCmotorDIVERSION: { // 直流电机转向
+                acceptReporters: false,
+                items: [
+                    { text: '↻', value: '0' },
+                    { text: '↺', value: '1' }
+                ]
+            }
+        }
+      };
+    }
+
+    //################################舵机######################################
+    //控制舵机
+    async ICM_S4S_servo(args){
+        await ICMB_send(`mainBoard.servo_set_angle(${args.CHOICE},${args.TEXT})`)
+    }
+
+    //################################dc电机######################################
+    //电机 端口 转向 NUM 类型
+    async ICM_S4S_motorRunType(args){
+        await ICMB_send(`encoder_motor_run_dir_3state(${args.CHOICE},${args.DIVERSION},${args.TYPE},${args.NUM})`)
+    }
+    //电机 端口 转向 
+    async ICM_S4S_motorRunDiv(args){
+        await ICMB_send(`encoder_motor_run(${args.CHOICE},${args.DIVERSION})`)
+    }
+    //电机停止 端口 
+    async ICM_S4S_motorStop(args){
+        await ICMB_send(`encoder_motor_stop(${args.CHOICE})`)
+    }
+    //电机设置 端口 速度
+    async ICM_S4S_motorSetSpeed(args){
+        await ICMB_send(`encoder_motor_set_speed(${args.CHOICE},${args.NUM})`)
+    }
+    // 电机获取 位置
+    ICM_S4S_motorGetPos(args) {
+        return ICMB_read(`encoder_motor_get_angle(${args.CHOICE})`);
+    }
+    // 电机获取 速度
+    ICM_S4S_motorGetSpeed(args) {
+        return ICMB_read(`encoder_motor_get_speed(${args.CHOICE})`);
+    }
+    // 电机设置 端口 相对位置为 0
+    async ICM_S4S_motorSetPos(args) {
+        await ICMB_send(`encoder_motor_reset_angle(${args.CHOICE})`)
+    }
+    // 电机 端口 动力
+    async ICM_S4S_motorRunPower(args) {
+        await ICMB_send(`encoder_motor_set_power(${args.CHOICE},${args.NUM})`)
+    }
+    // 电机获取 端口 动力
+    ICM_S4S_motorGetPower(args) {
+        return ICMB_read(`encoder_motor_get_power(${args.CHOICE})`);
+    }
+
+    
+    //################################氛围灯######################################
+    //氛围灯
+    async ICM_S4S_ambient(args){
+        const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
+        await ICMB_send(`mainBoard.ambient_light_set_state(${args.CHOICE},(${r},${g},${b}))`)
+    }
+
+    //氛围灯关闭
+    async ICM_S4S_ambientOFF(args){
+        await ICMB_send(`mainBoard.ambient_light_set_state(0,(0,0,0))`)
+    }
+}
+
+
+
+//发送
+async function ICMB_send(str){
+    //console.log('[发送]', str);
+    // 发送命令到主进程
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        console.log('[收到返回]', result.response || result.error);
+        if(!result.success){
+            showToast(result.error)
+        }
+        return result;
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+//读取
+async function ICMB_read(str){
+    //console.log('[读取]', str);
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        if (result.success) {
+            const raw = result.response.trim();
+            //console.log('[读取返回]', raw);
+            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+            return lines.length === 1 ? lines[0] : lines;
+        } else {
+            //console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+
+
+module.exports = LinkBot_Actuators;
