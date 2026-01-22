@@ -3,8 +3,10 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
 const icon = require('./actuators.png');
+const motorIcon = require('./wheels.png');
 
-class LinkBot_Actuators {
+
+class LinkBotActuators {
 
     constructor(runtime) {
         this.runtime = runtime;
@@ -12,15 +14,15 @@ class LinkBot_Actuators {
 
     getInfo() {
       return {
-        id: 'LinkBot_Actuators',
+        id: 'LinkBotActuators',
         name: formatMessage({
-            id: 'LinkBot_Actuators.name',
+            id: 'LinkBotActuators.name',
             default: 'Actuators',
         }),
         color1: '#55DAD1',  // 主颜色
         color2: '#45C2B9',  // 次颜色（渐变）
         color3: '#36AAA1',   // 边框颜色
-        iconURI: icon, 
+        menuIconURI: icon, 
 
         //模块 
         blocks: [
@@ -36,7 +38,7 @@ class LinkBot_Actuators {
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorRunType',
-                default: 'motor [CHOICE] run [DIVERSION] for [NUM] [TYPE]',
+                default: '[CHOICE] run [DIVERSION] for [NUM] [TYPE]',
             }),
             arguments: {
                 CHOICE: {
@@ -62,7 +64,7 @@ class LinkBot_Actuators {
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorRunDiv',
-                default: 'motor [CHOICE] start motor [DIVERSION] ',
+                default: '[CHOICE] start motor [DIVERSION] ',
             }),
             arguments: {
                 CHOICE: {
@@ -80,7 +82,7 @@ class LinkBot_Actuators {
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorStop',
-                default: 'motor [CHOICE] stop motor',
+                default: '[CHOICE] stop motor',
             }),
             arguments: {
                 CHOICE: {
@@ -94,7 +96,7 @@ class LinkBot_Actuators {
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorSetSpeed',
-                default: 'motor [CHOICE] set speed to [NUM]',
+                default: '[CHOICE] set speed to [NUM]',
             }),
             arguments: {
                 CHOICE: {
@@ -113,7 +115,7 @@ class LinkBot_Actuators {
             disableMonitor: true,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorGetPos',
-                default: 'motor [CHOICE] position',
+                default: '[CHOICE] position',
             }),
             arguments: {
                 CHOICE: {
@@ -128,7 +130,7 @@ class LinkBot_Actuators {
             disableMonitor: true,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorGetSpeed',
-                default: 'motor [CHOICE] speed',
+                default: '[CHOICE] speed',
             }),
             arguments: {
                 CHOICE: {
@@ -142,7 +144,7 @@ class LinkBot_Actuators {
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorSetPos',
-                default: 'motor [CHOICE] set relative position to 0',
+                default: '[CHOICE] set relative position to 0',
             }),
             arguments: {
                 CHOICE: {
@@ -156,7 +158,7 @@ class LinkBot_Actuators {
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorRunPower',
-                default: 'motor [CHOICE] start motor at [NUM]% power',
+                default: '[CHOICE] start motor at [NUM]% power',
             }),
             arguments: {
                 CHOICE: {
@@ -175,7 +177,7 @@ class LinkBot_Actuators {
             disableMonitor: true,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_motorGetPower',
-                default: 'motor [CHOICE] power',
+                default: '[CHOICE] power',
             }),
             arguments: {
                 CHOICE: {
@@ -211,13 +213,45 @@ class LinkBot_Actuators {
                 }
             }
         },
+        {
+            opcode: 'LinkBot_continuous_servo',//连续舵机
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.LinkBot_continuous_servo',
+                default: 'set continuous servo [CHOICE] speed [TEXT]',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_serverPin'
+                },
+                TEXT: {
+                    type: ArgumentType.NUMRES_100_100,
+                    defaultValue: 5
+                }
+            }
+        },
+        {
+            opcode: 'LinkBot_continuous_servoStop',//连续舵机停止
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.LinkBot_continuous_servoStop',
+                default: 'stop continuous servo [CHOICE]',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_serverPin'
+                },
+            }
+        },
 
 
         {
             blockType: BlockType.LABEL,
             text: formatMessage({
                 id: 'LinkBot.Atmosphere',
-                default: 'Atmosphere Lamp',
+                default: 'LEDS',
             }),
         },
         {
@@ -226,14 +260,10 @@ class LinkBot_Actuators {
             // text: '氛围灯 亮度[CHOICE]颜色[COL]',
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_ambient',
-                default: 'atmosphere lamp brightness [CHOICE] color [COL]',
+                default: 'set robot color to [COL]',
                 description: 'MicrobiteIcreateS4S.ICM_S4S_ambient'
             }),
             arguments: {
-                CHOICE: {
-                    type: ArgumentType.NUMRES0_255,
-                    defaultValue: 255
-                },
                 COL: {
                     type: ArgumentType.COLOR,
                     defaultValue:'#ff0000'
@@ -241,15 +271,21 @@ class LinkBot_Actuators {
             }
         },
         {
-            opcode: 'ICM_S4S_ambientOFF',//关闭氛围灯
+            opcode: 'ICM_S4S_ultrSet',//设置超声波传感器
             blockType: BlockType.COMMAND,
-            // text: '氛围灯 关闭',
+            // text: '超声波传感器 亮度[CHOICE]颜色[COL]',
             text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF',
-                default: 'atmosphere lamp off',
-                description: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF'
-            })
+                id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
+                default: 'set eye color to [COL]',
+            }),
+            arguments: {
+                COL: {
+                    type: ArgumentType.COLOR,
+                    defaultValue:'#0000ff'
+                }
+            }
         },
+   
 
         ],
 
@@ -357,13 +393,18 @@ class LinkBot_Actuators {
     //氛围灯
     async ICM_S4S_ambient(args){
         const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
-        await ICMB_send(`mainBoard.ambient_light_set_state(${args.CHOICE},(${r},${g},${b}))`)
+        await ICMB_send(`mainBoard.ambient_light_set_state(255,(${r},${g},${b}))`)
     }
 
-    //氛围灯关闭
-    async ICM_S4S_ambientOFF(args){
-        await ICMB_send(`mainBoard.ambient_light_set_state(0,(0,0,0))`)
+    //超声波灯
+    async ICM_S4S_ultrSet(args){
+        const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
+        await ICMB_send(`ultr.set_color(255,${r},${g},${b})`)
     }
+
+    
+
+  
 }
 
 
@@ -407,4 +448,4 @@ async function ICMB_read(str){
 }
 
 
-module.exports = LinkBot_Actuators;
+module.exports = LinkBotActuators;

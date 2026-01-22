@@ -70,9 +70,9 @@ defaultBuiltinExtensions['ArduinoS4S'] = () => require('../extensions/ICreate_Ar
 defaultBuiltinExtensions['ICreateK210'] = () => require('../extensions/ICreate_K210');
 defaultBuiltinExtensions['MicrobiteIcreateS4S'] = () => require('../extensions/ICreate_Microbit_S4S');
 defaultBuiltinExtensions['LinkBot'] = () => require('../extensions/ICreate_LinkBot');
-defaultBuiltinExtensions['LinkBot_Actuators'] = () => require('../extensions/ICreate_LinkBot-Actuators');
-defaultBuiltinExtensions['LinkBot_Sensors'] = () => require('../extensions/ICreate_LinkBot-Sensors');
-defaultBuiltinExtensions['LinkBot_Power'] = () => require('../extensions/ICreate_LinkBot-Power');
+defaultBuiltinExtensions['LinkBotActuators'] = () => require('../extensions/ICreate_LinkBot_Actuators');
+defaultBuiltinExtensions['LinkBotSensors'] = () => require('../extensions/ICreate_LinkBot_Sensors');
+defaultBuiltinExtensions['LinkBotPower'] = () => require('../extensions/ICreate_LinkBot_Power');
 /**
  * @typedef {object} ArgumentInfo - Information about an extension block argument
  * @property {ArgumentType} type - the type of value this argument can take

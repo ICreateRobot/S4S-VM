@@ -5,7 +5,7 @@ const formatMessage = require('format-message');
 const icon = require('./battery.png');
 
  
-class LinkBot_Power {
+class LinkBotPower {
     
     constructor(runtime) {
         this.runtime = runtime;
@@ -13,44 +13,37 @@ class LinkBot_Power {
 
     getInfo() {
       return {
-        id: 'LinkBot_Power',
+        id: 'LinkBotPower',
         name: formatMessage({
-            id: 'LinkBot_Power.name',
+            id: 'LinkBotPower.name',
             default: 'Power',
         }),
         color1: '#55DAD1',  // 主颜色
         color2: '#45C2B9',  // 次颜色（渐变）
         color3: '#36AAA1',   // 边框颜色
-        iconURI: icon, 
+        menuIconURI: icon, 
 
         //模块 
         blocks: [
-        {
-            blockType: BlockType.LABEL,
-            text: formatMessage({
-                id: 'LinkBot.servo',
-                default: 'Servo Motors',
-            }),
-        },
-        {
-            opcode: 'ICM_S4S_servo',//舵机
-            blockType: BlockType.COMMAND,
-            // text: '舵机[CHOICE]角度[TEXT]',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_servo',
-                default: 'set servo [CHOICE] angle [TEXT]°',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.STRING,
-                    menu: 'choice_serverPin'
-                },
-                TEXT: {
-                    type: ArgumentType.NUMRES0_180,
-                    defaultValue: 90
-                }
-            }
-        },
+            {
+                opcode: 'Linkbot_power',//电池电量
+                blockType: BlockType.REPORTER,
+                disableMonitor: true,
+                text: formatMessage({
+                    id: 'Linkbot.Linkbot_power',
+                    default: 'read the power of the battery',
+                }),
+            },
+
+            {
+                opcode: 'Linkbot_power_external',//电池外部
+                blockType: BlockType.REPORTER,
+                disableMonitor: true,
+                text: formatMessage({
+                    id: 'Linkbot.Linkbot_power_external',
+                    default: 'read the voltage of the external battery',
+                }),
+            },
         
         ],
 
@@ -58,10 +51,14 @@ class LinkBot_Power {
       };
     }
 
-    //################################舵机######################################
-    //控制舵机
-    async ICM_S4S_servo(args){
-        await ICMB_send(`mainBoard.servo_set_angle(${args.CHOICE},${args.TEXT})`)
+    //电池
+    async Linkbot_power(args){
+        await ICMB_send(`mainBoard.servo_set_angle()`)
+    }
+
+    //电池外部
+    async Linkbot_power_external(args){
+        await ICMB_send(`mainBoard.servo_set_angle()`)
     }
 }
 
@@ -105,4 +102,4 @@ async function ICMB_read(str){
 }
 
 
-module.exports = LinkBot_Power;
+module.exports = LinkBotPower;

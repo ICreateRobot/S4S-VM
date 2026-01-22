@@ -4,7 +4,7 @@ const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
 const icon = require('./sensor.png');
  
-class LinkBot_Sensors {
+class LinkBotSensors {
     
     constructor(runtime) {
         this.runtime = runtime;
@@ -12,15 +12,15 @@ class LinkBot_Sensors {
 
     getInfo() {
       return {
-        id: 'LinkBot_Sensors',
+        id: 'LinkBotSensors',
         name: formatMessage({
-            id: 'LinkBot_Sensors.name',
+            id: 'LinkBotSensors.name',
             default: 'Sensors',
         }),
         color1: '#55DAD1',  // 主颜色
         color2: '#45C2B9',  // 次颜色（渐变）
         color3: '#36AAA1',   // 边框颜色
-        iconURI: icon, 
+        menuIconURI: icon, 
 
         //模块 
         blocks: [
@@ -37,9 +37,15 @@ class LinkBot_Sensors {
             // text: '超声波传感器 距离值',
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet',
-                default: 'distance value',
+                default: 'get distance in [TYPE]',
             }),
-            disableMonitor: true
+            disableMonitor: true,
+            arguments: {
+                Type: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_ultrType'
+                },
+            }
         },
         {
             opcode: 'ICM_S4S_ultrGetLog',//超声波传感器>mu,
@@ -61,25 +67,7 @@ class LinkBot_Sensors {
                 },
             }
         },
-        {
-            opcode: 'ICM_S4S_ultrSet',//设置超声波传感器
-            blockType: BlockType.COMMAND,
-            // text: '超声波传感器 亮度[CHOICE]颜色[COL]',
-            text: formatMessage({
-                id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
-                default: 'set brightness [CHOICE] color [COL]',
-            }),
-            arguments: {
-                CHOICE: {
-                    type: ArgumentType.NUMRES0_255,
-                    defaultValue: 255
-                },
-                COL: {
-                    type: ArgumentType.COLOR,
-                    defaultValue:'#0000ff'
-                }
-            }
-        },
+        
 
 
         {
@@ -89,7 +77,7 @@ class LinkBot_Sensors {
                 default: 'Line Following Sensor',
             }),
         },
-        {
+        /* {
             opcode: 'ICM_S4S_grayStudy',//灰度学习
             blockType: BlockType.COMMAND,
             // text: '巡线模块 灰度学习',
@@ -121,8 +109,8 @@ class LinkBot_Sensors {
                     menu: 'choice_studyColor'
                 }
             }
-        },
-        {
+        }, */
+       /*  {
             opcode: 'ICM_S4S_colorClear',//清空颜色学习
             blockType: BlockType.COMMAND,
             // text: '巡线模块 清除颜色',
@@ -130,6 +118,21 @@ class LinkBot_Sensors {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_colorClear',
                 default: 'clear colors',
             })
+        }, */
+        {
+            opcode: 'ICM_S4S_setMode',//切换学习模式
+            blockType: BlockType.COMMAND,
+            // text: '巡线模块 颜色学习[CHOICE]',
+            text: formatMessage({
+                id: 'MicrobiteIcreateS4S.ICM_S4S_setMode',
+                default: 'set mode to [CHOICE] learning',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_studyMode'
+                }
+            }
         },
         {
             opcode: 'ICM_S4S_grayGet',//巡线获取灰度值
@@ -137,7 +140,7 @@ class LinkBot_Sensors {
             // text: '巡线模块 探头[CHOICE]灰度值',
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_grayGet',
-                default: 'probe [CHOICE] grayscale value',
+                default: 'get grayscale value from [CHOICE]',
             }),
             disableMonitor: true,
             arguments: {
@@ -153,7 +156,7 @@ class LinkBot_Sensors {
             // text: '巡线模块 探头[CHOICE]识别到[CHOICE1]?',
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_colorGet',
-                default: 'probe [CHOICE] recognized [CHOICE1]?',
+                default: 'did [CHOICE] recognize [CHOICE1]?',
             }),
             disableMonitor: true,
             arguments: {
@@ -173,7 +176,7 @@ class LinkBot_Sensors {
             // text: '巡线模块 探头[CHOICE]识别黑线?',
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_blackGet',
-                default: 'probe [CHOICE] detect black line?',
+                default: 'did [CHOICE] detect black line?',
             }),
             disableMonitor: true,
             arguments: {
@@ -185,8 +188,7 @@ class LinkBot_Sensors {
         },
 
 
-        
-
+    
         
         {
             blockType: BlockType.LABEL,
@@ -335,7 +337,7 @@ class LinkBot_Sensors {
             arguments: {
                 TEXT: {
                     type: ArgumentType.NUMRES0_99,
-                    defaultValue: 26
+                    defaultValue: 0
                 },
                 TEXT1: {
                     type: ArgumentType.NUMRES1_12,
@@ -382,11 +384,11 @@ class LinkBot_Sensors {
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
-                    menu: 'choice_rtcData'
+                    menu: 'choice_rtcGet'
                 }
             }
         },
-        {
+        /* {
             opcode: 'ICM_S4S_rtcGetTime',//获取时间
             blockType: BlockType.REPORTER,
             disableMonitor: true,
@@ -401,12 +403,38 @@ class LinkBot_Sensors {
                     menu: 'choice_rtcTime'
                 }
             }
-        }
+        } */
         ],
 
 
 
         menus: {
+            choice_ultrType :{//超声波
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'LinkBot.choice_MoveMode.cm',
+                            default: 'cm',
+                        }),
+                        value: 'cm'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'LinkBot.choice_ultrType.m',
+                            default: 'm',
+                        }),
+                        value: 'm'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'LinkBot.choice_ultrType.in',
+                            default: 'in',
+                        }),
+                        value: 'in'
+                    },
+                ]
+            },
             choice_comparison: {//比较运算符
                 acceptReporters: false,
                 items: [
@@ -521,6 +549,13 @@ class LinkBot_Sensors {
                         }),
                         value: '0'
                     },
+                    {
+                        text: formatMessage({
+                            id: 'Linkbot.gyro.yaw',
+                            default: 'yaw',
+                        }),
+                        value: '2'
+                    },
                 ]
             },
             choice_voice:{//语音模块
@@ -534,6 +569,61 @@ class LinkBot_Sensors {
                             description: 'MicrobiteIcreateS4S.wakeup'
                         }),
                         value: '1'
+                    }
+                ]
+            },
+            choice_studyMode:{//选择学习模式
+                acceptReporters: false,
+                items: [
+                    
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.grayscale',
+                            default: 'grayscale',
+                        }),
+                        value: 'gray'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.black',
+                            default: 'Black',
+                        }),
+                        value: '1'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.red',
+                            default: 'Red',
+                        }),
+                        value: '2'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.yellow',
+                            default: 'Yellow',
+                        }),
+                        value: '4'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.green',
+                            default: 'Green',
+                        }),
+                        value: '5'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.blue',
+                            default: 'Blue',
+                        }),
+                        value: '7'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.purple',
+                            default: 'Purple',
+                        }),
+                        value: '8'
                     }
                 ]
             },
@@ -701,7 +791,64 @@ class LinkBot_Sensors {
                         value: '2'
                     }
                 ]
-            }
+            },
+            choice_rtcGet:{
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.year',
+                            default: 'year',
+                        }),
+                        value: '0'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.month',
+                            default: 'month',
+                        }),
+                        value: '1'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.week',
+                            default: 'week',
+                        }),
+                        value: 'w'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.day',
+                            default: 'day',
+                        }),
+                        value: '2'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.hour',
+                            default: 'hour',
+                            description: 'MicrobiteIcreateS4S.hour'
+                        }),
+                        value: '5'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.minute',
+                            default: 'minute',
+                            description: 'MicrobiteIcreateS4S.minute'
+                        }),
+                        value: '6'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.second',
+                            default: 'second',
+                            description: 'MicrobiteIcreateS4S.second'
+                        }),
+                        value: '7'
+                    }
+                ]
+            },
         }
       };
     }
@@ -761,15 +908,11 @@ class LinkBot_Sensors {
         return ICMB_read(`ultr.get_distance()${args.TYPE}${args.NUM}`)
     }
 
-    //超声波灯
-    async ICM_S4S_ultrSet(args){
-        const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
-        await ICMB_send(`ultr.set_color(${args.CHOICE},${r},${g},${b})`)
-    }
+   
 
     //################################巡线######################################
     //灰度学习
-    async ICM_S4S_grayStudy(args){
+    /* async ICM_S4S_grayStudy(args){
         await ICMB_send(`gray.gray_study()`)
     }
 
@@ -781,11 +924,19 @@ class LinkBot_Sensors {
     //颜色学习
     async ICM_S4S_colorStudy(args){
         await ICMB_send(`gray.color_study(${args.CHOICE})`)
-    }
+    } */
 
     //清空颜色学习
-    async ICM_S4S_colorClear(args){
+    /* async ICM_S4S_colorClear(args){
         await ICMB_send(`gray.clear_color()`)
+    } */
+
+    async ICM_S4S_setMode(args){
+        let code = `gray.color_study(${args.CHOICE})`;
+        if(args.CHOICE == "gray"){
+            code = "gray.gray_study()"
+        }
+        await ICMB_send(code)
     }
 
     //巡线获取灰度值
@@ -820,14 +971,11 @@ class LinkBot_Sensors {
     }
 
     //获取时间
-    ICM_S4S_rtcGetTime(args){
+   /*  ICM_S4S_rtcGetTime(args){
         return ICMB_read(`mainBoard.rtc_get_time(${args.CHOICE})`)
-    }
+    } */
 
 }
-
-
-
 
 
 
@@ -870,4 +1018,4 @@ async function ICMB_read(str){
 }
 
 
-module.exports = LinkBot_Sensors;
+module.exports = LinkBotSensors;
