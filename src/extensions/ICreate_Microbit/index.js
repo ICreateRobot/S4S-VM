@@ -2,7 +2,8 @@
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
-// const currentMode = require('../../util/mode')
+const icon = require('./microbit.png');
+
 class MicrobitIcreate { 
 
     // constructor(runtime){
@@ -25,37 +26,24 @@ class MicrobitIcreate {
         }), 
         color1: '#0da57a',  
         color2: '#0b8d68', 
-        color3: '#097556',   
+        color3: '#097556',  
+        menuIconURI: icon, 
 
         blocks: [
-            // {
-            //     blockType: BlockType.LABEL,
-            //     text: formatMessage({
-            //     id: 'MicrobitIcreate.labelMatrix',
-            //     default: 'Matrix',
-            //     description: 'MicrobitIcreate.labelMatrix'
-            //     }),
-            // },
             {
-                opcode: 'ICM_showNumber',
-                blockType: BlockType.COMMAND,
+                blockType: BlockType.LABEL,
                 text: formatMessage({
-                    id: 'MicrobitIcreate.ICM_showNumber',
-                    default: 'show number [NUM]'
+                    id: 'MicrobitIcreate.display',
+                    default: 'Display',
                 }),
-                arguments: { 
-                NUM: {
-                    type: ArgumentType.NUMBER,
-                    defaultValue: 0
-                }
-                }
             },
+            
             {
                 opcode: 'ICM_showSelfImage',
                 blockType: BlockType.COMMAND,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showSelfImage',
-                    default: 'show leds [MATRIX]'
+                    default: 'display leds [MATRIX]'
                 }),
                 arguments: {
                 MATRIX: {
@@ -70,7 +58,7 @@ class MicrobitIcreate {
                 blockType: BlockType.COMMAND,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showImage',
-                    default: 'show icon [IMAGE]'
+                    default: 'display icon [IMAGE]'
                 }),
                 arguments: { 
                 IMAGE: {
@@ -84,7 +72,7 @@ class MicrobitIcreate {
                 blockType: BlockType.COMMAND,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showString',
-                    default: 'show string [TEXT]'
+                    default: 'display string [TEXT]'
                 }),
                 arguments: {
                 TEXT: {
@@ -94,11 +82,25 @@ class MicrobitIcreate {
                 }
             },
             {
+                opcode: 'ICM_showNumber',
+                blockType: BlockType.COMMAND,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.ICM_showNumber',
+                    default: 'display number [NUM]'
+                }),
+                arguments: { 
+                NUM: {
+                    type: ArgumentType.NUMBER,
+                    defaultValue: 0
+                }
+                }
+            },
+            {
                 opcode: 'ICM_showArrow',
                 blockType: BlockType.COMMAND,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showArrow',
-                    default: 'show arrow [IMAGE]'
+                    default: 'display arrow [IMAGE]'
                 }),
                 arguments: {
                 IMAGE: {
@@ -181,45 +183,6 @@ class MicrobitIcreate {
                 },
             },
 
-
-            // {
-            //     opcode: 'ICM_scrollShowString',
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //     id: 'MicrobitIcreate.ICM_scrollShowString',
-            //     default: 'Scroll Display String [TEXT]',
-            //     description: 'MicrobitIcreate.ICM_scrollShowString'
-            //     }),
-            //     arguments: {
-            //     TEXT: {
-            //         type: ArgumentType.STRING,
-            //         defaultValue: 'hello'
-            //     }
-            //     }
-            // },
-            // {
-            //     opcode: 'ICM_setPixel',
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //     id: 'MicrobitIcreate.ICM_setPixel',
-            //     default: 'Set Pixel x[X] y[Y] Brightness[L]',
-            //     description: 'MicrobitIcreate.ICM_setPixel'
-            //     }),
-            //     arguments: {
-            //     X: {
-            //         type: ArgumentType.NUMRES0_4,
-            //         defaultValue: 0
-            //     },
-            //     Y: {
-            //         type: ArgumentType.NUMRES0_4,
-            //         defaultValue: 0
-            //     },
-            //     L: {
-            //         type: ArgumentType.NUMRES0_9,
-            //         defaultValue: 9
-            //     }
-            //     },
-            // },
             {
                 opcode: 'ICM_showClear',
                 blockType: BlockType.COMMAND,
@@ -228,23 +191,69 @@ class MicrobitIcreate {
                     default: 'clear display',
                 })
             },
-            // {
-            //     blockType: BlockType.LABEL,
-            //     text: formatMessage({
-            //     id: 'MicrobitIcreate.labelSensor',
-            //     default: 'Sensor',
-            //     description: 'MicrobitIcreate.labelSensor'
-            //     }),
-            // },
 
-            "---",
 
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.labelSpeaker',
+                    default: 'Speaker',
+                }),
+            },
+            {
+                opcode: 'ICM_playSpeaker',//说
+                blockType: BlockType.COMMAND,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_playSpeaker',
+                    default: 'play tone [HZ] Hz volume [VALUE]%',
+                }),
+                arguments: {
+                    HZ: {
+                        type: ArgumentType.NUMBER,
+                        defaultValue: 440
+                    },
+                    VALUE: {
+                        type: ArgumentType.NUMRES0_100,
+                        defaultValue: 100
+                    },
+                },
+            },
+            {
+                opcode: 'ICM_stopSpeaker',//停
+                blockType: BlockType.COMMAND,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_stopSpeaker',
+                    default: 'stop tone',
+                }),
+                arguments: {
+                    HZ: {
+                        type: ArgumentType.NUMBER,
+                        defaultValue: 440
+                    },
+                    VALUE: {
+                        type: ArgumentType.NUMRES0_100,
+                        defaultValue: 100
+                    },
+                },
+            },
+
+
+
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.labelSensor',
+                    default: 'Sensor',
+                }),
+            },
             {
                 opcode: 'ICM_buttonPressed',//按钮按下？
                 blockType: BlockType.BOOLEAN,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_buttonPressed',
-                    default: 'button [CHOICE] is pressed',
+                    default: '[CHOICE] button pressed?',
                 }),
                 disableMonitor: true,
                 arguments: {
@@ -254,27 +263,13 @@ class MicrobitIcreate {
                     }
                 }
             },
-            {
-                opcode: 'ICM_pinPressed',//pin按下？
-                blockType: BlockType.BOOLEAN,
-                text: formatMessage({
-                    id: 'MicrobitIcreate.ICM_pinPressed',
-                    default: 'pin [CHOICE] is pressed',
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_pinPressed'
-                    }
-                }
-            },
+
             {
                 opcode: 'ICM_accelerometerGesture',//手势
                 blockType: BlockType.BOOLEAN,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_accelerometerGesture',
-                    default: 'is [CHOICE] gesture',
+                    default: '[CHOICE] gesture?',
                 }),
                 disableMonitor: true,
                 arguments: {
@@ -284,15 +279,23 @@ class MicrobitIcreate {
                     }
                 }
             },
+
             {
-                opcode: 'ICM_logoPressed',//logo
-                blockType: BlockType.BOOLEAN,
+                opcode: 'ICM_magnetStrength',
+                blockType: BlockType.REPORTER,
                 text: formatMessage({
-                    id: 'MicrobitIcreate.ICM_logoPressed',
-                    default: 'logo is pressed',
+                    id: 'MicrobitIcreate.ICM_magnetStrength',
+                    default: 'magnetic force [CHOICE]',
                 }),
-                disableMonitor: true
+                disableMonitor: true,
+                arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_MagnetStrength'
+                }
+                }
             },
+
             {
                 opcode: 'ICM_light',//亮度
                 blockType: BlockType.REPORTER,
@@ -312,15 +315,6 @@ class MicrobitIcreate {
                 disableMonitor: true
             },
             {
-                opcode: 'ICM_compassHeading',//指南针朝向
-                blockType: BlockType.REPORTER,
-                text: formatMessage({
-                    id: 'MicrobitIcreate.ICM_compassHeading',
-                    default: 'compass heading(°)',
-                }),
-                disableMonitor: true
-            },
-            {
                 opcode: 'ICM_temperature',//温度
                 blockType: BlockType.REPORTER,
                 text: formatMessage({
@@ -330,13 +324,160 @@ class MicrobitIcreate {
                 disableMonitor: true
             },
 
-            "---",
+            
+
+            // {
+            //     opcode: 'ICM_pinPressed',//pin按下？
+            //     blockType: BlockType.BOOLEAN,
+            //     text: formatMessage({
+            //         id: 'MicrobitIcreate.ICM_pinPressed',
+            //         default: 'pin [CHOICE] is pressed',
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_pinPressed'
+            //         }
+            //     }
+            // },
+            
+            // {
+            //     opcode: 'ICM_logoPressed',//logo
+            //     blockType: BlockType.BOOLEAN,
+            //     text: formatMessage({
+            //         id: 'MicrobitIcreate.ICM_logoPressed',
+            //         default: 'logo is pressed',
+            //     }),
+            //     disableMonitor: true
+            // },
+           
+            {
+                opcode: 'ICM_compassHeading',//指南针朝向
+                blockType: BlockType.REPORTER,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.ICM_compassHeading',
+                    default: 'compass heading(°)',
+                }),
+                disableMonitor: true
+            },
+            
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.labelPins',
+                    default: 'Pins',
+                }),
+            },
+            {
+                opcode: 'ICM_analogRead',//模拟读取
+                blockType: BlockType.REPORTER,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_analogRead',
+                    default: 'analog value of pin [CHOICE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PIN'
+                    },
+                },
+            },
+            {
+                opcode: 'ICM_pinInput',//pin输入
+                blockType: BlockType.COMMAND,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_pinInput',
+                    default: 'set pin [CHOICE] to input pull [TYPE]',
+                }),
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PIN'
+                    },
+                    TYPE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PinType'
+                    },
+                },
+            },
+            {
+                opcode: 'ICM_digitalRead',//数字读取判断为高
+                blockType: BlockType.BOOLEAN,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_digitalRead',
+                    default: '[CHOICE] pin is hight?',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PIN'
+                    },
+                },
+            },
+            {
+                opcode: 'ICM_digitalWrite',//数字写入
+                blockType: BlockType.COMMAND,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_digitalWrite',
+                    default: 'set [CHOICE] digital [TEXT]',
+                }),
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PIN'
+                    },
+                    TEXT: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PinLevel'
+                    },
+                },
+            },
+            {
+                opcode: 'ICM_analogWrite',//模拟写入
+                blockType: BlockType.COMMAND,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_analogWrite',
+                    default: 'set [CHOICE] analog [TEXT]%',
+                }),
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_PIN'
+                    },
+                    TEXT: {
+                        type: ArgumentType.NUMRES0_100,
+                        defaultValue: 100
+                    },
+                },
+            },
+            
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.labelRadio',
+                    default: 'Radio',
+                }),
+            },
+
+
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.labelSerial',
+                    default: 'Serial',
+                }),
+            },
             {
                 opcode: 'ICM_uartWrite',//串口写入
                 blockType: BlockType.COMMAND,
                 text: formatMessage({
                     id: 'LinkBot.ICM_uartWrite',
-                    default: 'serial write line [TEXT]',
+                    default: 'serial write [TEXT]',
                 }),
                 arguments: {
                     TEXT: {
@@ -360,72 +501,9 @@ class MicrobitIcreate {
             },
 
             "---",
-            {
-                opcode: 'ICM_digitalWrite',//数字写入
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_digitalWrite',
-                    default: 'digital write pin [CHOICE] to [TEXT]',
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_PIN'
-                    },
-                    TEXT: {
-                        type: ArgumentType.NUMRES0_1,
-                        defaultValue: 0
-                    },
-                },
-            },
-            {
-                opcode: 'ICM_digitalRead',//数字读取
-                blockType: BlockType.REPORTER,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_digitalRead',
-                    default: 'digital read pin [CHOICE]',
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_PIN'
-                    },
-                },
-            },
-            {
-                opcode: 'ICM_analogWrite',//模拟写入
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_analogWrite',
-                    default: 'analog write pin [CHOICE] to [TEXT]',
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_PIN'
-                    },
-                    TEXT: {
-                        type: ArgumentType.NUMRES0_1023,
-                        defaultValue: 1023
-                    },
-                },
-            },
-            {
-                opcode: 'ICM_analogRead',//模拟读取
-                blockType: BlockType.REPORTER,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_analogRead',
-                    default: 'analog read pin [CHOICE]',
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_PIN'
-                    },
-                },
-            },
+            
+            
+            
             
             // {
             //     opcode: 'ICM_compassCalibrate',
@@ -870,7 +948,7 @@ class MicrobitIcreate {
                     }
                 ]
             },
-            choice_PIN: {//选择pio
+            choice_PIN: {//选择pin
                 acceptReporters: false,
                 items: [
                     { text: "P0", value: '0' },
@@ -890,6 +968,51 @@ class MicrobitIcreate {
                     { text: "P14", value: '14' },
                     { text: "P15", value: '15' },
                     { text: "P16", value: '16' }
+                ]
+            },
+            choice_PinType:{//选择pin类型
+                acceptReporters: false,
+                items: [
+                    { 
+                        text: formatMessage({
+                            id: 'LinkBot.choice_PinType.up',
+                            default: 'up'
+                        }),
+                        value: 'PULL_UP' 
+                    },
+                    { 
+                        text: formatMessage({
+                            id: 'LinkBot.choice_PinType.down',
+                            default: 'down'
+                        }),
+                         value: 'PULL_DOWN' 
+                    },
+                    { 
+                        text: formatMessage({
+                            id: 'LinkBot.choice_PinType.none',
+                            default: 'none'
+                        }),
+                        value: 'NO_PULL' 
+                    }
+                ]
+            },
+            choice_PinLevel:{//选择pin类型
+                acceptReporters: false,
+                items: [
+                    { 
+                        text: formatMessage({
+                            id: 'LinkBot.choice_PinLevel.hight',
+                            default: 'hight'
+                        }),
+                        value: '1' 
+                    },
+                    { 
+                        text: formatMessage({
+                            id: 'LinkBot.choice_PinLevel.low',
+                            default: 'low'
+                        }),
+                         value: '0' 
+                    },
                 ]
             },
             
@@ -913,15 +1036,16 @@ class MicrobitIcreate {
             choice_MagnetStrength:{//选择磁力
                 acceptReporters: false,
                 items: [
-                    'X', 
-                    'Y',
-                    'Z',
-                    // '强度'
-                    formatMessage({
+                    { text: "X", value: 'X' },
+                    { text: "Y", value: 'Y' },
+                    { text: "Z", value: 'Z' },
+                    { text: formatMessage({
                         id: 'MicrobitIcreate.choice_MagnetStrength.strength',
-                        default: 'Intensity',
-                        description: 'MicrobitIcreate.choice_MagnetStrength.strength'
-                    }),
+                        default: 'absolute',
+                        }), 
+                        value: 'absolute' 
+                    },
+                   
                 ]
             },
             
@@ -1164,30 +1288,25 @@ class MicrobitIcreate {
     ICM_showPoint(args){
         return ICMB_read(`display.get_pixel(${args.X},${args.Y})`)>0 ;
     }
-
-
-    //滚动显示字符串
-    // async ICM_scrollShowString(args){
-    //     await ICMB_send(`display.scroll("${args.TEXT}")`) ;
-    // }
-    // //设置像素
-    // async ICM_setPixel(args){
-    //     await ICMB_send(`display.set_pixel(${args.X},${args.Y},${args.L})`) ;
-    // }
-    //启用/禁用点阵
-    // ICM_showOff(args){
-    //     let code='';
-    //     if(args.CHOICE == '启用'){
-    //         code = "on"
-    //     }else if(args.CHOICE == '停用'){
-    //         code = "off"
-    //     }
-    //     ICMB_send(`display.${code}()`) ;
-    // }
     //清除显示
     async ICM_showClear(){
         await ICMB_send(`display.clear()`) ;
     }
+
+    //-----------------------音乐----------------------------------------
+    //播放
+    async ICM_playSpeaker(args){
+        // 映射到 0–255
+        const volume = Math.round(args.VALUE * 255 / 100);
+        await ICMB_send(`music.pitch(${args.HZ})\nset_volume(${volume}) `) ;
+    }
+
+    async ICM_stopSpeaker(){
+        //import music
+        await ICMB_send(`music.stop()`)
+    }
+
+   
 
     //-----------------------传感器----------------------------------------
     //按钮
@@ -1199,6 +1318,11 @@ class MicrobitIcreate {
             code = `button_a.is_pressed()`
         }
         return ICMB_read(code) ;
+    }
+
+    //磁力
+    ICM_magnetStrength(args){
+        return ICMB_read(`compass.${DICT_magnetStrengthPlay[args.CHOICE]}()`) ; 
     }
     //pin按下
     ICM_pinPressed(args){
@@ -1313,17 +1437,26 @@ class MicrobitIcreate {
     async ICM_digitalWrite(args){
         await ICMB_send(`pin${args.CHOICE}.write_digital(${args.TEXT})`) ;
     }
-    //数字读取
-    ICM_digitalRead(args){
-        return ICMB_read(`pin${args.CHOICE}.read_digital()`) ; 
-    }
+   
     //模拟写入
     async ICM_analogWrite(args){
-        await ICMB_send(`pin${args.CHOICE}.write_analog(${args.TEXT})`) ;
+        // 映射到 0–1023
+        const volume = Math.round(args.TEXT * 1023 / 100);
+        await ICMB_send(`pin${args.CHOICE}.write_analog(${volume})`) ;
     }
+
+
     //模拟读取
     ICM_analogRead(args){
         return ICMB_read(`pin${args.CHOICE}.read_analog()`) ; 
+    }
+    //写入
+    async ICM_pinInput(args){
+        await ICMB_send(`pin${args.CHOICE}.set_pull(pin${args.CHOICE}.${args.TYPE})`) ;
+    }
+    //数字读取
+    ICM_digitalRead(args){
+        return ICMB_read(`pin${args.CHOICE}.read_digital()`) ; 
     }
 }
 
@@ -1404,8 +1537,7 @@ let DICT_magnetStrengthPlay = {
     'X': "get_x",
     'Y': "get_y",
     'Z': "get_z",
-    '强度': "get_field_strength",
-    'Intensity': "get_field_strength" // 添加英文键
+    'absolute': "get_field_strength" // 添加英文键
 }
 
 let DICT_speakerPlay = {

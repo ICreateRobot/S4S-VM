@@ -41,7 +41,7 @@ class LinkBotSensors {
             }),
             disableMonitor: true,
             arguments: {
-                Type: {
+                TYPE: {
                     type: ArgumentType.STRING,
                     menu: 'choice_ultrType'
                 },
@@ -53,11 +53,11 @@ class LinkBotSensors {
             // text: '巡线模块 探头[CHOICE]识别黑线?',
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_ultrGetLog',
-                default: 'distance value [Type] [NUM]',
+                default: 'distance value [TYPE] [NUM]',
             }),
             disableMonitor: true,
             arguments: {
-                Type: {
+                TYPE: {
                     type: ArgumentType.STRING,
                     menu: 'choice_comparison'
                 },
