@@ -163,7 +163,7 @@ class robotteachable {
                 // text:'开始识别(电脑摄像头)'
                 text: formatMessage({
                     id: 'robotteachable.startIdent',
-                    default: 'Start recognition (computer camera)',
+                    default: 'Start recognition',
                     description: 'robotteachable.startIdent'
                 }),
             },
@@ -171,16 +171,16 @@ class robotteachable {
            
 
 
-            {
-                func:'startImgIdent',
-                blockType:BlockType.BUTTON,
-                // text:'开始识别（机器人摄像头）'
-                text: formatMessage({
-                    id: 'robotteachable.startImgIdent',
-                    default: 'Start recognition (robot camera)',
-                    description: 'robotteachable.startImgIdent'
-                }),
-            },
+            // {
+            //     func:'startImgIdent',
+            //     blockType:BlockType.BUTTON,
+            //     // text:'开始识别（机器人摄像头）'
+            //     text: formatMessage({
+            //         id: 'robotteachable.startImgIdent',
+            //         default: 'Start recognition (robot camera)',
+            //         description: 'robotteachable.startImgIdent'
+            //     }),
+            // },
 
             // {
             //     func:'stopImgIdent',
@@ -193,7 +193,7 @@ class robotteachable {
             //     }),
             // },
 
-            {
+            /* {
                 func:'startNetIdent',
                 blockType:BlockType.BUTTON,
                 // text:'开始识别（网络摄像头）'
@@ -202,7 +202,7 @@ class robotteachable {
                     default: 'Start recognition (network camera)',
                     description: 'robotteachable.startNetIdent'
                 }),
-            },
+            }, */
 
             // {
             //     func:'stopNetIdent',
@@ -997,7 +997,7 @@ class robotteachable {
     }
 
 
-    async startImgIdent(){
+   /*  async startImgIdent(){ 
         if(this.isCompoterVideo || this.isNetCamera){
             alert('请先关闭电脑摄像头')
             return
@@ -1132,7 +1132,7 @@ class robotteachable {
                 }, 200); // 10 FPS
             }
         }
-    }
+    } */
 
     async stopImgIdent(){
         this.isRobotVideo=false
@@ -1174,7 +1174,8 @@ class robotteachable {
 
 
 
-    async startNetIdent(){
+    /* async startNetIdent(){
+        return
         if(this.isCompoterVideo || this.isRobotVideo){
             alert('请先关闭电脑摄像头')
             return
@@ -1298,7 +1299,7 @@ class robotteachable {
 
             
         }
-    }
+    } */
 
     async stopNetIdent(){
         imageLoad.setTmAiNet('')

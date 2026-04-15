@@ -825,6 +825,49 @@ class JSGenerator {
             }
             this.source += `}\n`;
             break;
+
+case 'forLoop': {
+  const index = this.localVariables.next();
+  const end = this.localVariables.next();
+  const step = this.localVariables.next();
+
+  const varId = node.variable.id;
+
+  const from = this.descendInput(node.from);
+  const to = this.descendInput(node.to);
+  const stepInput = this.descendInput(node.step);
+
+  this.source += `
+    var ${index} = ${from.asNumber()};
+    var ${end} = ${to.asNumber()};
+    var ${step} = ${stepInput.asNumber()};
+
+    var __varObj = target.variables["${varId}"] || stage.variables["${varId}"];
+
+    if (__varObj) {
+      if (${step} !== 0) {
+        while ((${step} > 0 && ${index} <= ${end}) ||
+               (${step} < 0 && ${index} >= ${end})) {
+
+          __varObj.value = ${index};
+  `;
+
+  if (node.substack) {
+    this.descendStack(node.substack, new Frame(true));
+  }
+
+  this.yieldLoop();
+
+  this.source += `
+          ${index} += ${step};
+        }
+      }
+    }
+  `;
+
+  break;
+}
+            
         case 'control.repeat': {
             const i = this.localVariables.next();
             this.source += `for (var ${i} = ${this.descendInput(node.times).asNumber()}; ${i} >= 0.5; ${i}--) {\n`;
@@ -1154,6 +1197,7 @@ class JSGenerator {
         case 'var.set': {
             const variable = this.descendVariable(node.variable);
             const value = this.descendInput(node.value);
+            console.log('VARIABLE:', variable,'VALUE:',value);
             variable.setInput(value);
             this.source += `${variable.source} = ${value.asSafe()};\n`;
             if (node.variable.isCloud) {

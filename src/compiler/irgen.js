@@ -693,6 +693,7 @@ class ScriptTreeGenerator {
      * @returns {Node} Compiled node for this block.
      */
     descendStackedBlock (block) {
+        console.log(block.opcode)
         switch (block.opcode) {
         case 'control_all_at_once':
             // In Scratch 3, this block behaves like "if 1 = 1"
@@ -744,13 +745,91 @@ class ScriptTreeGenerator {
                 whenTrue: this.descendSubstack(block, 'SUBSTACK'),
                 whenFalse: []
             };
-        case 'control_if_else':
-            return {
+        // case 'control_if_else':
+        //     return {
+        //         kind: 'control.if',
+        //         condition: this.descendInputOfBlock(block, 'CONDITION'),
+        //         whenTrue: this.descendSubstack(block, 'SUBSTACK'),
+        //         whenFalse: this.descendSubstack(block, 'SUBSTACK2')
+        //     };
+        case 'control_if_else': {
+            const condition = this.descendInputOfBlock(block, 'CONDITION');
+            const whenTrue = this.descendSubstack(block, 'SUBSTACK');
+
+            // 默认 else
+            let elseBranch = this.descendSubstack(block, 'SUBSTACK2');
+
+            // 找所有 elseif
+            const elseifInputs = Object.keys(block.inputs)
+                .filter(name => name.startsWith('ELSEIF_CONDITION'))
+                .sort((a, b) => {
+                    const ai = parseInt(a.replace('ELSEIF_CONDITION',''));
+                    const bi = parseInt(b.replace('ELSEIF_CONDITION',''));
+                    return ai - bi;
+                });
+
+            // 倒序构建嵌套 if
+            for (let i = elseifInputs.length - 1; i >= 0; i--) {
+                const index = elseifInputs[i].replace('ELSEIF_CONDITION','');
+                const cond = this.descendInputOfBlock(block, `ELSEIF_CONDITION${index}`);
+                const stack = this.descendSubstack(block, `ELSEIF_SUBSTACK${index}`);
+
+                elseBranch = [{
+                    kind: 'control.if',
+                    condition: cond,
+                    whenTrue: stack,
+                    whenFalse: elseBranch
+                }];
+            }
+
+            const result = {
                 kind: 'control.if',
-                condition: this.descendInputOfBlock(block, 'CONDITION'),
-                whenTrue: this.descendSubstack(block, 'SUBSTACK'),
-                whenFalse: this.descendSubstack(block, 'SUBSTACK2')
+                condition: condition,
+                whenTrue: whenTrue,
+                whenFalse: elseBranch
             };
+            return result;
+        };
+
+case 'control_for_loop':
+
+    console.log('VARIABLE:', this.descendVariable(block, 'VARIABLE', SCALAR_TYPE),'VALUE:',this.descendInputOfBlock(block, 'VALUE') );
+    console.log('VAR field:', block.fields.VAR);
+  
+     // 方法1：直接获取变量的值（可能是ID或名称）
+  const varValue = block.getFieldValue('VAR') || block.fields.VAR.value;
+  
+  // 在 TurboWarp/Scratch 中，通常 value 就是变量名
+  // 如果是ID格式（包含特殊字符），需要特殊处理
+  let varName = varValue;
+  let varId = varValue;
+  
+  // 检查是否是ID格式（包含特殊字符）
+  if (varValue.includes('[') || varValue.includes(']') || varValue.includes('.')) {
+    // 看起来是ID格式，尝试获取真正的变量名
+    // 在 TurboWarp 中，通常可以直接使用这个值
+    // 如果这确实是变量名，就保持不变
+  }
+  
+  console.log('Variable value:', varValue);
+  console.log('Using as name:', varName);
+  console.log('Using as id:', varId);
+    
+  return {
+    kind: 'forLoop',
+
+    variable: {
+    id: block.fields.VAR.id,
+    name: block.fields.VAR.value
+    },
+
+    from: this.descendInputOfBlock(block, 'FROM'),
+    to: this.descendInputOfBlock(block, 'TO'),
+    step: this.descendInputOfBlock(block, 'STEP'),
+
+    substack: this.descendSubstack(block, 'SUBSTACK')
+  };
+            
         case 'control_incr_counter':
             return {
                 kind: 'counter.increment'

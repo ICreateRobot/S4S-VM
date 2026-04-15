@@ -41,6 +41,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showSelfImage',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showSelfImage',
                     default: 'display leds [MATRIX]'
@@ -56,6 +57,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showImage',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showImage',
                     default: 'display icon [IMAGE]'
@@ -70,6 +72,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showString',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showString',
                     default: 'display string [TEXT]'
@@ -84,6 +87,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showNumber',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showNumber',
                     default: 'display number [NUM]'
@@ -98,6 +102,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showArrow',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showArrow',
                     default: 'display arrow [IMAGE]'
@@ -113,6 +118,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showPlot',//绘图 x y
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showPlot',
                     default: 'plot x[X] y[Y] ',
@@ -131,6 +137,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showToggle',//切换 x y
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showToggle',
                     default: 'toggle x[X] y[Y] ',
@@ -149,6 +156,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showUnplot',//取消绘图 x y
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showUnplot',
                     default: 'unplot x[X] y[Y] ',
@@ -167,6 +175,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showPoint',//点亮 x y
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showPoint',
                     default: 'point x[X] y[Y] ',
@@ -186,6 +195,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_showClear',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_showClear',
                     default: 'clear display',
@@ -204,6 +214,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_playSpeaker',//说
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_playSpeaker',
                     default: 'play tone [HZ] Hz volume [VALUE]%',
@@ -222,6 +233,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_stopSpeaker',//停
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_stopSpeaker',
                     default: 'stop tone',
@@ -251,6 +263,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_buttonPressed',//按钮按下？
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_buttonPressed',
                     default: '[CHOICE] button pressed?',
@@ -267,6 +280,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_accelerometerGesture',//手势
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_accelerometerGesture',
                     default: '[CHOICE] gesture?',
@@ -283,6 +297,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_magnetStrength',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_magnetStrength',
                     default: 'magnetic force [CHOICE]',
@@ -299,6 +314,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_light',//亮度
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_light',
                     default: 'light level',
@@ -308,6 +324,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_soundLevel',//声音
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_soundLevel',
                     default: 'sound level',
@@ -317,6 +334,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_temperature',//温度
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_temperature',
                     default: 'temperature(℃)',
@@ -355,6 +373,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_compassHeading',//指南针朝向
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'MicrobitIcreate.ICM_compassHeading',
                     default: 'compass heading(°)',
@@ -373,6 +392,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_analogRead',//模拟读取
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_analogRead',
                     default: 'analog value of pin [CHOICE]',
@@ -388,6 +408,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_pinInput',//pin输入
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_pinInput',
                     default: 'set pin [CHOICE] to input pull [TYPE]',
@@ -406,6 +427,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_digitalRead',//数字读取判断为高
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_digitalRead',
                     default: '[CHOICE] pin is hight?',
@@ -421,6 +443,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_digitalWrite',//数字写入
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_digitalWrite',
                     default: 'set [CHOICE] digital [TEXT]',
@@ -439,6 +462,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_analogWrite',//模拟写入
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_analogWrite',
                     default: 'set [CHOICE] analog [TEXT]%',
@@ -462,6 +486,41 @@ class MicrobitIcreate {
                     default: 'Radio',
                 }),
             },
+            {
+                opcode: 'ICM_radioSetGroup',//设置无线模块（初始化）
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_radioSetGroup',
+                    default: 'radio set group [TEXT] with power [CHOICE]',
+                }),
+                arguments: {
+                    TEXT: {
+                        type: ArgumentType.NUMRES0_100,
+                        defaultValue: 100
+                    },
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_radioPower'
+                    },
+                },
+            },
+            {
+                opcode: 'ICM_radioSend',//无线模块发送数据
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_radioSend',
+                    default: 'send data [TEXT] to microbit',
+                }),
+                arguments: {
+                    TEXT: {
+                        type: ArgumentType.STRING,
+                        defaultValue: "data"
+                    },
+            
+                },
+            },
 
 
 
@@ -475,6 +534,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_uartWrite',//串口写入
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_uartWrite',
                     default: 'serial write [TEXT]',
@@ -488,6 +548,7 @@ class MicrobitIcreate {
             {
                 opcode: 'ICM_uartRead',//串口读取
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_uartRead',
                     default: 'serial read == [TEXT]',
@@ -1014,6 +1075,10 @@ class MicrobitIcreate {
                          value: '0' 
                     },
                 ]
+            },
+            choice_radioPower:{
+                acceptReporters: false,
+                items: ["0","1","2","3","4","5","6","7"]
             },
             
             choice_DisplayOFF: {//选择启用点阵
