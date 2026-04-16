@@ -52,16 +52,15 @@ class LinkBotPower {
     }
 
     //电池
-    async Linkbot_power(args){
-        await ICMB_send(`mainBoard.servo_set_angle()`)
+    Linkbot_power(args){
+        return ICMB_read(`mainBoard.power_get_internal_battery_level()`)
     }
 
     //电池外部
-    async Linkbot_power_external(args){
-        await ICMB_send(`mainBoard.servo_set_angle()`)
+    Linkbot_power_external(args){
+        return ICMB_read(`mainBoard.power_get_external_battery_voltage()`)
     }
 }
-
 
 //发送
 async function ICMB_send(str){
@@ -100,6 +99,5 @@ async function ICMB_read(str){
         return null;
     }
 }
-
 
 module.exports = LinkBotPower;

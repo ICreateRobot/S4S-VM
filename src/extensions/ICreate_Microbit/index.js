@@ -1616,7 +1616,7 @@ let DICT_speakerPlay = {
 
 //发送
 async function ICMB_send(str){
-    //console.log('[发送]', str);
+    console.log('[发送]', str);
     // 发送命令到主进程
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");

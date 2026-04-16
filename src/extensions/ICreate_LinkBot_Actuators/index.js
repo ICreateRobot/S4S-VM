@@ -153,7 +153,7 @@ class LinkBotActuators {
                 },
             }
         },
-        {
+        /* {
             opcode: 'ICM_S4S_motorRunPower',//电机 端口 动力
             blockType: BlockType.COMMAND,
             text: formatMessage({
@@ -186,6 +186,40 @@ class LinkBotActuators {
                 },
             }
         },
+ */
+{
+            opcode: 'ICM_S4S_motorRunRPM',//电机 端口 动力
+            blockType: BlockType.COMMAND,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorRunRPM',
+                default: '[CHOICE] start motor at [NUM] RPM',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+                NUM: {
+                    type: ArgumentType.NUMRES_100_100,//后续需要开发 -180 -- 180
+                    defaultValue: 50
+                },
+            }
+        },
+        {
+            opcode: 'ICM_S4S_motorGetRPM',//电机获取 端口 RPM
+            blockType: BlockType.REPORTER,
+            disableMonitor: true,
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_motorGetRPM',
+                default: '[CHOICE] RPM',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_DCmotorPin'
+                },
+            }
+        },
 
         {
             blockType: BlockType.LABEL,
@@ -210,6 +244,21 @@ class LinkBotActuators {
                 TEXT: {
                     type: ArgumentType.NUMRES0_180,
                     defaultValue: 90
+                }
+            }
+        },
+        {
+            opcode: 'ICM_S4S_servoRelease',//释放舵机
+            blockType: BlockType.COMMAND,
+            // text: '舵机[CHOICE]角度[TEXT]',
+            text: formatMessage({
+                id: 'LinkBot.ICM_S4S_servoRelease',
+                default: 'release servo [CHOICE]',
+            }),
+            arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_serverPin'
                 }
             }
         },
@@ -315,29 +364,29 @@ class LinkBotActuators {
                             id: 'LinkBot.choice_DCmotorType.rotations',
                             default: 'rotations'
                         }),
-                        value: '0'
+                        value: '1'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.degrees',
                             default: 'degrees'
                         }),
-                        value: '1'
+                        value: '3'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.seconds',
                             default: 'seconds'
                         }),
-                        value: '2'
+                        value: '0'
                     },
                 ]
             },
             choice_DCmotorDIVERSION: { // 直流电机转向
                 acceptReporters: false,
                 items: [
-                    { text: '↻', value: '0' },
-                    { text: '↺', value: '1' }
+                    { text: '↻', value: '1' },
+                    { text: '↺', value: '0' }
                 ]
             }
         }
@@ -349,11 +398,23 @@ class LinkBotActuators {
     async ICM_S4S_servo(args){
         await ICMB_send(`mainBoard.servo_set_angle(${args.CHOICE},${args.TEXT})`)
     }
+    //释放舵机
+    async ICM_S4S_servoRelease(args){
+        await ICMB_send(`mainBoard.servo_release(${args.CHOICE})`)
+    }
+    //连续舵机
+    async LinkBot_continuous_servo(args){
+        await ICMB_send(`mainBoard.continuous_servo_set_speed(${args.CHOICE},${args.TEXT})`)
+    }
+    //连续舵机停止
+    async LinkBot_continuous_servoStop(args){
+        await ICMB_send(`mainBoard.continuous_servo_set_speed(${args.CHOICE},0)`)
+    }
 
     //################################dc电机######################################
     //电机 端口 转向 NUM 类型
     async ICM_S4S_motorRunType(args){
-        await ICMB_send(`encoder_motor_run_dir_3state(${args.CHOICE},${args.DIVERSION},${args.TYPE},${args.NUM})`)
+        await ICMB_send(`encoder_motor_run_3state(${args.CHOICE},${args.DIVERSION},${args.NUM},${args.TYPE})`)
     }
     //电机 端口 转向 
     async ICM_S4S_motorRunDiv(args){
@@ -365,7 +426,7 @@ class LinkBotActuators {
     }
     //电机设置 端口 速度
     async ICM_S4S_motorSetSpeed(args){
-        await ICMB_send(`encoder_motor_set_speed(${args.CHOICE},${args.NUM})`)
+        await ICMB_send(`encoder_motor_set_dynamic_speed(${args.CHOICE},${args.NUM})`)
     }
     // 电机获取 位置
     ICM_S4S_motorGetPos(args) {
@@ -373,21 +434,28 @@ class LinkBotActuators {
     }
     // 电机获取 速度
     ICM_S4S_motorGetSpeed(args) {
-        return ICMB_read(`encoder_motor_get_speed(${args.CHOICE})`);
+        return ICMB_read(`encoder_motor_get_dynamic_speed(${args.CHOICE})`);
     }
     // 电机设置 端口 相对位置为 0
     async ICM_S4S_motorSetPos(args) {
         await ICMB_send(`encoder_motor_reset_angle(${args.CHOICE})`)
     }
-    // 电机 端口 动力
-    async ICM_S4S_motorRunPower(args) {
-        await ICMB_send(`encoder_motor_set_power(${args.CHOICE},${args.NUM})`)
+    // // 电机 端口 动力
+    // async ICM_S4S_motorRunPower(args) {
+    //     await ICMB_send(`encoder_motor_set_power(${args.CHOICE},${args.NUM})`)
+    // }
+    // // 电机获取 端口 动力
+    // ICM_S4S_motorGetPower(args) {
+    //     return ICMB_read(`encoder_motor_get_power(${args.CHOICE})`);
+    // }
+    // 电机 端口 RPM
+    async ICM_S4S_motorRunRPM(args) {
+        await ICMB_send(`encoder_motor_start_rpm_speed(${args.CHOICE},${args.NUM})`)
     }
-    // 电机获取 端口 动力
-    ICM_S4S_motorGetPower(args) {
-        return ICMB_read(`encoder_motor_get_power(${args.CHOICE})`);
+    // 电机获取 端口 RPM
+    ICM_S4S_motorGetRPM(args) {
+        return ICMB_read(`mainBoard.encoder_motor_get_rpm_speed(${args.CHOICE})`);
     }
-
     
     //################################氛围灯######################################
     //氛围灯
@@ -401,8 +469,6 @@ class LinkBotActuators {
         const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
         await ICMB_send(`ultr.set_color(255,${r},${g},${b})`)
     }
-
-    
 
   
 }

@@ -70,7 +70,7 @@ class LinkBot {
             }
         },
         {
-            opcode: 'ICM_S4S_MovRunSec',//双电机移动秒
+            opcode: 'ICM_S4S_MovRunSec',//双电机移动[]
             blockType: BlockType.COMMAND,
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_MovRunSec',
@@ -104,11 +104,11 @@ class LinkBot {
             blockIconURI:icon,
             arguments: {
                 P1: {
-                    type: ArgumentType.NUMRES0_100,
+                    type: ArgumentType.NUMRES_100_100,
                     defaultValue: 5
                 },
                 P2: {
-                    type: ArgumentType.NUMRES0_100,
+                    type: ArgumentType.NUMRES_100_100,
                     defaultValue: 5
                 },
             }
@@ -124,11 +124,11 @@ class LinkBot {
             blockIconURI:icon,
             arguments: {
                 P1: {
-                    type: ArgumentType.NUMRES0_100,
+                    type: ArgumentType.NUMRES_100_100,
                     defaultValue: 5
                 },
                 P2: {
-                    type: ArgumentType.NUMRES0_100,
+                    type: ArgumentType.NUMRES_100_100,
                     defaultValue: 5
                 },
                 NUM: {
@@ -222,28 +222,28 @@ class LinkBot {
                             id: 'robotmove.menuDir.forward',
                             default: 'forward',
                         }),
-                        value: '1'
+                        value: '0'
                     },
                     {
                         text: formatMessage({
                             id: 'robotmove.menuDir.backward',
                             default: 'backward',
                         }),
-                        value: '2'
+                        value: '1'
                     },
                     {
                         text: formatMessage({
                             id: 'robotmove.menuDir.turnleft',
                             default: 'left',
                         }),
-                        value: '3'
+                        value: '2'
                     },
                     {
                         text: formatMessage({
                             id: 'robotmove.menuDir.turnright',
                             default: 'right',
                         }),
-                        value: '4'
+                        value: '3'
                     }
                 ]
             },
@@ -255,21 +255,21 @@ class LinkBot {
                             id: 'LinkBot.choice_DCmotorType.seconds',
                             default: 'seconds',
                         }),
-                        value: '1'
+                        value: '0'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.rotations',
                             default: 'rotations',
                         }),
-                        value: '2'
+                        value: '1'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_MoveMode.cm',
                             default: 'cm',
                         }),
-                        value: '3'
+                        value: '2'
                     }
                 ]
             },
@@ -290,23 +290,23 @@ class LinkBot {
     }
     // 双电机移动指定秒数
     async ICM_S4S_MovRunSec(args) {
-        await ICMB_send(`encoder_motor_pair_run_time(${args.TYPE},${args.NUM})`)
+        await ICMB_send(`encoder_motor_pair_run_for(${args.TYPE},${args.NUM},${args.MODE})`)
+    }
+    // 双电机分别设置动力
+    async ICM_S4S_MovSetPow(args) {
+        await ICMB_send(`encoder_motor_pair_run_dynamic_speed(${args.P1},${args.P2})`)
+    }
+    // 双电机分别设置动力移动指定模式
+    async ICM_S4S_MovSetPowMode(args) {
+        await ICMB_send(`encoder_motor_pair_speed_run_for(${args.P1},${args.P2},${args.NUM},${args.MODE})`)
     }
     // 双电机停止
     async ICM_S4S_MovStop() {
         await ICMB_send(`encoder_motor_pair_stop()`)
     }
-    // 双电机统一设置动力
+    // 双电机统一设置动力(不移动)
     async ICM_S4S_MovSetPowAll(args) {
-        await ICMB_send(`encoder_motor_pair_set_speed(${args.NUM},${args.NUM})`)
-    }
-    // 双电机分别设置动力
-    async ICM_S4S_MovSetPow(args) {
-        await ICMB_send(`encoder_motor_pair_set_speed(${args.P1},${args.P2})`)
-    }
-    // 双电机分别设置动力移动指定模式
-    async ICM_S4S_MovSetPowMode(args) {
-        await ICMB_send(`encoder_motor_pair_set_speed(${args.P1},${args.P2})`)
+        await ICMB_send(`encoder_motor_pair_set_dynamic_speed(${args.NUM},${args.NUM})`)
     }
 
 }
