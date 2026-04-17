@@ -310,6 +310,22 @@ class MicrobitIcreate {
                 }
                 }
             },
+            {
+                opcode: 'ICM_acceleration',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.ICM_acceleration',
+                    default: 'acceleration [CHOICE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                CHOICE: {
+                    type: ArgumentType.STRING,
+                    menu: 'choice_acceleration'
+                }
+                }
+            },
 
             {
                 opcode: 'ICM_light',//亮度
@@ -370,16 +386,16 @@ class MicrobitIcreate {
             //     disableMonitor: true
             // },
            
-            {
-                opcode: 'ICM_compassHeading',//指南针朝向
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'MicrobitIcreate.ICM_compassHeading',
-                    default: 'compass heading(°)',
-                }),
-                disableMonitor: true
-            },
+            // {
+            //     opcode: 'ICM_compassHeading',//指南针朝向
+            //     blockType: BlockType.REPORTER,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'MicrobitIcreate.ICM_compassHeading',
+            //         default: 'compass heading(°)',
+            //     }),
+            //     disableMonitor: true
+            // },
             
 
             {
@@ -522,6 +538,20 @@ class MicrobitIcreate {
                 },
             },
 
+            {
+                opcode: 'ICM_radioRecive',//无线数据读取
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'MicrobitIcreate.ICM_radioRecive',
+                    default: 'receive data from microbit',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    
+                },
+            },
+
 
 
             {
@@ -541,27 +571,81 @@ class MicrobitIcreate {
                 }),
                 arguments: {
                     TEXT: {
-                        type: ArgumentType.STRING
+                        type: ArgumentType.STRING,
+                        defaultValue:'123'
                     },
                 },
             },
             {
                 opcode: 'ICM_uartRead',//串口读取
-                blockType: BlockType.BOOLEAN,
+                blockType: BlockType.REPORTER,
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'LinkBot.ICM_uartRead',
-                    default: 'serial read == [TEXT]',
+                    default: 'serial read string',
                 }),
                 disableMonitor: true,
                 arguments: {
-                    TEXT: {
-                        type: ArgumentType.STRING
+                    
+                },
+            },
+
+            {
+                opcode: 'ICM_uartReadUntil',//串口读取
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_uartReadUntil',
+                    default: 'serial read until [CHOICE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_ReadUntil'
                     },
                 },
             },
 
-            "---",
+
+            {
+                opcode: 'ICM_uartRedirect',//串口重定向
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_uartRedirect',
+                    default: 'serial redirect to TX[TX] RX[RX] at baud rate[CHOICE]',
+                }),
+                arguments: {
+                    TX: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_tx',
+                        defaultValue:'p0'
+                    },
+                    RX: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_tx',
+                        defaultValue:'p1'
+                    },
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_baudrate',
+                        defaultValue:'115200'
+                    },
+                },
+            },
+
+            {
+                opcode: 'ICM_uartRedirectUSB',//串口重定向为USB
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'LinkBot.ICM_uartRedirectUSB',
+                    default: 'serial redirect to USB',
+                }),
+                arguments: {
+                },
+            },
             
             
             
@@ -1300,7 +1384,70 @@ class MicrobitIcreate {
                                 description: 'MicrobitIcreate.choice_SpeakerOff.on'
                         }),
                     ]
-            }
+            },
+            choice_acceleration:{//加速度的选项
+                acceptReporters: false,
+                items: [
+                    'x',
+                    'y',
+                    'z',
+                    formatMessage({
+                        id: 'MicrobitIcreate.choice_acceleration.absolute',
+                        default: 'absolute',
+                        description: 'MicrobitIcreate.choice_acceleration.absolute'
+                    }),
+                    ]
+            },
+
+            choice_ReadUntil:{//串口读取数据直到
+                acceptReporters: false,
+                items: [
+                    'new line()',
+                    ',',
+                    '$',
+                    ':',
+                    '.',
+                    '#',
+                    'carriage return()',
+                    'space',
+                    'tab()',
+                    '|',
+                    ';'
+                    
+                    ]
+            },
+            choice_tx:{//串口读取数据直到
+                acceptReporters: false,
+                items: [
+                    'p0',
+                    'p1',
+                    'p2',
+                    'p8',
+                    'p12',
+                    'p13',
+                    'p14',
+                    'p15',
+                    'p16',
+                    'USB_TX',
+                    'USB_RX'
+                ]
+            },
+            choice_baudrate:{//串口读取数据直到
+                acceptReporters: false,
+                items: [
+                    '115200',
+                    '57600',
+                    '38400',
+                    '31250',
+                    '28800',
+                    '19200',
+                    '14400',
+                    '9600',
+                    '4800',
+                    '2400',
+                    '1200'
+                ]
+            },
         }
       };
     }
