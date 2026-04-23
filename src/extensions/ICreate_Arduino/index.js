@@ -2,7 +2,7 @@
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
-
+const arduinoSvg = require('./arduino.svg')
 
 class ArduinoS4S { 
     getInfo() {
@@ -15,474 +15,1229 @@ class ArduinoS4S {
         }), 
 
         blocks: [
+
             {
-                opcode: 'ICA_S4S_motorRun',//电机以速度运动
-                blockType: BlockType.COMMAND,
-                // text: '电机[CHOICE]速度[TEXT]',
+                blockType: BlockType.LABEL,
                 text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_motorRun',
-                    default: 'Motor [CHOICE] Speed [TEXT]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_motorRun'
+                    id: 'ArduinoS4S.display',
+                    default: 'Display',
+                }),
+            },
+            {
+                opcode: 'ICA_S4S_oledInit',//初始化oled
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_oledInit',
+                    default: 'OLED init',
+                    description: 'ArduinoS4S.ICA_S4S_oledInit'
                 }),
                 arguments: {
-                    CHOICE: {
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_clearOled',//清空显示屏
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_clearOled',
+                    default: 'clear screen',
+                    description: 'ArduinoS4S.ICA_S4S_clearOled'
+                }),
+                arguments: {
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_textSize',//设置显示文本大小
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_textSize',
+                    default: 'set text size [NUM]',
+                    description: 'ArduinoS4S.ICA_S4S_textSize'
+                }),
+                arguments: {
+                    NUM: {
                         type: ArgumentType.STRING,
-                        menu: 'choice_DCmotor'
-                    },
+                        defaultValue: 5
+                    }
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_setTextXY',//在指定位置显示文本
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_setTextXY',
+                    default: 'print [TEXT] at X [X] Y [Y]',
+                    description: 'ArduinoS4S.ICA_S4S_setTextXY'
+                }),
+                arguments: {
                     TEXT: {
-                        type: ArgumentType.NUMRES_1000_1000,
-                        defaultValue: 1000
+                        type: ArgumentType.STRING,
+                        defaultValue: 'ABC'
+                    },
+                    X: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
+                    },
+                    Y: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
                     }
                 }
             },
             {
-                opcode: 'ICA_S4S_motorPosition',//电机转动编码
+                opcode: 'ICA_S4S_drawLine',//画线
                 blockType: BlockType.COMMAND,
-                //text: '电机[CHOICE]编码值[TEXT]',
+                blockIconURI:arduinoSvg,
                 text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_motorPosition',
-                    default: 'Motor [CHOICE] Encoder Value [TEXT]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_motorPosition'
+                    id: 'ArduinoS4S.ICA_S4S_drawLine',
+                    default: 'draw line X1[X1] Y1[Y1],X2[X2] Y2[Y2]',
+                    description: 'ArduinoS4S.ICA_S4S_drawLine'
                 }),
                 arguments: {
-                    CHOICE: {
+                    X1: {
                         type: ArgumentType.STRING,
-                        menu: 'choice_DCmotor'
+                        defaultValue: 0
                     },
-                    TEXT: {
-                        type: ArgumentType.NUMBER,
-                        defaultValue: 100
+                    Y1: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
+                    },
+                    X2: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 1
+                    },
+                    Y2: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 1
+                    }
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_drawrectAngle',//画矩形
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_drawrectAngle',
+                    default: 'draw rectangle X[X] Y[Y],W[W] H[H]',
+                    description: 'ArduinoS4S.ICA_S4S_drawrectAngle'
+                }),
+                arguments: {
+                    X: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
+                    },
+                    Y: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
+                    },
+                    W: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 5
+                    },
+                    H: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 5
+                    }
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_drawCircle',//画圆
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_drawCircle',
+                    default: 'draw rectangle X[X] Y[Y],R[R]',
+                    description: 'ArduinoS4S.ICA_S4S_drawCircle'
+                }),
+                arguments: {
+                    X: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
+                    },
+                    Y: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 0
+                    },
+                    R: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 5
                     }
                 }
             },
             {
-                opcode: 'ICA_S4S_motorGetPosition',//获取电机编码
-                blockType: BlockType.REPORTER,
-                // text: '电机[CHOICE]编码值',
+                opcode: 'ICA_S4S_refresh',//刷新显示屏
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
                 text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_motorGetPosition',
-                    default: 'Motor [CHOICE] Encoder Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_motorGetPosition'
+                    id: 'ArduinoS4S.ICA_S4S_refresh',
+                    default: 'refresh',
+                    description: 'ArduinoS4S.ICA_S4S_refresh'
+                }),
+                arguments: {
+                }
+            },
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'ArduinoS4S.Sensors',
+                    default: 'Sensors',
+                }),
+            },
+
+            {
+                opcode: 'ICA_S4S_button',//按钮是否被按下
+                blockType: BlockType.BOOLEAN,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_button',
+                    default: '[CHOICE] button pressed?',
+                    description: 'ArduinoS4S.ICA_S4S_button'
                 }),
                 disableMonitor: true,
                 arguments: {
                     CHOICE: {
                         type: ArgumentType.STRING,
-                        menu: 'choice_DCmotor'
+                        menu: 'choice_button'
+                    },
+                    
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_sound',//声音大小
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_sound',
+                    default: 'sound level',
+                    description: 'ArduinoS4S.ICA_S4S_sound'
+                }),
+                disableMonitor: true,
+                arguments: {
+                   
+                    
+                }
+            },
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'ArduinoS4S.Microphone',
+                    default: 'Microphone',
+                }),
+            },
+
+            {
+                opcode: 'ICA_S4S_startRecording',//开始录音
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_startRecording',
+                    default: 'start recording for [NUM] seconds',
+                    description: 'ArduinoS4S.ICA_S4S_startRecording'
+                }),
+                arguments: {
+                    NUM: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 5
                     }
                 }
             },
 
-            "---",
+            {
+                opcode: 'ICA_S4S_playRecording',//播放录音
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_playRecording',
+                    default: 'play recording',
+                    description: 'ArduinoS4S.ICA_S4S_playRecording'
+                }),
+                arguments: {
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_stopPlayRecording',//停止播放录音
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_stopPlayRecording',
+                    default: 'stop play recording',
+                    description: 'ArduinoS4S.ICA_S4S_stopPlayRecording'
+                }),
+                arguments: {
+                }
+            },
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'ArduinoS4S.Speaker',
+                    default: 'Speaker',
+                }),
+            },
+
+            {
+                opcode: 'ICA_S4S_getAudioFile',//获取音频文件
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_getAudioFile',
+                    default: 'get audio file [TEXT] from sd card',
+                    description: 'ArduinoS4S.ICA_S4S_getAudioFile'
+                }),
+                arguments: {
+                    TEXT: {
+                        type: ArgumentType.STRING,
+                        defaultValue: ''
+                    }
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_setVolume',//设置播放声音大小
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_setVolume',
+                    default: 'set output volume to [NUM]',
+                    description: 'ArduinoS4S.ICA_S4S_setVolume'
+                }),
+                arguments: {
+                    NUM: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 5
+                    }
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_playAudio',//播放音频
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_playAudio',
+                    default: 'play audio',
+                    description: 'ArduinoS4S.ICA_S4S_playAudio'
+                }),
+                arguments: {
+                    
+                }
+            },
+            {
+                opcode: 'ICA_S4S_stopAudio',//停止播放音频
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_stopAudio',
+                    default: 'stop audio',
+                    description: 'ArduinoS4S.ICA_S4S_stopAudio'
+                }),
+                arguments: {
+                    
+                }
+            },
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'ArduinoS4S.Pins',
+                    default: 'Pins',
+                }),
+            },
+
+            {
+                opcode: 'ICA_S4S_setDigital',//设置数字引脚输出为高低电平
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_setDigital',
+                    default: 'set digital pin [PIN] output as [CHOICE]',
+                    description: 'ArduinoS4S.ICA_S4S_setDigital'
+                }),
+                arguments: {
+                    PIN: {
+                        type: ArgumentType.STRING,
+                        menu: 'DIGITAL_PIN'
+                    },
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'DIGITAL_HIGHLOW'
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_setPwm',//设置pwm引脚
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_setPwm',
+                    default: 'set pwm pin [PIN] output as [NUM]',
+                    description: 'ArduinoS4S.ICA_S4S_setPwm'
+                }),
+                arguments: {
+                    PIN: {
+                        type: ArgumentType.STRING,
+                        menu: 'PWM_PIN'
+                    },
+                    NUM: {
+                        type: ArgumentType.STRING,
+                        defaultValue:255
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readDigitalPin',//读取数字引脚
+                blockType: BlockType.BOOLEAN,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readDigitalPin',
+                    default: 'read status of digital pin [PIN]',
+                    description: 'ArduinoS4S.ICA_S4S_readDigitalPin'
+                }),
+                disableMonitor: true,
+                arguments: {
+                    PIN: {
+                        type: ArgumentType.STRING,
+                        menu: 'DIGITAL_PIN'
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readAnalogPin',//读取模拟引脚
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readAnalogPin',
+                    default: 'read analog pin [PIN]',
+                    description: 'ArduinoS4S.ICA_S4S_readAnalogPin'
+                }),
+                disableMonitor: true,
+                arguments: {
+                    PIN: {
+                        type: ArgumentType.STRING,
+                        menu: 'ANALOG_PIN'
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_setInputPull',//将所选引脚配置为输入模式
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_setInputPull',
+                    default: 'set pin [PIN] to input pull [CHOICE]',
+                    description: 'ArduinoS4S.ICA_S4S_setInputPull'
+                }),
+                arguments: {
+                    PIN: {
+                        type: ArgumentType.STRING,
+                        menu: 'DIGITAL_PIN'
+                    },
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'INPUT_PULL'
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readPulse',//测量所选引脚上高电平或低电平脉冲的持续时间
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readPulse',
+                    default: 'read pulse pin [CHOICE] timeout [NUM]',
+                    description: 'ArduinoS4S.ICA_S4S_readPulse'
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'DIGITAL_PIN'
+                    },
+                    NUM: {
+                        type: ArgumentType.STRING,
+                        defaultValue:2000
+                    },
+                }
+            },
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'ArduinoS4S.Timer',
+                    default: 'Timer',
+                }),
+            },
+
+            {
+                opcode: 'ICA_S4S_getTimer',//获取时间值
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_getTimer',
+                    default: 'Get timer value',
+                    description: 'ArduinoS4S.ICA_S4S_getTimer'
+                }),
+                disableMonitor: true,
+                arguments: {
+                  
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_resetTimer',//重置计时器
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_resetTimer',
+                    default: 'Reset timer',
+                    description: 'ArduinoS4S.ICA_S4S_resetTimer'
+                }),
+                arguments: {
+                  
+                }
+            },
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'ArduinoS4S.Serial',
+                    default: 'Serial',
+                }),
+            },
+
+            {
+                opcode: 'ICA_S4S_writeText',//写入文本
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_writeText',
+                    default: 'write [TEXT] to serial port',
+                    description: 'ArduinoS4S.ICA_S4S_writeText'
+                }),
+                arguments: {
+                    TEXT: {
+                        type: ArgumentType.STRING,
+                        defaultValue:'hello'
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readableBytes',//读取字节
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readableBytes',
+                    default: 'readable bytes from serial port',
+                    description: 'ArduinoS4S.ICA_S4S_readableBytes'
+                }),
+                disableMonitor: true,
+                arguments: {
+                  
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readByte',//串口读取单个字节
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readByte',
+                    default: 'read a byte from serial port',
+                    description: 'ArduinoS4S.ICA_S4S_readByte'
+                }),
+                disableMonitor: true,
+                arguments: {
+                  
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readString',//串口读取字符串
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readString',
+                    default: 'serial read string',
+                    description: 'ArduinoS4S.ICA_S4S_readString'
+                }),
+                disableMonitor: true,
+                arguments: {
+                  
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_readUntil',//读取数据直到满足条件
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_readUntil',
+                    default: 'serial read until [CHOICE]',
+                    description: 'ArduinoS4S.ICA_S4S_readUntil'
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'READ_UNTIL'
+                    },
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_setBaud',
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_setBaud',
+                    default: 'set serial baud rate to [CHOICE]',
+                    description: 'ArduinoS4S.ICA_S4S_setBaud'
+                }),
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu:'BAUD_RATE'
+                    },
+                }
+            },
+
+            // {
+            //     opcode: 'ICA_S4S_motorRun',//电机以速度运动
+            //     blockType: BlockType.COMMAND,
+            //     // text: '电机[CHOICE]速度[TEXT]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_motorRun',
+            //         default: 'Motor [CHOICE] Speed [TEXT]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_motorRun'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_DCmotor'
+            //         },
+            //         TEXT: {
+            //             type: ArgumentType.NUMRES_1000_1000,
+            //             defaultValue: 1000
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_motorPosition',//电机转动编码
+            //     blockType: BlockType.COMMAND,
+            //     //text: '电机[CHOICE]编码值[TEXT]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_motorPosition',
+            //         default: 'Motor [CHOICE] Encoder Value [TEXT]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_motorPosition'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_DCmotor'
+            //         },
+            //         TEXT: {
+            //             type: ArgumentType.NUMBER,
+            //             defaultValue: 100
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_motorGetPosition',//获取电机编码
+            //     blockType: BlockType.REPORTER,
+            //     // text: '电机[CHOICE]编码值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_motorGetPosition',
+            //         default: 'Motor [CHOICE] Encoder Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_motorGetPosition'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_DCmotor'
+            //         }
+            //     }
+            // },
+
+            // "---",
         
-            {
-                opcode: 'ICA_S4S_CarMove',//双电机控制
-                blockType: BlockType.COMMAND,
-                // text: '小车 速度[TEXT] [CHOICE]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_CarMove',
-                    default: 'Car Speed [TEXT] [CHOICE]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_CarMove'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.NUMRES_1000_1000,
-                        defaultValue: 1000
-                    },
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_MoveType'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_CarStop',//双电机停止
-                blockType: BlockType.COMMAND,
-                // text: '小车 停止运动',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_CarStop',
-                    default: 'Car Stop Moving',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_CarStop'
-                }),
-                disableMonitor: true
-            },
+            // {
+            //     opcode: 'ICA_S4S_CarMove',//双电机控制
+            //     blockType: BlockType.COMMAND,
+            //     // text: '小车 速度[TEXT] [CHOICE]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_CarMove',
+            //         default: 'Car Speed [TEXT] [CHOICE]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_CarMove'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         TEXT: {
+            //             type: ArgumentType.NUMRES_1000_1000,
+            //             defaultValue: 1000
+            //         },
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_MoveType'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_CarStop',//双电机停止
+            //     blockType: BlockType.COMMAND,
+            //     // text: '小车 停止运动',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_CarStop',
+            //         default: 'Car Stop Moving',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_CarStop'
+            //     }),
+            //     disableMonitor: true
+            // },
 
-            "---",
+            // "---",
 
-            {
-                opcode: 'ICA_S4S_servo',//舵机
-                blockType: BlockType.COMMAND,
-                // text: '舵机[CHOICE]角度[TEXT]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_servo',
-                    default: 'Servo [CHOICE] Angle [TEXT]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_servo'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_serverPin'
-                    },
-                    TEXT: {
-                        type: ArgumentType.NUMRES0_180,
-                        defaultValue: 90
-                    }
-                }
-            },
+            // {
+            //     opcode: 'ICA_S4S_servo',//舵机
+            //     blockType: BlockType.COMMAND,
+            //     // text: '舵机[CHOICE]角度[TEXT]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_servo',
+            //         default: 'Servo [CHOICE] Angle [TEXT]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_servo'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_serverPin'
+            //         },
+            //         TEXT: {
+            //             type: ArgumentType.NUMRES0_180,
+            //             defaultValue: 90
+            //         }
+            //     }
+            // },
 
-            "---",
+            // "---",
 
-            {
-                opcode: 'ICA_S4S_ambient',//设置氛围灯
-                blockType: BlockType.COMMAND,
-                // text: '氛围灯 亮度[CHOICE]颜色[COL]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_ambient',
-                    default: 'Ambient Light Brightness [CHOICE] Color [COL]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_ambient'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.NUMRES0_255,
-                        defaultValue: 255
-                    },
-                    COL: {
-                        type: ArgumentType.COLOR,
-                        defaultValue:'#ff0000'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_ambientOFF',//关闭氛围灯
-                blockType: BlockType.COMMAND,
-                // text: '氛围灯 关闭',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF',
-                    default: 'Ambient Light Off',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF'
-                })
-            },
+            // {
+            //     opcode: 'ICA_S4S_ambient',//设置氛围灯
+            //     blockType: BlockType.COMMAND,
+            //     // text: '氛围灯 亮度[CHOICE]颜色[COL]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_ambient',
+            //         default: 'Ambient Light Brightness [CHOICE] Color [COL]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_ambient'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.NUMRES0_255,
+            //             defaultValue: 255
+            //         },
+            //         COL: {
+            //             type: ArgumentType.COLOR,
+            //             defaultValue:'#ff0000'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_ambientOFF',//关闭氛围灯
+            //     blockType: BlockType.COMMAND,
+            //     // text: '氛围灯 关闭',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF',
+            //         default: 'Ambient Light Off',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_ambientOFF'
+            //     })
+            // },
 
-            "---",
+            // "---",
 
-            {
-                opcode: 'ICA_S4S_gyroOpen',//陀螺仪开启
-                blockType: BlockType.COMMAND,
-                // text: '陀螺仪 [CHOICE]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_gyroOpen',
-                    default: 'Gyroscope [CHOICE]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_gyroOpen'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_open'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_gyroXangle',//陀螺仪 翻滚角
-                blockType: BlockType.REPORTER,
-                // text: '陀螺仪 翻滚角数值',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_gyroXangle',
-                    default: 'Gyroscope Roll Angle Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_gyroXangle'
-                }),
-                disableMonitor: true
-            },
-            {
-                opcode: 'ICA_S4S_gyroYangle',//陀螺仪 俯仰角
-                blockType: BlockType.REPORTER,
-                // text: '陀螺仪 俯仰角数值',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_gyroYangle',
-                    default: 'Gyroscope Pitch Angle Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_gyroYangle'
-                }),
-                disableMonitor: true
-            },
-            {
-                opcode: 'ICA_S4S_acc',//陀螺仪 加速度
-                blockType: BlockType.REPORTER,
-                // text: '陀螺仪 [CHOICE]轴加速度值',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_acc',
-                    default: 'Gyroscope [CHOICE] Axis Acceleration Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_acc'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_RockerXY'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_gyro',//陀螺仪 角速度
-                blockType: BlockType.REPORTER,
-                // text: '陀螺仪 [CHOICE]轴角速度值',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_gyro',
-                    default: 'Gyroscope [CHOICE] Axis Angular Velocity Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_gyro'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_RockerXY'
-                    }
-                }
-            },
+            // {
+            //     opcode: 'ICA_S4S_gyroOpen',//陀螺仪开启
+            //     blockType: BlockType.COMMAND,
+            //     // text: '陀螺仪 [CHOICE]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_gyroOpen',
+            //         default: 'Gyroscope [CHOICE]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_gyroOpen'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_open'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_gyroXangle',//陀螺仪 翻滚角
+            //     blockType: BlockType.REPORTER,
+            //     // text: '陀螺仪 翻滚角数值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_gyroXangle',
+            //         default: 'Gyroscope Roll Angle Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_gyroXangle'
+            //     }),
+            //     disableMonitor: true
+            // },
+            // {
+            //     opcode: 'ICA_S4S_gyroYangle',//陀螺仪 俯仰角
+            //     blockType: BlockType.REPORTER,
+            //     // text: '陀螺仪 俯仰角数值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_gyroYangle',
+            //         default: 'Gyroscope Pitch Angle Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_gyroYangle'
+            //     }),
+            //     disableMonitor: true
+            // },
+            // {
+            //     opcode: 'ICA_S4S_acc',//陀螺仪 加速度
+            //     blockType: BlockType.REPORTER,
+            //     // text: '陀螺仪 [CHOICE]轴加速度值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_acc',
+            //         default: 'Gyroscope [CHOICE] Axis Acceleration Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_acc'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_RockerXY'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_gyro',//陀螺仪 角速度
+            //     blockType: BlockType.REPORTER,
+            //     // text: '陀螺仪 [CHOICE]轴角速度值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_gyro',
+            //         default: 'Gyroscope [CHOICE] Axis Angular Velocity Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_gyro'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_RockerXY'
+            //         }
+            //     }
+            // },
 
-            "---",
-            {
-                opcode: 'ICA_S4S_voice',//语音
-                blockType: BlockType.BOOLEAN,
-                // text: '语音模块 识别到[CHOICE]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_voice',
-                    default: 'Voice Module Recognized [CHOICE]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_voice'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_voice'
-                    }
-                }
-            },
+            // "---",
+            // {
+            //     opcode: 'ICA_S4S_voice',//语音
+            //     blockType: BlockType.BOOLEAN,
+            //     // text: '语音模块 识别到[CHOICE]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_voice',
+            //         default: 'Voice Module Recognized [CHOICE]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_voice'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_voice'
+            //         }
+            //     }
+            // },
 
-            "---",
+            // "---",
 
-            {
-                opcode: 'ICA_S4S_ultrGet',//超声波传感器
-                blockType: BlockType.REPORTER,
-                // text: '超声波传感器 距离值',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet',
-                    default: 'Ultrasonic Sensor Distance Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet'
-                }),
-                disableMonitor: true
-            },
-            {
-                opcode: 'ICA_S4S_ultrSet',//设置超声波传感器
-                blockType: BlockType.COMMAND,
-                // text: '超声波传感器 亮度[CHOICE]颜色[COL]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
-                    default: 'Ultrasonic Sensor Brightness [CHOICE] Color [COL]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.NUMRES0_255,
-                        defaultValue: 255
-                    },
-                    COL: {
-                        type: ArgumentType.COLOR,
-                        defaultValue:'#0000ff'
-                    }
-                }
-            },
+            // {
+            //     opcode: 'ICA_S4S_ultrGet',//超声波传感器
+            //     blockType: BlockType.REPORTER,
+            //     // text: '超声波传感器 距离值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet',
+            //         default: 'Ultrasonic Sensor Distance Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet'
+            //     }),
+            //     disableMonitor: true
+            // },
+            // {
+            //     opcode: 'ICA_S4S_ultrSet',//设置超声波传感器
+            //     blockType: BlockType.COMMAND,
+            //     // text: '超声波传感器 亮度[CHOICE]颜色[COL]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
+            //         default: 'Ultrasonic Sensor Brightness [CHOICE] Color [COL]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.NUMRES0_255,
+            //             defaultValue: 255
+            //         },
+            //         COL: {
+            //             type: ArgumentType.COLOR,
+            //             defaultValue:'#0000ff'
+            //         }
+            //     }
+            // },
 
-            "---",
+            // "---",
 
-            {
-                opcode: 'ICA_S4S_grayStudy',//灰度学习
-                blockType: BlockType.COMMAND,
-                // text: '巡线模块 灰度学习',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_grayStudy',
-                    default: 'Line Following Module Grayscale Learning',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_grayStudy'
-                })
-            },
-            {
-                opcode: 'ICA_S4S_binaryStudy',//二值学习
-                blockType: BlockType.COMMAND,
-                // text: '巡线模块 二值学习',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_binaryStudy',
-                    default: 'Line Following Module Binary Learning',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_binaryStudy'
-                })
-            },
-            {
-                opcode: 'ICA_S4S_colorStudy',//颜色学习
-                blockType: BlockType.COMMAND,
-                // text: '巡线模块 颜色学习[CHOICE]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_colorStudy',
-                    default: 'Line Following Module Color Learning [CHOICE]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_colorStudy'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_studyColor'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_colorClear',//清空颜色学习
-                blockType: BlockType.COMMAND,
-                // text: '巡线模块 清除颜色',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_colorClear',
-                    default: 'Line Following Module Clear Colors',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_colorClear'
-                })
-            },
-            {
-                opcode: 'ICA_S4S_grayGet',//巡线获取灰度值
-                blockType: BlockType.REPORTER,
-                // text: '巡线模块 探头[CHOICE]灰度值',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_grayGet',
-                    default: 'Line Following Module Probe [CHOICE] Grayscale Value',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_grayGet'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_gray'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_colorGet',//巡线获取颜色值
-                blockType: BlockType.BOOLEAN,
-                // text: '巡线模块 探头[CHOICE]识别到[CHOICE1]?',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_colorGet',
-                    default: 'Line Following Module Probe [CHOICE] Recognized [CHOICE1]?',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_colorGet'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_gray'
-                    },
-                    CHOICE1: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_studyColor'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_blackGet',//巡线获取黑线
-                blockType: BlockType.BOOLEAN,
-                // text: '巡线模块 探头[CHOICE]识别黑线?',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_blackGet',
-                    default: 'Line Following Module Probe [CHOICE] Detect Black Line?',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_blackGet'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_gray'
-                    }
-                }
-            },
+            // {
+            //     opcode: 'ICA_S4S_grayStudy',//灰度学习
+            //     blockType: BlockType.COMMAND,
+            //     // text: '巡线模块 灰度学习',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_grayStudy',
+            //         default: 'Line Following Module Grayscale Learning',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_grayStudy'
+            //     })
+            // },
+            // {
+            //     opcode: 'ICA_S4S_binaryStudy',//二值学习
+            //     blockType: BlockType.COMMAND,
+            //     // text: '巡线模块 二值学习',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_binaryStudy',
+            //         default: 'Line Following Module Binary Learning',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_binaryStudy'
+            //     })
+            // },
+            // {
+            //     opcode: 'ICA_S4S_colorStudy',//颜色学习
+            //     blockType: BlockType.COMMAND,
+            //     // text: '巡线模块 颜色学习[CHOICE]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_colorStudy',
+            //         default: 'Line Following Module Color Learning [CHOICE]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_colorStudy'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_studyColor'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_colorClear',//清空颜色学习
+            //     blockType: BlockType.COMMAND,
+            //     // text: '巡线模块 清除颜色',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_colorClear',
+            //         default: 'Line Following Module Clear Colors',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_colorClear'
+            //     })
+            // },
+            // {
+            //     opcode: 'ICA_S4S_grayGet',//巡线获取灰度值
+            //     blockType: BlockType.REPORTER,
+            //     // text: '巡线模块 探头[CHOICE]灰度值',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_grayGet',
+            //         default: 'Line Following Module Probe [CHOICE] Grayscale Value',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_grayGet'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_gray'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_colorGet',//巡线获取颜色值
+            //     blockType: BlockType.BOOLEAN,
+            //     // text: '巡线模块 探头[CHOICE]识别到[CHOICE1]?',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_colorGet',
+            //         default: 'Line Following Module Probe [CHOICE] Recognized [CHOICE1]?',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_colorGet'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_gray'
+            //         },
+            //         CHOICE1: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_studyColor'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_blackGet',//巡线获取黑线
+            //     blockType: BlockType.BOOLEAN,
+            //     // text: '巡线模块 探头[CHOICE]识别黑线?',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_blackGet',
+            //         default: 'Line Following Module Probe [CHOICE] Detect Black Line?',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_blackGet'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_gray'
+            //         }
+            //     }
+            // },
 
-            "---",
+            // "---",
 
-            {
-                opcode: 'ICA_S4S_rtcSetData',//时钟设置日期
-                blockType: BlockType.COMMAND,
-                // text: 'RTC 设置年[TEXT]月[TEXT1]日[TEXT2]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetData',
-                    default: 'RTC Set Year [TEXT] Month [TEXT1] Day [TEXT2]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetData'
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.NUMRES0_99,
-                        defaultValue: 26
-                    },
-                    TEXT1: {
-                        type: ArgumentType.NUMRES1_12,
-                        defaultValue: 1
-                    },
-                    TEXT2: {
-                        type: ArgumentType.NUMRES1_31,
-                        defaultValue: 1
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_rtcSetTime',//时钟设置时间
-                blockType: BlockType.COMMAND,
-                // text: 'RTC 设置时[TEXT]分[TEXT1]秒[TEXT2]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetTime',
-                    default: 'RTC Set Hour [TEXT] Minute [TEXT1] Second [TEXT2]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetTime'
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.NUMRES0_23,//0-23
-                        defaultValue: 0
-                    },
-                    TEXT1: {
-                        type: ArgumentType.NUMRES0_59,//0-59
-                        defaultValue: 0
-                    },
-                    TEXT2: {
-                        type: ArgumentType.NUMRES0_59,//0-59
-                        defaultValue: 0
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_rtcGetData',//获取日期
-                blockType: BlockType.REPORTER,
-                disableMonitor: true,
-                // text: 'RTC 获取[CHOICE]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetData',
-                    default: 'RTC Get [CHOICE]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetData'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_rtcData'
-                    }
-                }
-            },
-            {
-                opcode: 'ICA_S4S_rtcGetTime',//获取时间
-                blockType: BlockType.REPORTER,
-                disableMonitor: true,
-                // text: 'RTC 获取[CHOICE]',
-                text: formatMessage({
-                    id: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetTime',
-                    default: 'RTC Get [CHOICE]',
-                    description: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetTime'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_rtcTime'
-                    }
-                }
-            }
+            // {
+            //     opcode: 'ICA_S4S_rtcSetData',//时钟设置日期
+            //     blockType: BlockType.COMMAND,
+            //     // text: 'RTC 设置年[TEXT]月[TEXT1]日[TEXT2]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetData',
+            //         default: 'RTC Set Year [TEXT] Month [TEXT1] Day [TEXT2]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetData'
+            //     }),
+            //     arguments: {
+            //         TEXT: {
+            //             type: ArgumentType.NUMRES0_99,
+            //             defaultValue: 26
+            //         },
+            //         TEXT1: {
+            //             type: ArgumentType.NUMRES1_12,
+            //             defaultValue: 1
+            //         },
+            //         TEXT2: {
+            //             type: ArgumentType.NUMRES1_31,
+            //             defaultValue: 1
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_rtcSetTime',//时钟设置时间
+            //     blockType: BlockType.COMMAND,
+            //     // text: 'RTC 设置时[TEXT]分[TEXT1]秒[TEXT2]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetTime',
+            //         default: 'RTC Set Hour [TEXT] Minute [TEXT1] Second [TEXT2]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetTime'
+            //     }),
+            //     arguments: {
+            //         TEXT: {
+            //             type: ArgumentType.NUMRES0_23,//0-23
+            //             defaultValue: 0
+            //         },
+            //         TEXT1: {
+            //             type: ArgumentType.NUMRES0_59,//0-59
+            //             defaultValue: 0
+            //         },
+            //         TEXT2: {
+            //             type: ArgumentType.NUMRES0_59,//0-59
+            //             defaultValue: 0
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_rtcGetData',//获取日期
+            //     blockType: BlockType.REPORTER,
+            //     disableMonitor: true,
+            //     // text: 'RTC 获取[CHOICE]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetData',
+            //         default: 'RTC Get [CHOICE]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetData'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_rtcData'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'ICA_S4S_rtcGetTime',//获取时间
+            //     blockType: BlockType.REPORTER,
+            //     disableMonitor: true,
+            //     // text: 'RTC 获取[CHOICE]',
+            //     text: formatMessage({
+            //         id: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetTime',
+            //         default: 'RTC Get [CHOICE]',
+            //         description: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetTime'
+            //     }),
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'choice_rtcTime'
+            //         }
+            //     }
+            // }
         ],
 
         menus: {
+            choice_button: {//按钮选项
+                acceptReporters: false,
+                items: [
+                    { text: "A", value: '0' },
+                    { text: "B", value: '1' },
+                    { text: "A+B", value: '2' }
+                ]
+            },
+            DIGITAL_PIN: {//数字引脚
+                acceptReporters: false,
+                items: [
+                    { text: "A0", value: '0' },
+                    { text: "A1", value: '1' },
+                    { text: "A2", value: '2' },
+                    { text: "A3", value: '0' },
+                    { text: "A4", value: '1' },
+                    { text: "A5", value: '2' },
+                    { text: "D0", value: '0' },
+                    { text: "D1", value: '1' },
+                    { text: "D2", value: '2' },
+                    { text: "D3", value: '0' },
+                    { text: "D4", value: '1' },
+                    { text: "D5", value: '2' },
+                    { text: "D6", value: '0' },
+                    { text: "D7", value: '1' },
+                    { text: "D8", value: '2' },
+                    { text: "D9", value: '0' },
+                    { text: "D10", value: '1' },
+                    { text: "D11", value: '2' },
+                    { text: "D12", value: '1' },
+                    { text: "D13", value: '2' },
+                    { text: "P003", value: '1' },
+                    { text: "P004", value: '2' },
+                    { text: "P011", value: '1' },
+                    { text: "P012", value: '2' },
+                    { text: "P013", value: '2' },
+                    { text: "P015", value: '1' },
+                    { text: "P113", value: '2' },
+                    { text: "P204", value: '1' },
+                    { text: "P400", value: '2' },
+                    { text: "P401", value: '1' },
+                    { text: "P408", value: '2' },
+                ]
+            },
+            DIGITAL_HIGHLOW: {//高低电平*
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setDigital.DIGITAL_HIGHLOW.high',
+                            default: 'high',
+                            description: 'ArduinoS4S.ICA_S4S_setDigital.DIGITAL_HIGHLOW.high'
+                        }),
+                        value: '0' 
+                    },
+                    { 
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setDigital.DIGITAL_HIGHLOW.low',
+                            default: 'low',
+                            description: 'ArduinoS4S.ICA_S4S_setDigital.DIGITAL_HIGHLOW.low'
+                        }),
+                        value: '1'
+                    }
+                ]
+            },
+
+            PWM_PIN: {//PWM端口
+                acceptReporters: false,
+                items: [
+                    { text: "D3", value: 'D3' },
+                    { text: "D5", value: 'D5' },
+                    { text: "D6", value: 'D6' },
+                    { text: "D9", value: 'D9' },
+                    { text: "D10", value: 'D10' },
+                    { text: "D11", value: 'D11' }
+                ]
+            },
+            ANALOG_PIN: {//ANALOG端口
+                acceptReporters: false,
+                items: [
+                    { text: "A0", value: 'A1' },
+                    { text: "A1", value: 'A2' },
+                    { text: "A2", value: 'A3' },
+                    { text: "A3", value: 'A4' },
+                    { text: "A4", value: 'A5' },
+                    { text: "A5", value: 'A6' }
+                ]
+            },
+
+            INPUT_PULL: {//高低电平*
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.UP',
+                            default: 'UP',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.UP'
+                        }),
+                        value: '0' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.DOWN',
+                            default: 'DOWN',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.DOWN'
+                        }),
+                        value: '1' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.NONE',
+                            default: 'NONE',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.NONE'
+                        }),
+                        value: '2' 
+                    },
+                ]
+            },
+
+            READ_UNTIL:{//串口读取数据直到
+                acceptReporters: false,
+                items: [
+                    'new line()',
+                    ',',
+                    '$',
+                    ':',
+                    '.',
+                    '#',
+                    'carriage return()',
+                    'space',
+                    'tab()',
+                    '|',
+                    ';'
+                    
+                    ]
+            },
+            BAUD_RATE:{
+                acceptReporters: false,
+                items: [
+                    '115200',
+                    '57600',
+                    '38400',
+                    '31250',
+                    '28800',
+                    '19200',
+                    '14400',
+                    '9600',
+                    '4800',
+                    '2400',
+                    '1200'
+                ]
+            },
             choice_DCmotor: {//直流电机端口*
                 acceptReporters: false,
                 items: [
