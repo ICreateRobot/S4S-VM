@@ -13,6 +13,7 @@ class ArduinoS4S {
             default: 'Arduino',
             description: 'ArduinoS4S.name'
         }), 
+        menuIconURI: arduinoSvg, 
 
         blocks: [
 
