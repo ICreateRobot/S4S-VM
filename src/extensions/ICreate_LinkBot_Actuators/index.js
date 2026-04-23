@@ -40,6 +40,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorRunType',
                 default: '[CHOICE] run [DIVERSION] for [NUM] [TYPE]',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -66,6 +67,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorRunDiv',
                 default: '[CHOICE] start motor [DIVERSION] ',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -84,6 +86,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorStop',
                 default: '[CHOICE] stop motor',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -98,6 +101,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorSetSpeed',
                 default: '[CHOICE] set speed to [NUM]',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -117,6 +121,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorGetPos',
                 default: '[CHOICE] position',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -132,6 +137,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorGetSpeed',
                 default: '[CHOICE] speed',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -146,6 +152,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorSetPos',
                 default: '[CHOICE] set relative position to 0',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -194,6 +201,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorRunRPM',
                 default: '[CHOICE] start motor at [NUM] RPM',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -213,6 +221,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_motorGetRPM',
                 default: '[CHOICE] RPM',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -236,6 +245,7 @@ class LinkBotActuators {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_servo',
                 default: 'set servo [CHOICE] angle [TEXT]°',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -255,6 +265,7 @@ class LinkBotActuators {
                 id: 'LinkBot.ICM_S4S_servoRelease',
                 default: 'release servo [CHOICE]',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -269,6 +280,7 @@ class LinkBotActuators {
                 id: 'LinkBot.LinkBot_continuous_servo',
                 default: 'set continuous servo [CHOICE] speed [TEXT]',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -287,6 +299,7 @@ class LinkBotActuators {
                 id: 'LinkBot.LinkBot_continuous_servoStop',
                 default: 'stop continuous servo [CHOICE]',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -312,6 +325,7 @@ class LinkBotActuators {
                 default: 'set robot color to [COL]',
                 description: 'MicrobiteIcreateS4S.ICM_S4S_ambient'
             }),
+            blockIconURI:icon,
             arguments: {
                 COL: {
                     type: ArgumentType.COLOR,
@@ -327,6 +341,7 @@ class LinkBotActuators {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_ultrSet',
                 default: 'set eye color to [COL]',
             }),
+            blockIconURI:icon,
             arguments: {
                 COL: {
                     type: ArgumentType.COLOR,

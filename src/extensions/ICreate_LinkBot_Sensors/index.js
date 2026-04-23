@@ -39,6 +39,7 @@ class LinkBotSensors {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_ultrGet',
                 default: 'get distance in [TYPE]',
             }),
+            blockIconURI:icon,
             disableMonitor: true,
             arguments: {
                 TYPE: {
@@ -53,8 +54,9 @@ class LinkBotSensors {
             // text: '巡线模块 探头[CHOICE]识别黑线?',
             text: formatMessage({
                 id: 'LinkBot.ICM_S4S_ultrGetLog',
-                default: 'distance value [CHOICE] [NUM] [TYPE]',
+                default: 'is distance [CHOICE] [NUM] [TYPE]',
             }),
+            blockIconURI:icon,
             disableMonitor: true,
             arguments: {
                 CHOICE: {
@@ -131,6 +133,7 @@ class LinkBotSensors {
                 id: 'LinkBot.ICM_S4S_setMode',
                 default: 'set mode to [CHOICE] learning',
             }),
+            blockIconURI:icon,
             arguments: {
                 CHOICE: {
                     type: ArgumentType.STRING,
@@ -146,6 +149,7 @@ class LinkBotSensors {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_grayGet',
                 default: 'get grayscale value from [CHOICE]',
             }),
+            blockIconURI:icon,
             disableMonitor: true,
             arguments: {
                 CHOICE: {
@@ -162,6 +166,7 @@ class LinkBotSensors {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_colorGet',
                 default: 'did [CHOICE] recognize [CHOICE1]?',
             }),
+            blockIconURI:icon,
             disableMonitor: true,
             arguments: {
                 CHOICE: {
@@ -182,6 +187,7 @@ class LinkBotSensors {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_blackGet',
                 default: 'did [CHOICE] detect black line?',
             }),
+            blockIconURI:icon,
             disableMonitor: true,
             arguments: {
                 CHOICE: {
@@ -313,6 +319,7 @@ class LinkBotSensors {
                 id: 'MicrobiteIcreateS4S.ICM_S4S_voice',
                 default: 'recognized [CHOICE]',
             }),
+            blockIconURI:icon,
             disableMonitor: true,
             arguments: {
                 CHOICE: {
@@ -334,6 +341,7 @@ class LinkBotSensors {
             opcode: 'ICM_S4S_rtcSetData',//时钟设置日期
             blockType: BlockType.COMMAND,
             // text: 'RTC 设置年[TEXT]月[TEXT1]日[TEXT2]',
+            blockIconURI:icon,
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetData',
                 default: 'RTC set year [TEXT] month [TEXT1] day [TEXT2]',
@@ -357,6 +365,7 @@ class LinkBotSensors {
             opcode: 'ICM_S4S_rtcSetTime',//时钟设置时间
             blockType: BlockType.COMMAND,
             // text: 'RTC 设置时[TEXT]分[TEXT1]秒[TEXT2]',
+            blockIconURI:icon,
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_rtcSetTime',
                 default: 'RTC set hour [TEXT] minute [TEXT1] second [TEXT2]',
@@ -381,6 +390,7 @@ class LinkBotSensors {
             blockType: BlockType.REPORTER,
             disableMonitor: true,
             // text: 'RTC 获取[CHOICE]',
+            blockIconURI:icon,
             text: formatMessage({
                 id: 'MicrobiteIcreateS4S.ICM_S4S_rtcGetData',
                 default: 'RTC get [CHOICE]',

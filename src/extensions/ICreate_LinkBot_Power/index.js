@@ -29,9 +29,10 @@ class LinkBotPower {
                 opcode: 'Linkbot_power',//电池电量
                 blockType: BlockType.REPORTER,
                 disableMonitor: true,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Linkbot.Linkbot_power',
-                    default: 'read the power of the battery',
+                    default: 'read the power of the battery level',
                 }),
             },
 
@@ -39,9 +40,10 @@ class LinkBotPower {
                 opcode: 'Linkbot_power_external',//电池外部
                 blockType: BlockType.REPORTER,
                 disableMonitor: true,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Linkbot.Linkbot_power_external',
-                    default: 'read the voltage of the external battery',
+                    default: 'read the external battery voltage',
                 }),
             },
         
