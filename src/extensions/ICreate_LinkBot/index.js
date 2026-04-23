@@ -105,7 +105,7 @@ class LinkBot {
             arguments: {
                 P1: {
                     type: ArgumentType.NUMRES_100_100,
-                    defaultValue: 5
+                    defaultValue: -5
                 },
                 P2: {
                     type: ArgumentType.NUMRES_100_100,
@@ -125,7 +125,7 @@ class LinkBot {
             arguments: {
                 P1: {
                     type: ArgumentType.NUMRES_100_100,
-                    defaultValue: 5
+                    defaultValue: -5
                 },
                 P2: {
                     type: ArgumentType.NUMRES_100_100,
