@@ -745,51 +745,51 @@ class ScriptTreeGenerator {
                 whenTrue: this.descendSubstack(block, 'SUBSTACK'),
                 whenFalse: []
             };
-        // case 'control_if_else':
-        //     return {
-        //         kind: 'control.if',
-        //         condition: this.descendInputOfBlock(block, 'CONDITION'),
-        //         whenTrue: this.descendSubstack(block, 'SUBSTACK'),
-        //         whenFalse: this.descendSubstack(block, 'SUBSTACK2')
-        //     };
-        case 'control_if_else': {
-            const condition = this.descendInputOfBlock(block, 'CONDITION');
-            const whenTrue = this.descendSubstack(block, 'SUBSTACK');
-
-            // 默认 else
-            let elseBranch = this.descendSubstack(block, 'SUBSTACK2');
-
-            // 找所有 elseif
-            const elseifInputs = Object.keys(block.inputs)
-                .filter(name => name.startsWith('ELSEIF_CONDITION'))
-                .sort((a, b) => {
-                    const ai = parseInt(a.replace('ELSEIF_CONDITION',''));
-                    const bi = parseInt(b.replace('ELSEIF_CONDITION',''));
-                    return ai - bi;
-                });
-
-            // 倒序构建嵌套 if
-            for (let i = elseifInputs.length - 1; i >= 0; i--) {
-                const index = elseifInputs[i].replace('ELSEIF_CONDITION','');
-                const cond = this.descendInputOfBlock(block, `ELSEIF_CONDITION${index}`);
-                const stack = this.descendSubstack(block, `ELSEIF_SUBSTACK${index}`);
-
-                elseBranch = [{
-                    kind: 'control.if',
-                    condition: cond,
-                    whenTrue: stack,
-                    whenFalse: elseBranch
-                }];
-            }
-
-            const result = {
+        case 'control_if_else':
+            return {
                 kind: 'control.if',
-                condition: condition,
-                whenTrue: whenTrue,
-                whenFalse: elseBranch
+                condition: this.descendInputOfBlock(block, 'CONDITION'),
+                whenTrue: this.descendSubstack(block, 'SUBSTACK'),
+                whenFalse: this.descendSubstack(block, 'SUBSTACK2')
             };
-            return result;
-        };
+        // case 'control_if_else': {
+        //     const condition = this.descendInputOfBlock(block, 'CONDITION');
+        //     const whenTrue = this.descendSubstack(block, 'SUBSTACK');
+
+        //     // 默认 else
+        //     let elseBranch = this.descendSubstack(block, 'SUBSTACK2');
+
+        //     // 找所有 elseif
+        //     const elseifInputs = Object.keys(block.inputs)
+        //         .filter(name => name.startsWith('ELSEIF_CONDITION'))
+        //         .sort((a, b) => {
+        //             const ai = parseInt(a.replace('ELSEIF_CONDITION',''));
+        //             const bi = parseInt(b.replace('ELSEIF_CONDITION',''));
+        //             return ai - bi;
+        //         });
+
+        //     // 倒序构建嵌套 if
+        //     for (let i = elseifInputs.length - 1; i >= 0; i--) {
+        //         const index = elseifInputs[i].replace('ELSEIF_CONDITION','');
+        //         const cond = this.descendInputOfBlock(block, `ELSEIF_CONDITION${index}`);
+        //         const stack = this.descendSubstack(block, `ELSEIF_SUBSTACK${index}`);
+
+        //         elseBranch = [{
+        //             kind: 'control.if',
+        //             condition: cond,
+        //             whenTrue: stack,
+        //             whenFalse: elseBranch
+        //         }];
+        //     }
+
+        //     const result = {
+        //         kind: 'control.if',
+        //         condition: condition,
+        //         whenTrue: whenTrue,
+        //         whenFalse: elseBranch
+        //     };
+        //     return result;
+        // };
 
 case 'control_for_loop':
 
