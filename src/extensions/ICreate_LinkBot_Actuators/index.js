@@ -379,29 +379,29 @@ class LinkBotActuators {
                             id: 'LinkBot.choice_DCmotorType.rotations',
                             default: 'rotations'
                         }),
-                        value: '1'
+                        value: 'MOTOR_MOVE_STATE_ROTATIONS'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.degrees',
                             default: 'degrees'
                         }),
-                        value: '3'
+                        value: 'MOTOR_MOVE_STATE_DEGREES'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.seconds',
                             default: 'seconds'
                         }),
-                        value: '0'
+                        value: 'MOTOR_MOVE_STATE_SECONDS'
                     },
                 ]
             },
             choice_DCmotorDIVERSION: { // 直流电机转向
                 acceptReporters: false,
                 items: [
-                    { text: '↻', value: '1' },
-                    { text: '↺', value: '0' }
+                    { text: '↻', value: 'MOTOR_DIRECTION_FORWARD' },
+                    { text: '↺', value: 'MOTOR_DIRECTION_BACKWARD' }
                 ]
             }
         }
@@ -411,49 +411,229 @@ class LinkBotActuators {
     //################################舵机######################################
     //控制舵机
     async ICM_S4S_servo(args){
-        await ICMB_send(`mainBoard.servo_set_angle(${args.CHOICE},${args.TEXT})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`servo.set_angle(${Number(args.CHOICE)},${Number(args.TEXT)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.servo_set_angle(${args.CHOICE},${args.TEXT})`)
     }
     //释放舵机
     async ICM_S4S_servoRelease(args){
-        await ICMB_send(`mainBoard.servo_release(${args.CHOICE})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`servo.release(${Number(args.CHOICE)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.servo_release(${args.CHOICE})`)
     }
     //连续舵机
     async LinkBot_continuous_servo(args){
-        await ICMB_send(`mainBoard.continuous_servo_set_speed(${args.CHOICE},${args.TEXT})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`servo.set_speed(${Number(args.CHOICE)},${Number(args.TEXT)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.continuous_servo_set_speed(${args.CHOICE},${args.TEXT})`)
     }
     //连续舵机停止
     async LinkBot_continuous_servoStop(args){
-        await ICMB_send(`mainBoard.continuous_servo_set_speed(${args.CHOICE},0)`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`servo.stop(${Number(args.CHOICE)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.continuous_servo_set_speed(${args.CHOICE},0)`)
     }
 
     //################################dc电机######################################
     //电机 端口 转向 NUM 类型
     async ICM_S4S_motorRunType(args){
-        await ICMB_send(`encoder_motor_run_3state(${args.CHOICE},${args.DIVERSION},${args.NUM},${args.TYPE})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.run_for(${Number(args.CHOICE)},${args.DIVERSION},${Number(args.NUM)},${args.TYPE})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`encoder_motor_run_3state(${args.CHOICE},${args.DIVERSION},${args.NUM},${args.TYPE})`)
     }
     //电机 端口 转向 
     async ICM_S4S_motorRunDiv(args){
-        await ICMB_send(`encoder_motor_run(${args.CHOICE},${args.DIVERSION})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.start(${Number(args.CHOICE)},${args.DIVERSION})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`encoder_motor_run(${args.CHOICE},${args.DIVERSION})`)
     }
     //电机停止 端口 
     async ICM_S4S_motorStop(args){
-        await ICMB_send(`encoder_motor_stop(${args.CHOICE})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.stop(${Number(args.CHOICE)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`encoder_motor_stop(${args.CHOICE})`)
     }
     //电机设置 端口 速度
     async ICM_S4S_motorSetSpeed(args){
-        await ICMB_send(`encoder_motor_set_dynamic_speed(${args.CHOICE},${args.NUM})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.set_speed(${Number(args.CHOICE)},${Number(args.NUM)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`encoder_motor_set_dynamic_speed(${args.CHOICE},${args.NUM})`)
     }
     // 电机获取 位置
-    ICM_S4S_motorGetPos(args) {
-        return ICMB_read(`encoder_motor_get_angle(${args.CHOICE})`);
+    async ICM_S4S_motorGetPos(args) {
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.position(${Number(args.CHOICE)})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        
+        
+        // return ICMB_read(`encoder_motor_get_angle(${args.CHOICE})`);
     }
     // 电机获取 速度
     ICM_S4S_motorGetSpeed(args) {
-        return ICMB_read(`encoder_motor_get_dynamic_speed(${args.CHOICE})`);
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.speed(${Number(args.CHOICE)})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`encoder_motor_get_dynamic_speed(${args.CHOICE})`);
     }
     // 电机设置 端口 相对位置为 0
     async ICM_S4S_motorSetPos(args) {
-        await ICMB_send(`encoder_motor_reset_angle(${args.CHOICE})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.reset_position(${Number(args.CHOICE)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`encoder_motor_reset_angle(${args.CHOICE})`)
     }
     // // 电机 端口 动力
     // async ICM_S4S_motorRunPower(args) {
@@ -465,24 +645,91 @@ class LinkBotActuators {
     // }
     // 电机 端口 RPM
     async ICM_S4S_motorRunRPM(args) {
-        await ICMB_send(`encoder_motor_start_rpm_speed(${args.CHOICE},${args.NUM})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.start_rpm(${Number(args.CHOICE)},${Number(args.NUM)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`encoder_motor_start_rpm_speed(${args.CHOICE},${args.NUM})`)
     }
     // 电机获取 端口 RPM
     ICM_S4S_motorGetRPM(args) {
-        return ICMB_read(`mainBoard.encoder_motor_get_rpm_speed(${args.CHOICE})`);
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`motors.rpm(${Number(args.CHOICE)})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`mainBoard.encoder_motor_get_rpm_speed(${args.CHOICE})`);
     }
     
     //################################氛围灯######################################
     //氛围灯
     async ICM_S4S_ambient(args){
         const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
-        await ICMB_send(`mainBoard.ambient_light_set_state(255,(${r},${g},${b}))`)
+
+
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`light.set_color(${r},${g},${b})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.ambient_light_set_state(255,(${r},${g},${b}))`)
     }
 
     //超声波灯
     async ICM_S4S_ultrSet(args){
         const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
-        await ICMB_send(`ultr.set_color(255,${r},${g},${b})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`ultrasonic.set_eye_color(${r},${g},${b})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`ultr.set_color(255,${r},${g},${b})`)
     }
 
   
@@ -528,5 +775,23 @@ async function ICMB_read(str){
     }
 }
 
+function showToast(message) {
+    const toast = document.createElement('div');
+    Object.assign(toast.style, {
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#333',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '4px',
+        zIndex: '1001',
+        animation: 'fadeInOut 3s'
+    });
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
 
 module.exports = LinkBotActuators;

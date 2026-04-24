@@ -8,6 +8,13 @@ class LinkBotSensors {
     
     constructor(runtime) {
         this.runtime = runtime;
+        this.operators = {
+            '<':  (a, b) => a < b,
+            '>':  (a, b) => a > b,
+            '==': (a, b) => a == b,
+            '<=': (a, b) => a <= b,
+            '>=': (a, b) => a >= b
+        };
     }
 
     getInfo() {
@@ -431,21 +438,21 @@ class LinkBotSensors {
                             id: 'LinkBot.choice_MoveMode.cm',
                             default: 'cm',
                         }),
-                        value: '0'
+                        value: 'CM'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_ultrType.m',
                             default: 'm',
                         }),
-                        value: '1'
+                        value: 'M'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_ultrType.in',
                             default: 'in',
                         }),
-                        value: '2'
+                        value: 'INCH'
                     },
                 ]
             },
@@ -595,49 +602,65 @@ class LinkBotSensors {
                             id: 'MicrobiteIcreateP.choiceLightRingColor.grayscale',
                             default: 'grayscale',
                         }),
-                        value: 'gray'
+                        value: 'GRAY'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.black',
                             default: 'Black',
                         }),
-                        value: '1'
+                        value: 'BLACK'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.red',
                             default: 'Red',
                         }),
-                        value: '2'
+                        value: 'RED'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
+                            default: 'Orange',
+                            description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
+                        }),
+                        value: 'ORANGE'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.yellow',
                             default: 'Yellow',
                         }),
-                        value: '4'
+                        value: 'YELLOW'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.green',
                             default: 'Green',
                         }),
-                        value: '5'
+                        value: 'GREEN'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
+                            default: 'Cyan',
+                            description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
+                        }),
+                        value: 'CYAN'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.blue',
                             default: 'Blue',
                         }),
-                        value: '7'
+                        value: 'BLUE'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.purple',
                             default: 'Purple',
                         }),
-                        value: '8'
+                        value: 'PURPLE'
                     }
                 ]
             },
@@ -667,23 +690,23 @@ class LinkBotSensors {
                             default: 'Red',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.red'
                         }),
-                        value: '2'
+                        value: 'RED'
                     },
-                    // {
-                    //     text: formatMessage({
-                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
-                    //         default: 'Orange',
-                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
-                    //     }),
-                    //     value: '3'
-                    // },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
+                            default: 'Orange',
+                            description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
+                        }),
+                        value: 'ORANGE'
+                    },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.yellow',
                             default: 'Yellow',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.yellow'
                         }),
-                        value: '4'
+                        value: 'YELLOW'
                     },
                     {
                         text: formatMessage({
@@ -691,23 +714,23 @@ class LinkBotSensors {
                             default: 'Green',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.green'
                         }),
-                        value: '5'
+                        value: 'GREEN'
                     },
-                    // {
-                    //     text: formatMessage({
-                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
-                    //         default: 'Cyan',
-                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
-                    //     }),
-                    //     value: '6'
-                    // },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
+                            default: 'Cyan',
+                            description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
+                        }),
+                        value: 'CYAN'
+                    },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.blue',
                             default: 'Blue',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.blue'
                         }),
-                        value: '7'
+                        value: 'BLUE'
                     },
                     {
                         text: formatMessage({
@@ -715,7 +738,7 @@ class LinkBotSensors {
                             default: 'Purple',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.purple'
                         }),
-                        value: '8'
+                        value: 'PURPLE'
                     }
                 ]
             },
@@ -740,10 +763,10 @@ class LinkBotSensors {
             
             choice_gray: {//灰度传感器探头
                 acceptReporters: false,
-                items: [ { text: "L1", value: '0' },
-                    { text: "L2", value: '1' },
-                    { text: "L3", value: '2' },
-                    { text: "L4", value: '3' },
+                items: [ { text: "L2", value: 'PROBE_L2' },
+                    { text: "L1", value: 'PROBE_L1' },
+                    { text: "R1", value: 'PROBE_R1' },
+                    { text: "R2", value: 'PROBE_R2' },
                 ]
             },
             choice_rtcData:{
@@ -823,13 +846,13 @@ class LinkBotSensors {
                         }),
                         value: '1'
                     },
-                    {
-                        text: formatMessage({
-                            id: 'MicrobiteIcreateS4S.week',
-                            default: 'week',
-                        }),
-                        value: '3'
-                    },
+                    // {
+                    //     text: formatMessage({
+                    //         id: 'MicrobiteIcreateS4S.week',
+                    //         default: 'week',
+                    //     }),
+                    //     value: '3'
+                    // },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateS4S.day',
@@ -909,17 +932,70 @@ class LinkBotSensors {
      //################################语音######################################
     //语音模块
     ICM_S4S_voice(args){
-        return ICMB_read(`mainBoard.voice_get_state()==${args.CHOICE}`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`voice.recognized()`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`mainBoard.voice_get_state()==${args.CHOICE}`)
     }
     
     //################################超声波######################################
     //超声波
     ICM_S4S_ultrGet(args){
-        return ICMB_read(`ultr.get_distance(${args.TYPE})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`ultrasonic.get_distance(${args.TYPE})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`ultr.get_distance(${args.TYPE})`)
     }
      //超声波判断
     ICM_S4S_ultrGetLog(args){
-        return ICMB_read(`ultr.get_distance(${args.TYPE})${args.CHOICE}${args.NUM}`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`ultrasonic.get_distance(${args.TYPE})`
+            let distance=ICMB_read(code)
+            
+            return this.operators[args.CHOICE](distance, args.NUM) 
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`ultr.get_distance(${args.TYPE})${args.CHOICE}${args.NUM}`)
     }
 
    
@@ -947,48 +1023,166 @@ class LinkBotSensors {
 
     //学习（灰度单独处理）
     async ICM_S4S_setMode(args){
-        let code = `gray.color_study(${args.CHOICE})`;
-        if(args.CHOICE == "gray"){
-            code = "gray.gray_study()"
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`line_sensor.learn(${args.CHOICE})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
         }
-        await ICMB_send(code)
+        // let code = `gray.color_study(${args.CHOICE})`;
+        // if(args.CHOICE == "gray"){
+        //     code = "gray.gray_study()"
+        // }
+        // await ICMB_send(code)
     }
 
     //巡线获取灰度值
     ICM_S4S_grayGet(args){
-        return ICMB_read(`gray.gray(${args.CHOICE})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`line_sensor.gray(${args.CHOICE})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`gray.gray(${args.CHOICE})`)
     }
 
     //巡线获取颜色
     ICM_S4S_colorGet(args){
-        return ICMB_read(`gray.color(${args.CHOICE}) == ${args.CHOICE1}`)
+
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`gray.color(${args.CHOICE}) == ${args.CHOICE1}`)
     }
 
     //巡线获取黑线
     ICM_S4S_blackGet(args){
-        return ICMB_read(`gray.black(${args.CHOICE}) == 1`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`line_sensor.line(${args.CHOICE})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`gray.black(${args.CHOICE}) == 1`)
     }
 
     //################################RTC######################################
     //时钟设置日期
     async ICM_S4S_rtcSetData(args){
-        await ICMB_send(`mainBoard.rtc_set_date(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.rtc_set_date(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
     }
 
     //时钟设置时间
     async ICM_S4S_rtcSetTime(args){
-        await ICMB_send(`mainBoard.rtc_set_time(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            await ICMB_send(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            await ICMB_send(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }
+        // await ICMB_send(`mainBoard.rtc_set_time(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
     }
 
     // 获取日期/时间
     ICM_S4S_rtcGetData(args) {
-        const choice = parseInt(args.CHOICE);
+        // const choice = parseInt(args.CHOICE);
         
-        if (choice <= 3) {
-            return ICMB_read(`mainBoard.rtc_get_date(${choice})`);
-        } else {
-            const timeIndex = choice - 4;
-            return ICMB_read(`mainBoard.rtc_get_time(${timeIndex})`);
+        // if (choice <= 3) {
+        //     return ICMB_read(`mainBoard.rtc_get_date(${choice})`);
+        // } else {
+        //     const timeIndex = choice - 4;
+        //     return ICMB_read(`mainBoard.rtc_get_time(${timeIndex})`);
+        // }
+
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`rtc.get(${Number(args.CHOICE)})`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
         }
     }
 
@@ -1037,6 +1231,25 @@ async function ICMB_read(str){
         console.error('[读取异常]', e);
         return null;
     }
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    Object.assign(toast.style, {
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#333',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '4px',
+        zIndex: '1001',
+        animation: 'fadeInOut 3s'
+    });
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
 }
 
 

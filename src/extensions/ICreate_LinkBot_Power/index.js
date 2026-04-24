@@ -55,12 +55,46 @@ class LinkBotPower {
 
     //电池
     Linkbot_power(args){
-        return ICMB_read(`mainBoard.power_get_internal_battery_level()`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`power.battery()`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`mainBoard.power_get_internal_battery_level()`)
     }
 
     //电池外部
     Linkbot_power_external(args){
-        return ICMB_read(`mainBoard.power_get_external_battery_voltage()`)
+        let code=""
+        if(this.runtime.currentDevice=='Microbit'){
+            code=`power.voltage()`
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Arduino'){
+            code=``
+            return ICMB_read(code)
+        }else if(this.runtime.currentDevice=='Esp32'){
+            code=``
+            return ICMB_read(code)
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        }
+        // return ICMB_read(`mainBoard.power_get_external_battery_voltage()`)
     }
 }
 
@@ -102,4 +136,22 @@ async function ICMB_read(str){
     }
 }
 
+function showToast(message) {
+    const toast = document.createElement('div');
+    Object.assign(toast.style, {
+        position: 'fixed',
+        top: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: '#333',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '4px',
+        zIndex: '1001',
+        animation: 'fadeInOut 3s'
+    });
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
 module.exports = LinkBotPower;
