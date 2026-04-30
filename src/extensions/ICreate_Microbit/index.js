@@ -6,30 +6,28 @@ const icon = require('./microbit.png');
 
 class MicrobitIcreate { 
 
-    // constructor(runtime){
-    //     this.runtime=runtime
+    constructor(runtime){
+        this.runtime=runtime
 
-    //     this.mode=true
-    //     this.channelMode=new BroadcastChannel('mode')
-    //     this.channelMode.addEventListener('message',(event)=>{
-    //         this.mode=event.data
-    //         currentMode.setMode(event.data)
-    //     })
-    // }
+        console.log(this.runtime)
+        this.runtime.on('VM_UPDATE_MODE', this.updateMode.bind(this));
+        // this.mode=true
+        // this.channelMode=new BroadcastChannel('mode')
+        // this.channelMode.addEventListener('message',(event)=>{
+        //     this.mode=event.data
+        //     currentMode.setMode(event.data)
+        // })
+        this.mode=this.runtime.runMode
+    }
+    updateMode(obj){
+        console.log(obj)
+        this.mode=obj
+        setTimeout(() => {
+            this.runtime.extensionManager.refreshBlocks();
+        }, 10);
+    }
     getInfo() {
-      return {
-        id: 'MicrobitIcreate',
-        name: formatMessage({
-            id: 'MicrobitIcreate.name',
-            default: 'Micro:bit',
-            description: 'MicrobitIcreate.name'
-        }), 
-        color1: '#0da57a',  
-        color2: '#0b8d68', 
-        color3: '#097556',  
-        menuIconURI: icon, 
-
-        blocks: [
+        const blocks= [
             {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
@@ -470,7 +468,7 @@ class MicrobitIcreate {
                         menu: 'choice_PIN'
                     },
                     TEXT: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMBER,
                         menu: 'choice_PinLevel'
                     },
                 },
@@ -552,103 +550,6 @@ class MicrobitIcreate {
                 },
             },
 
-
-
-            {
-                blockType: BlockType.LABEL,
-                text: formatMessage({
-                    id: 'MicrobitIcreate.labelSerial',
-                    default: 'Serial',
-                }),
-            },
-            {
-                opcode: 'ICM_uartWrite',//串口写入
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_uartWrite',
-                    default: 'serial write [TEXT]',
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.STRING,
-                        defaultValue:'123'
-                    },
-                },
-            },
-            {
-                opcode: 'ICM_uartRead',//串口读取
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_uartRead',
-                    default: 'serial read string',
-                }),
-                disableMonitor: true,
-                arguments: {
-                    
-                },
-            },
-
-            {
-                opcode: 'ICM_uartReadUntil',//串口读取
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_uartReadUntil',
-                    default: 'serial read until [CHOICE]',
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_ReadUntil'
-                    },
-                },
-            },
-
-
-            {
-                opcode: 'ICM_uartRedirect',//串口重定向
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_uartRedirect',
-                    default: 'serial redirect to TX[TX] RX[RX] at baud rate[CHOICE]',
-                }),
-                arguments: {
-                    TX: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_tx',
-                        defaultValue:'p0'
-                    },
-                    RX: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_tx',
-                        defaultValue:'p1'
-                    },
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'choice_baudrate',
-                        defaultValue:'115200'
-                    },
-                },
-            },
-
-            {
-                opcode: 'ICM_uartRedirectUSB',//串口重定向为USB
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'LinkBot.ICM_uartRedirectUSB',
-                    default: 'serial redirect to USB',
-                }),
-                arguments: {
-                },
-            },
-            
-            
-            
             
             // {
             //     opcode: 'ICM_compassCalibrate',
@@ -815,7 +716,116 @@ class MicrobitIcreate {
             //     }
             //     }
             // }
-            ],
+            ]
+            if(this.mode=='upload'){
+                blocks.push(
+                    {
+                        blockType: BlockType.LABEL,
+                        text: formatMessage({
+                            id: 'MicrobitIcreate.labelSerial',
+                            default: 'Serial',
+                        }),
+                    },
+                    {
+                        opcode: 'ICM_uartWrite',//串口写入
+                        blockType: BlockType.COMMAND,
+                        blockIconURI:icon,
+                        text: formatMessage({
+                            id: 'LinkBot.ICM_uartWrite',
+                            default: 'serial write [TEXT]',
+                        }),
+                        arguments: {
+                            TEXT: {
+                                type: ArgumentType.STRING,
+                                defaultValue:'123'
+                            },
+                        },
+                    },
+                    {
+                        opcode: 'ICM_uartRead',//串口读取
+                        blockType: BlockType.REPORTER,
+                        blockIconURI:icon,
+                        text: formatMessage({
+                            id: 'LinkBot.ICM_uartRead',
+                            default: 'serial read string',
+                        }),
+                        disableMonitor: true,
+                        arguments: {
+                            
+                        },
+                    },
+        
+                    {
+                        opcode: 'ICM_uartReadUntil',//串口读取
+                        blockType: BlockType.REPORTER,
+                        blockIconURI:icon,
+                        text: formatMessage({
+                            id: 'LinkBot.ICM_uartReadUntil',
+                            default: 'serial read until [CHOICE]',
+                        }),
+                        disableMonitor: true,
+                        arguments: {
+                            CHOICE: {
+                                type: ArgumentType.STRING,
+                                menu: 'choice_ReadUntil'
+                            },
+                        },
+                    },
+        
+        
+                    {
+                        opcode: 'ICM_uartRedirect',//串口重定向
+                        blockType: BlockType.COMMAND,
+                        blockIconURI:icon,
+                        text: formatMessage({
+                            id: 'LinkBot.ICM_uartRedirect',
+                            default: 'serial redirect to TX[TX] RX[RX] at baud rate[CHOICE]',
+                        }),
+                        arguments: {
+                            TX: {
+                                type: ArgumentType.STRING,
+                                menu: 'choice_tx',
+                                defaultValue:'p0'
+                            },
+                            RX: {
+                                type: ArgumentType.STRING,
+                                menu: 'choice_tx',
+                                defaultValue:'p1'
+                            },
+                            CHOICE: {
+                                type: ArgumentType.STRING,
+                                menu: 'choice_baudrate',
+                                defaultValue:'115200'
+                            },
+                        },
+                    },
+        
+                    {
+                        opcode: 'ICM_uartRedirectUSB',//串口重定向为USB
+                        blockType: BlockType.COMMAND,
+                        blockIconURI:icon,
+                        text: formatMessage({
+                            id: 'LinkBot.ICM_uartRedirectUSB',
+                            default: 'serial redirect to USB',
+                        }),
+                        arguments: {
+                        },
+                    },
+                )
+            }
+      return {
+        id: 'MicrobitIcreate',
+        name: formatMessage({
+            id: 'MicrobitIcreate.name',
+            default: 'Micro:bit',
+            description: 'MicrobitIcreate.name'
+        }), 
+        color1: '#0da57a',  
+        color2: '#0b8d68', 
+        color3: '#097556',  
+        menuIconURI: icon, 
+
+        blocks:blocks,
 
         menus: {
             choice_DisplayImage: {//选择显示图像
@@ -1388,29 +1398,31 @@ class MicrobitIcreate {
             choice_acceleration:{//加速度的选项
                 acceptReporters: false,
                 items: [
-                    'x',
-                    'y',
-                    'z',
-                    formatMessage({
+                    { text: "X", value: 'X' },
+                    { text: "Y", value: 'Y' },
+                    { text: "Z", value: 'Z' },
+                    { text: formatMessage({
                         id: 'MicrobitIcreate.choice_acceleration.absolute',
                         default: 'absolute',
                         description: 'MicrobitIcreate.choice_acceleration.absolute'
-                    }),
+                        }),
+                        value: 'Q' 
+                    },
                     ]
             },
 
             choice_ReadUntil:{//串口读取数据直到
                 acceptReporters: false,
                 items: [
-                    'new line()',
+                    { text: "new line()", value: '\\n' },
                     ',',
                     '$',
                     ':',
                     '.',
                     '#',
-                    'carriage return()',
-                    'space',
-                    'tab()',
+                    { text: "carriage return()", value: '\\r' },
+                    { text: "space", value: ' ' },
+                    { text: "tab()", value: '\\t' },
                     '|',
                     ';'
                     
@@ -1489,7 +1501,7 @@ class MicrobitIcreate {
     }
     //切换
     async ICM_showToggle(args){
-        await ICMB_send(`toggle(${args.X},${args.Y})`) ;
+        await ICMB_send(`display.toggle_pixel(${args.X},${args.Y})`) ;
     }
     
     //熄灭
@@ -1497,8 +1509,12 @@ class MicrobitIcreate {
         await ICMB_send(`display.set_pixel(${args.X},${args.Y},0)`) ;
     }
     //是否点亮
-    ICM_showPoint(args){
-        return ICMB_read(`display.get_pixel(${args.X},${args.Y})`)>0 ;
+    async ICM_showPoint(args){
+        let result = await ICMB_read(`display.get_pixel(${args.X},${args.Y})`)
+        console.log(result)
+        console.log(typeof result)
+        console.log(result>0)
+        return result>0 ;
     }
     //清除显示
     async ICM_showClear(){
@@ -1510,12 +1526,12 @@ class MicrobitIcreate {
     async ICM_playSpeaker(args){
         // 映射到 0–255
         const volume = Math.round(args.VALUE * 255 / 100);
-        await ICMB_send(`music.pitch(${args.HZ})\nset_volume(${volume}) `) ;
+        await ICMB_send(`Link_buzzer.pitch(hz=${args.HZ},vol=${volume})`) ;
     }
 
     async ICM_stopSpeaker(){
         //import music
-        await ICMB_send(`music.stop()`)
+        await ICMB_send(`Link_buzzer.stop()`)
     }
 
    
@@ -1527,7 +1543,7 @@ class MicrobitIcreate {
         if(args.CHOICE == 'A'){
             code = `button_a.is_pressed()`
         }else if(args.CHOICE == 'B'){
-            code = `button_a.is_pressed()`
+            code = `button_b.is_pressed()`
         }
         return ICMB_read(code) ;
     }
@@ -1535,6 +1551,9 @@ class MicrobitIcreate {
     //磁力
     ICM_magnetStrength(args){
         return ICMB_read(`compass.${DICT_magnetStrengthPlay[args.CHOICE]}()`) ; 
+    }
+    ICM_acceleration(args){
+        return ICMB_read(`Link_transducer.gyro_acc('${args.CHOICE}')`) ; 
     }
     //pin按下
     ICM_pinPressed(args){
@@ -1642,7 +1661,11 @@ class MicrobitIcreate {
     }
     //串口读取
     ICM_uartRead(args){
-        return ICMB_read(`uartReadLine() == b'${args.TEXT}'`) ; 
+        // return ICMB_read(`uart.readline()`) ; 
+        return ICMB_read(`link_uart.readline()`) ; 
+    }
+    ICM_uartReadUntil(args){
+        return ICMB_read(`link_uart.readstring('${args.CHOICE}')`)
     }
 
     //数字写入
@@ -1668,7 +1691,25 @@ class MicrobitIcreate {
     }
     //数字读取
     ICM_digitalRead(args){
-        return ICMB_read(`pin${args.CHOICE}.read_digital()`) ; 
+        return ICMB_read(`pin${args.CHOICE}.read_digital()==1`) ; 
+    }
+
+    async ICM_uartRedirect(args){
+        await ICMB_send(`link_uart.init(${args.CHOICE},'${args.TX}','${args.RX}')`) ;
+    }
+    async ICM_uartRedirectUSB(args){
+        await ICMB_send(`link_uart.redirect_usb_uart()`) ;
+    }
+
+    async ICM_radioSetGroup(args){
+        await ICMB_send(`radio.config(group=${args.TEXT},power=${args.CHOICE})`) ;
+    }
+
+    async ICM_radioSend(args){
+        await ICMB_send(`radio.send('${args.TEXT}')`) ;
+    }
+    async ICM_radioRecive(){
+        await ICMB_send(`radio.receive()`) ;
     }
 }
 
