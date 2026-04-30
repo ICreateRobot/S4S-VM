@@ -379,29 +379,29 @@ class LinkBotActuators {
                             id: 'LinkBot.choice_DCmotorType.rotations',
                             default: 'rotations'
                         }),
-                        value: 'MOTOR_MOVE_STATE_ROTATIONS'
+                        value: 'motors.ROTATIONS'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.degrees',
                             default: 'degrees'
                         }),
-                        value: 'MOTOR_MOVE_STATE_DEGREES'
+                        value: 'motors.DEGREES'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.seconds',
                             default: 'seconds'
                         }),
-                        value: 'MOTOR_MOVE_STATE_SECONDS'
+                        value: 'motors.SECONDS'
                     },
                 ]
             },
             choice_DCmotorDIVERSION: { // 直流电机转向
                 acceptReporters: false,
                 items: [
-                    { text: '↻', value: 'MOTOR_DIRECTION_FORWARD' },
-                    { text: '↺', value: 'MOTOR_DIRECTION_BACKWARD' }
+                    { text: '↻', value: 'motors.FORWARD' },
+                    { text: '↺', value: 'motors.BACKWARD' }
                 ]
             }
         }
@@ -416,11 +416,11 @@ class LinkBotActuators {
             code=`servo.set_angle(${Number(args.CHOICE)},${Number(args.TEXT)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.servo_set_angle(${Number(args.CHOICE)},${Number(args.TEXT)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`servo.set_angle(${Number(args.CHOICE)},${Number(args.TEXT)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -436,11 +436,11 @@ class LinkBotActuators {
             code=`servo.release(${Number(args.CHOICE)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.servo_release(${Number(args.CHOICE)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`servo.release(${Number(args.CHOICE)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -456,11 +456,11 @@ class LinkBotActuators {
             code=`servo.set_speed(${Number(args.CHOICE)},${Number(args.TEXT)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.servo_set_speed(${Number(args.CHOICE)},${Number(args.TEXT)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`servo.set_speed(${Number(args.CHOICE)},${Number(args.TEXT)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -476,11 +476,11 @@ class LinkBotActuators {
             code=`servo.stop(${Number(args.CHOICE)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.servo_stop(${Number(args.CHOICE)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`servo.stop(${Number(args.CHOICE)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -498,11 +498,13 @@ class LinkBotActuators {
             code=`motors.run_for(${Number(args.CHOICE)},${args.DIVERSION},${Number(args.NUM)},${args.TYPE})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            let diversion='MOTORS_'+getAfterDot(args.DIVERSION)
+            let type='MOTORS_'+getAfterDot(args.TYPE)
+            code=packCommand(`bot.motors_run_for(${Number(args.CHOICE)},"${diversion}",${Number(args.NUM)},"${type}")`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`motors.run_for(${Number(args.CHOICE)},${args.DIVERSION},${Number(args.NUM)},${args.TYPE})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -518,11 +520,12 @@ class LinkBotActuators {
             code=`motors.start(${Number(args.CHOICE)},${args.DIVERSION})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            let diversion='MOTORS_'+getAfterDot(args.DIVERSION)
+            code=packCommand(`bot.motors_start(${Number(args.CHOICE)},"${diversion}")`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`motors.start(${Number(args.CHOICE)},${args.DIVERSION})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -538,11 +541,11 @@ class LinkBotActuators {
             code=`motors.stop(${Number(args.CHOICE)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.motors_stop(${Number(args.CHOICE)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`motors.stop(${Number(args.CHOICE)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -558,10 +561,10 @@ class LinkBotActuators {
             code=`motors.set_speed(${Number(args.CHOICE)},${Number(args.NUM)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.motors_set_speed(${Number(args.CHOICE)},${Number(args.NUM)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
+            code=`motors.set_speed(${Number(args.CHOICE)},${Number(args.NUM)})`
             await ICMB_send(code)
         }else{
             showToast(formatMessage({
@@ -578,11 +581,11 @@ class LinkBotActuators {
             code=`motors.position(${Number(args.CHOICE)})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            code=packCommand(`bot.motors_position(${Number(args.CHOICE)})`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`motors.position(${Number(args.CHOICE)})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -601,11 +604,11 @@ class LinkBotActuators {
             code=`motors.speed(${Number(args.CHOICE)})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            code=packCommand(`bot.motors_speed(${Number(args.CHOICE)})`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`motors.speed(${Number(args.CHOICE)})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -622,11 +625,11 @@ class LinkBotActuators {
             code=`motors.reset_position(${Number(args.CHOICE)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.motors_reset_position(${Number(args.CHOICE)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`motors.reset_position(${Number(args.CHOICE)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -650,11 +653,11 @@ class LinkBotActuators {
             code=`motors.start_rpm(${Number(args.CHOICE)},${Number(args.NUM)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.motors_start_rpm(${Number(args.CHOICE)},${Number(args.NUM)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`motors.start_rpm(${Number(args.CHOICE)},${Number(args.NUM)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -670,11 +673,11 @@ class LinkBotActuators {
             code=`motors.rpm(${Number(args.CHOICE)})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            code=packCommand(`bot.motors_rpm(${Number(args.CHOICE)})`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`motors.rpm(${Number(args.CHOICE)})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -696,11 +699,11 @@ class LinkBotActuators {
             code=`light.set_color(${r},${g},${b})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.light_set_color(${r},${g},${b})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`light.set_color(${r},${g},${b})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -715,14 +718,14 @@ class LinkBotActuators {
         const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`ultrasonic.set_eye_color(${r},${g},${b})`
+            code=`ultrasonic.set_color(${r},${g},${b})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`cultr.ultrasonic_set_color(${r},${g},${b})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`ultrasonic.set_color(${r},${g},${b})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -732,13 +735,56 @@ class LinkBotActuators {
         // await ICMB_send(`ultr.set_color(255,${r},${g},${b})`)
     }
 
+   
+
   
 }
 
+async function ICA_send(dataBytes) {
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+        console.log('[收到返回]', result);
+        if (!result.success) {
+            showToast(result.error);
+        }
+        return result;
+
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+
+//读取
+async function ICA_read(dataBytes){
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+        if (result.success) {
+            console.log('[读取返回]', result.response);
+            return result.response;
+        } else {
+            console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
 
 
-//发送
-async function ICMB_send(str){
+ //发送
+ async function ICMB_send(str){
     //console.log('[发送]', str);
     // 发送命令到主进程
     try {
@@ -774,7 +820,101 @@ async function ICMB_read(str){
         return null;
     }
 }
-
+function packCommand(cmd) {
+    const HEADER = [0xaa, 0x01];
+    const TAIL = 0x55;
+  
+    let id = 10;
+  
+    // ✅ 支持无参数
+    const match = cmd.match(/^(\w+)\.(\w+)(?:\((.*)\))?$/);
+    if (!match) {
+      throw new Error("格式错误");
+    }
+  
+    const [, obj, method, argsStr] = match;
+  
+    let args = [];
+  
+    // ✅ 解析参数（支持字符串中的逗号）
+    if (argsStr && argsStr.trim() !== "") {
+      let current = "";
+      let inString = false;
+  
+      for (let c of argsStr) {
+        if (c === '"') {
+          inString = !inString;
+          current += c;
+        } else if (c === ',' && !inString) {
+          args.push(current.trim());
+          current = "";
+        } else {
+          current += c;
+        }
+      }
+  
+      if (current.trim() !== "") {
+        args.push(current.trim());
+      }
+    }
+  
+    // ✅ 判断数字
+    function isNumber(val) {
+      return /^-?\d+(\.\d+)?$/.test(val);
+    }
+  
+    let body = [];
+  
+    // ✅ 1️⃣ obj（强制加引号）
+    const objStr = `"${obj}"`;
+    const objBytes = Array.from(objStr).map(c => c.charCodeAt(0));
+    body.push(id++, objBytes.length, ...objBytes);
+  
+    // ✅ 2️⃣ method（强制加引号）
+    const methodStr = `"${method}"`;
+    const methodBytes = Array.from(methodStr).map(c => c.charCodeAt(0));
+    body.push(id++, methodBytes.length, ...methodBytes);
+  
+    // ✅ 3️⃣ 参数（按你规则处理）
+    for (let arg of args) {
+      let val = arg.trim();
+  
+      // 字符串（必须用户自己带引号）
+      if (val.startsWith('"') && val.endsWith('"')) {
+        // OK，直接用
+      }
+      // 数字
+      else if (isNumber(val)) {
+        // OK，不加引号
+      }
+      else {
+        throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
+      }
+  
+      const bytes = Array.from(val).map(c => c.charCodeAt(0));
+  
+      body.push(id++, bytes.length, ...bytes);
+    }
+  
+    // ✅ 包长 = 字段 + 校验位
+    const length = body.length + 1;
+  
+    const lenHigh = (length >> 8) & 0xff;
+    const lenLow = length & 0xff;
+  
+    return [
+      ...HEADER,
+      lenHigh,
+      lenLow,
+      ...body,
+      TAIL
+    ];
+  }
+  function getAfterDot(str) {
+    const index = str.indexOf('.');
+    if (index === -1) return ''; // 没有点
+    return str.slice(index + 1);
+  }
 function showToast(message) {
     const toast = document.createElement('div');
     Object.assign(toast.style, {

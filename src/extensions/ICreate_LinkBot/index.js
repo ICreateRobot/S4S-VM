@@ -107,7 +107,7 @@ class LinkBot {
             arguments: {
                 P1: {
                     type: ArgumentType.NUMRES_100_100,
-                    defaultValue: -5
+                    defaultValue: 5
                 },
                 P2: {
                     type: ArgumentType.NUMRES_100_100,
@@ -127,7 +127,7 @@ class LinkBot {
             arguments: {
                 P1: {
                     type: ArgumentType.NUMRES_100_100,
-                    defaultValue: -5
+                    defaultValue: 5
                 },
                 P2: {
                     type: ArgumentType.NUMRES_100_100,
@@ -224,28 +224,28 @@ class LinkBot {
                             id: 'robotmove.menuDir.forward',
                             default: 'forward',
                         }),
-                        value: '0'
+                        value: 'movement.FORWARD'
                     },
                     {
                         text: formatMessage({
                             id: 'robotmove.menuDir.backward',
                             default: 'backward',
                         }),
-                        value: '1'
+                        value: 'movement.BACKWARD'
                     },
                     {
                         text: formatMessage({
                             id: 'robotmove.menuDir.turnleft',
                             default: 'left',
                         }),
-                        value: '2'
+                        value: 'movement.LEFT'
                     },
                     {
                         text: formatMessage({
                             id: 'robotmove.menuDir.turnright',
                             default: 'right',
                         }),
-                        value: '3'
+                        value: 'movement.RIGHT'
                     }
                 ]
             },
@@ -257,21 +257,21 @@ class LinkBot {
                             id: 'LinkBot.choice_DCmotorType.seconds',
                             default: 'seconds',
                         }),
-                        value: '0'
+                        value: 'movement.SECONDS'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_DCmotorType.rotations',
                             default: 'rotations',
                         }),
-                        value: '1'
+                        value: 'movement.ROTATIONS'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_MoveMode.cm',
                             default: 'cm',
                         }),
-                        value: '2'
+                        value: 'movement.CENTIMETERS'
                     }
                 ]
             },
@@ -289,11 +289,11 @@ class LinkBot {
             code=`movement.set_motors(${Number(args.P1)}, ${Number(args.P2)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.movement_set_motors(${Number(args.P1)}, ${Number(args.P2)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.set_motors(${Number(args.P1)}, ${Number(args.P2)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -306,14 +306,15 @@ class LinkBot {
     async ICM_S4S_MovRun(args) {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`movement.start(${this.DirectionMap[Number(args.TYPE)]})`
+            code=`movement.start(${args.TYPE})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            let type='MOVEMENT_'+getAfterDot(args.TYPE)
+            code=packCommand(`bot.movement_start("${type}")`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.start(${args.TYPE})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -326,14 +327,16 @@ class LinkBot {
     async ICM_S4S_MovRunSec(args) {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`movement.move(${this.DirectionMap[Number(args.TYPE)]},${Number(args.NUM)},${this.UnitMap[Number(args.MODE)]})`
+            code=`movement.move(${args.TYPE},${Number(args.NUM)},${args.MODE})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            let type='MOVEMENT_'+getAfterDot(args.TYPE)
+            let mode = 'MOVEMENT_'+getAfterDot(args.MODE)
+            code=packCommand(`bot.movement_move("${type}",${Number(args.NUM)},"${mode}")`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.move(${args.TYPE},${Number(args.NUM)},${args.MODE})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -349,11 +352,11 @@ class LinkBot {
             code=`movement.drive(${Number(args.P1)},${Number(args.P2)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.movement_drive(${Number(args.P1)},${Number(args.P2)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.drive(${Number(args.P1)},${Number(args.P2)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -366,14 +369,15 @@ class LinkBot {
     async ICM_S4S_MovSetPowMode(args) {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`movement.drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},${this.UnitMap[Number(args.MODE)]})`
+            code=`movement.drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},${args.MODE})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            let mode='MOVEMENT_'+getAfterDot(args.MODE)
+            code=packCommand(`bot.movement_drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},"${mode}")`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},${args.MODE})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -389,11 +393,11 @@ class LinkBot {
             code=`movement.stop()`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.movement_stop()`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.stop()`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -409,11 +413,11 @@ class LinkBot {
             code=`movement.set_speed(${Number(args.NUM)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.movement_set_speed(${Number(args.NUM)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`movement.set_speed(${Number(args.NUM)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -423,11 +427,12 @@ class LinkBot {
         // await ICMB_send(`encoder_motor_pair_set_dynamic_speed(${args.NUM},${args.NUM})`)
     }
 
+   
+
 }
 
 
 
-//发送
 async function ICMB_send(str){
     console.log('[发送]', str);
     // 发送命令到主进程
@@ -465,6 +470,144 @@ async function ICMB_read(str){
     }
 }
 
+async function ICA_send(dataBytes) {
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+        console.log('[收到返回]', result);
+        if (!result.success) {
+            showToast(result.error);
+        }
+        return result;
+
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+
+//读取
+async function ICA_read(dataBytes){
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+        if (result.success) {
+            console.log('[读取返回]', result.response);
+            return result.response;
+        } else {
+            console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+function packCommand(cmd) {
+    const HEADER = [0xaa, 0x01];
+    const TAIL = 0x55;
+  
+    let id = 10;
+  
+    // ✅ 支持无参数
+    const match = cmd.match(/^(\w+)\.(\w+)(?:\((.*)\))?$/);
+    if (!match) {
+      throw new Error("格式错误");
+    }
+  
+    const [, obj, method, argsStr] = match;
+  
+    let args = [];
+  
+    // ✅ 解析参数（支持字符串中的逗号）
+    if (argsStr && argsStr.trim() !== "") {
+      let current = "";
+      let inString = false;
+  
+      for (let c of argsStr) {
+        if (c === '"') {
+          inString = !inString;
+          current += c;
+        } else if (c === ',' && !inString) {
+          args.push(current.trim());
+          current = "";
+        } else {
+          current += c;
+        }
+      }
+  
+      if (current.trim() !== "") {
+        args.push(current.trim());
+      }
+    }
+  
+    // ✅ 判断数字
+    function isNumber(val) {
+      return /^-?\d+(\.\d+)?$/.test(val);
+    }
+  
+    let body = [];
+  
+    // ✅ 1️⃣ obj（强制加引号）
+    const objStr = `"${obj}"`;
+    const objBytes = Array.from(objStr).map(c => c.charCodeAt(0));
+    body.push(id++, objBytes.length, ...objBytes);
+  
+    // ✅ 2️⃣ method（强制加引号）
+    const methodStr = `"${method}"`;
+    const methodBytes = Array.from(methodStr).map(c => c.charCodeAt(0));
+    body.push(id++, methodBytes.length, ...methodBytes);
+  
+    // ✅ 3️⃣ 参数（按你规则处理）
+    for (let arg of args) {
+      let val = arg.trim();
+  
+      // 字符串（必须用户自己带引号）
+      if (val.startsWith('"') && val.endsWith('"')) {
+        // OK，直接用
+      }
+      // 数字
+      else if (isNumber(val)) {
+        // OK，不加引号
+      }
+      else {
+        throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
+      }
+  
+      const bytes = Array.from(val).map(c => c.charCodeAt(0));
+  
+      body.push(id++, bytes.length, ...bytes);
+    }
+  
+    // ✅ 包长 = 字段 + 校验位
+    const length = body.length + 1;
+  
+    const lenHigh = (length >> 8) & 0xff;
+    const lenLow = length & 0xff;
+  
+    return [
+      ...HEADER,
+      lenHigh,
+      lenLow,
+      ...body,
+      TAIL
+    ];
+  }
+//发送
+
+function getAfterDot(str) {
+    const index = str.indexOf('.');
+    if (index === -1) return ''; // 没有点
+    return str.slice(index + 1);
+  }
 function showToast(message) {
     const toast = document.createElement('div');
     Object.assign(toast.style, {
