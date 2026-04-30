@@ -174,6 +174,16 @@ const ArgumentType = {
     */
     NUMRES0_1023: 'numres0D1023',
 
+    /**
+    *限制输入大小0-1000
+    */
+    NUMRES0_1000: 'numres0D1000',
+    /**
+    *限制输入大小1-60
+    */
+    NUMRES1_60: 'numres1D60',
+
+
     
 };
 

@@ -574,6 +574,76 @@ class ICreateK210 {
             {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
+                    id: 'k210.chat',
+                    default: 'AI chat',
+                    description: 'k210.chat'
+                }),
+            },
+
+            {
+                opcode: 'chatState',
+                blockType: BlockType.BOOLEAN,
+                text: formatMessage({
+                    id: 'k210.chatState',
+                    default: 'Current state is [ONE]?',
+                    description: 'k210.chatState'
+                }),
+                arguments:{
+                    ONE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_CHAT'
+                    },
+                },
+                disableMonitor: true
+            },
+
+            {
+                opcode: 'chatMotion',
+                blockType: BlockType.BOOLEAN,
+                text: formatMessage({
+                    id: 'k210.chatMotion',
+                    default: 'Detected motion command [ONE]?',
+                    description: 'k210.chatMotion'
+                }),
+                arguments:{
+                    ONE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_MOTION'
+                    },
+                },
+                disableMonitor: true
+            },
+
+            {
+                opcode: 'chatMotionSpeed',
+                blockType: BlockType.REPORTER,
+                text: formatMessage({
+                    id: 'k210.chatMotionSpeed',
+                    default: 'Detected motion speed',
+                    description: 'k210.chatMotionSpeed'
+                }),
+                arguments:{
+                    
+                },
+                disableMonitor: true
+            },
+            {
+                opcode: 'chatCustomCommand',
+                blockType: BlockType.REPORTER,
+                text: formatMessage({
+                    id: 'k210.chatCustomCommand',
+                    default: 'Detected custom command',
+                    description: 'k210.chatCustomCommand'
+                }),
+                arguments:{
+                    
+                },
+                disableMonitor: true
+            },
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
                     id: 'k210.wirelessLabel',
                     default: 'WIRELESS IMAGE TRANSMISSION',
                     description: 'k210.wirelessLabel'
@@ -581,34 +651,83 @@ class ICreateK210 {
             },
 
             {
-                opcode: 'wirelessSet',
-                blockType: BlockType.COMMAND,
+                opcode: 'wirelessJoystick',
+                blockType: BlockType.REPORTER,
                 text: formatMessage({
-                    id: 'k210.wirelessSet',
-                    default: 'Connect to WiFi name: [ONE] Password: [TWO]',
-                    description: 'k210.wirelessSet'
+                    id: 'k210.wirelessJoystick',
+                    default: 'Get joystick position [ONE]',
+                    description: 'k210.wirelessJoystick'
                 }),
                 arguments:{
                     ONE:{
                         type: ArgumentType.STRING,
+                        menu:'MENU_POSITION'
                     },
-                    TWO:{
-                        type: ArgumentType.STRING,
-                    },
-                }
+                },
+                disableMonitor: true
             },
-
             {
-                opcode: 'wirelessConnect',
-                blockType: BlockType.COMMAND,
+                opcode: 'wirelessButton',
+                blockType: BlockType.BOOLEAN,
                 text: formatMessage({
-                    id: 'k210.wirelessConnect',
-                    default: 'Scan QR code to connect to WiFi',
-                    description: 'k210.wirelessConnect'
+                    id: 'k210.wirelessButton',
+                    default: 'Button [ONE] pressed ?',
+                    description: 'k210.wirelessButton'
                 }),
                 arguments:{
-                }
+                    ONE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_BUTTON'
+                    },
+                },
+                disableMonitor: true
             },
+            {
+                opcode: 'wirelessKeybord',
+                blockType: BlockType.BOOLEAN,
+                text: formatMessage({
+                    id: 'k210.wirelessKeybord',
+                    default: 'Keyboard [ONE] pressed ?',
+                    description: 'k210.wirelessKeybord'
+                }),
+                arguments:{
+                    ONE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_KEYBOARD'
+                    },
+                },
+                disableMonitor: true
+            },
+
+            // {
+            //     opcode: 'wirelessSet',
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'k210.wirelessSet',
+            //         default: 'Connect to WiFi name: [ONE] Password: [TWO]',
+            //         description: 'k210.wirelessSet'
+            //     }),
+            //     arguments:{
+            //         ONE:{
+            //             type: ArgumentType.STRING,
+            //         },
+            //         TWO:{
+            //             type: ArgumentType.STRING,
+            //         },
+            //     }
+            // },
+
+            // {
+            //     opcode: 'wirelessConnect',
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'k210.wirelessConnect',
+            //         default: 'Scan QR code to connect to WiFi',
+            //         description: 'k210.wirelessConnect'
+            //     }),
+            //     arguments:{
+            //     }
+            // },
 
             {
                 blockType: BlockType.LABEL,
@@ -1312,6 +1431,172 @@ class ICreateK210 {
                         }),
                         value: '10'
                     },
+                ]
+            },
+            MENU_CHAT: {
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuChat.notStart',
+                            default: 'Not Started',
+                            description: 'k210.menuChat.notStart'
+                        }),
+                        value: '1'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuChat.connecting',
+                            default: 'Connecting',
+                            description: 'k210.menuChat.connecting'
+                        }),
+                        value: '2'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuChat.standby',
+                            default: 'tag Standby',
+                            description: 'k210.menuChat.standby'
+                        }),
+                        value: '3'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuChat.listening',
+                            default: 'Listening',
+                            description: 'k210.menuChat.listening'
+                        }),
+                        value: '4'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuChat.speaking',
+                            default: 'Speaking',
+                            description: 'k210.menuChat.speaking'
+                        }),
+                        value: '5'
+                    },
+
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuChat.config',
+                            default: 'Network Config',
+                            description: 'k210.menuChat.config'
+                        }),
+                        value: '6'
+                    },
+                ]
+            },
+
+            MENU_MOTION: {
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuMotion.forward',
+                            default: 'Forward',
+                            description: 'k210.menuMotion.forward'
+                        }),
+                        value: '1'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuMotion.backward',
+                            default: 'Backward',
+                            description: 'k210.menuMotion.backward'
+                        }),
+                        value: '2'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuMotion.left',
+                            default: 'Turn left',
+                            description: 'k210.menuMotion.left'
+                        }),
+                        value: '3'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuMotion.right',
+                            default: 'Turn right',
+                            description: 'k210.menuMotion.right'
+                        }),
+                        value: '4'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'k210.menuMotion.stop',
+                            default: 'Stop',
+                            description: 'k210.menuMotion.stop'
+                        }),
+                        value: '5'
+                    },
+                ]
+            },
+            MENU_POSITION: {
+                acceptReporters: false,
+                items: [
+                    {
+                        text: 'X',
+                        value: '1'
+                    },
+                    {
+                        text: 'Y',
+                        value: '2'
+                    },
+                    
+                ]
+            },
+            MENU_BUTTON: {
+                acceptReporters: false,
+                items: [
+                    {
+                        text: '1',
+                        value: '1'
+                    },
+                    {
+                        text: '2',
+                        value: '2'
+                    },
+                    {
+                        text: '3',
+                        value: '3'
+                    },
+                    {
+                        text: '4',
+                        value: '4'
+                    },
+                    {
+                        text: '5',
+                        value: '5'
+                    },
+                    {
+                        text: '6',
+                        value: '6'
+                    },
+                    
+                ]
+            },
+            MENU_KEYBOARD: {
+                acceptReporters: false,
+                items: [
+                    {
+                        text: 'W',
+                        value: '1'
+                    },
+                    {
+                        text: 'A',
+                        value: '2'
+                    },
+                    {
+                        text: 'S',
+                        value: '3'
+                    },
+                    {
+                        text: 'D',
+                        value: '4'
+                    },
+                    
                 ]
             },
         }

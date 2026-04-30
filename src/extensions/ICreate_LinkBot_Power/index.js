@@ -57,14 +57,14 @@ class LinkBotPower {
     Linkbot_power(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`power.battery()`
+            code=`device.battery()`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            code=packCommand(`bot.device_battery()`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`device.battery()`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -79,14 +79,14 @@ class LinkBotPower {
     Linkbot_power_external(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`power.voltage()`
+            code=`device.voltage()`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            code=packCommand(`bot.device_voltage()`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`device.voltage()`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -96,10 +96,56 @@ class LinkBotPower {
         }
         // return ICMB_read(`mainBoard.power_get_external_battery_voltage()`)
     }
+
+   
 }
 
+
 //发送
-async function ICMB_send(str){
+async function ICA_send(dataBytes) {
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+        console.log('[收到返回]', result);
+        if (!result.success) {
+            showToast(result.error);
+        }
+        return result;
+
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+
+//读取
+async function ICA_read(dataBytes){
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+        if (result.success) {
+            console.log('[读取返回]', result.response);
+            return result.response;
+        } else {
+            console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+
+ //发送
+ async function ICMB_send(str){
     //console.log('[发送]', str);
     // 发送命令到主进程
     try {
@@ -135,7 +181,96 @@ async function ICMB_read(str){
         return null;
     }
 }
-
+function packCommand(cmd) {
+    const HEADER = [0xaa, 0x01];
+    const TAIL = 0x55;
+  
+    let id = 10;
+  
+    // ✅ 支持无参数
+    const match = cmd.match(/^(\w+)\.(\w+)(?:\((.*)\))?$/);
+    if (!match) {
+      throw new Error("格式错误");
+    }
+  
+    const [, obj, method, argsStr] = match;
+  
+    let args = [];
+  
+    // ✅ 解析参数（支持字符串中的逗号）
+    if (argsStr && argsStr.trim() !== "") {
+      let current = "";
+      let inString = false;
+  
+      for (let c of argsStr) {
+        if (c === '"') {
+          inString = !inString;
+          current += c;
+        } else if (c === ',' && !inString) {
+          args.push(current.trim());
+          current = "";
+        } else {
+          current += c;
+        }
+      }
+  
+      if (current.trim() !== "") {
+        args.push(current.trim());
+      }
+    }
+  
+    // ✅ 判断数字
+    function isNumber(val) {
+      return /^-?\d+(\.\d+)?$/.test(val);
+    }
+  
+    let body = [];
+  
+    // ✅ 1️⃣ obj（强制加引号）
+    const objStr = `"${obj}"`;
+    const objBytes = Array.from(objStr).map(c => c.charCodeAt(0));
+    body.push(id++, objBytes.length, ...objBytes);
+  
+    // ✅ 2️⃣ method（强制加引号）
+    const methodStr = `"${method}"`;
+    const methodBytes = Array.from(methodStr).map(c => c.charCodeAt(0));
+    body.push(id++, methodBytes.length, ...methodBytes);
+  
+    // ✅ 3️⃣ 参数（按你规则处理）
+    for (let arg of args) {
+      let val = arg.trim();
+  
+      // 字符串（必须用户自己带引号）
+      if (val.startsWith('"') && val.endsWith('"')) {
+        // OK，直接用
+      }
+      // 数字
+      else if (isNumber(val)) {
+        // OK，不加引号
+      }
+      else {
+        throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
+      }
+  
+      const bytes = Array.from(val).map(c => c.charCodeAt(0));
+  
+      body.push(id++, bytes.length, ...bytes);
+    }
+  
+    // ✅ 包长 = 字段 + 校验位
+    const length = body.length + 1;
+  
+    const lenHigh = (length >> 8) & 0xff;
+    const lenLow = length & 0xff;
+  
+    return [
+      ...HEADER,
+      lenHigh,
+      lenLow,
+      ...body,
+      TAIL
+    ];
+  }
 function showToast(message) {
     const toast = document.createElement('div');
     Object.assign(toast.style, {

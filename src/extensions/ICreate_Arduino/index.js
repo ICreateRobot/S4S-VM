@@ -5,17 +5,29 @@ const formatMessage = require('format-message');
 const arduinoSvg = require('./arduino.svg')
 
 class ArduinoS4S { 
-    getInfo() {
-      return {
-        id: 'ArduinoS4S',
-        name: formatMessage({
-            id: 'ArduinoS4S.name',
-            default: 'Arduino',
-            description: 'ArduinoS4S.name'
-        }), 
-        menuIconURI: arduinoSvg, 
+    constructor(runtime){
+        this.runtime=runtime
 
-        blocks: [
+        console.log(this.runtime)
+        this.runtime.on('VM_UPDATE_MODE', this.updateMode.bind(this));
+        // this.mode=true
+        // this.channelMode=new BroadcastChannel('mode')
+        // this.channelMode.addEventListener('message',(event)=>{
+        //     this.mode=event.data
+        //     currentMode.setMode(event.data)
+        // })
+        this.mode=this.runtime.runMode
+    }
+    updateMode(obj){
+        console.log(obj)
+        this.mode=obj
+        setTimeout(() => {
+            this.runtime.extensionManager.refreshBlocks();
+        }, 10);
+    }
+    getInfo() {
+
+        let blocks=[
 
             {
                 blockType: BlockType.LABEL,
@@ -62,7 +74,7 @@ class ArduinoS4S {
                 arguments: {
                     NUM: {
                         type: ArgumentType.STRING,
-                        defaultValue: 5
+                        menu: 'choice_textSize'
                     }
                 }
             },
@@ -82,11 +94,32 @@ class ArduinoS4S {
                         defaultValue: 'ABC'
                     },
                     X: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     Y: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
+                        defaultValue: 0
+                    }
+                }
+            },
+
+            {
+                opcode: 'ICA_S4S_drawPixel',//画点
+                blockType: BlockType.COMMAND,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'ArduinoS4S.ICA_S4S_drawPixel',
+                    default: 'draw pixel at X[X] Y[Y]',
+                    description: 'ArduinoS4S.ICA_S4S_drawPixel'
+                }),
+                arguments: {
+                    X: {
+                        type: ArgumentType.NUMRES_1000_1000,
+                        defaultValue: 0
+                    },
+                    Y: {
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     }
                 }
@@ -102,19 +135,19 @@ class ArduinoS4S {
                 }),
                 arguments: {
                     X1: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     Y1: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     X2: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 1
                     },
                     Y2: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 1
                     }
                 }
@@ -131,19 +164,19 @@ class ArduinoS4S {
                 }),
                 arguments: {
                     X: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     Y: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     W: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES0_1000,
                         defaultValue: 5
                     },
                     H: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES0_1000,
                         defaultValue: 5
                     }
                 }
@@ -160,15 +193,15 @@ class ArduinoS4S {
                 }),
                 arguments: {
                     X: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     Y: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES_1000_1000,
                         defaultValue: 0
                     },
                     R: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES0_1000,
                         defaultValue: 5
                     }
                 }
@@ -247,7 +280,7 @@ class ArduinoS4S {
                 }),
                 arguments: {
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES1_60,
                         defaultValue: 5
                     }
                 }
@@ -315,7 +348,7 @@ class ArduinoS4S {
                 }),
                 arguments: {
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES0_100,
                         defaultValue: 5
                     }
                 }
@@ -514,110 +547,7 @@ class ArduinoS4S {
                 }
             },
 
-            {
-                blockType: BlockType.LABEL,
-                text: formatMessage({
-                    id: 'ArduinoS4S.Serial',
-                    default: 'Serial',
-                }),
-            },
-
-            {
-                opcode: 'ICA_S4S_writeText',//写入文本
-                blockType: BlockType.COMMAND,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_writeText',
-                    default: 'write [TEXT] to serial port',
-                    description: 'ArduinoS4S.ICA_S4S_writeText'
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.STRING,
-                        defaultValue:'hello'
-                    },
-                }
-            },
-
-            {
-                opcode: 'ICA_S4S_readableBytes',//读取字节
-                blockType: BlockType.REPORTER,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_readableBytes',
-                    default: 'readable bytes from serial port',
-                    description: 'ArduinoS4S.ICA_S4S_readableBytes'
-                }),
-                disableMonitor: true,
-                arguments: {
-                  
-                }
-            },
-
-            {
-                opcode: 'ICA_S4S_readByte',//串口读取单个字节
-                blockType: BlockType.REPORTER,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_readByte',
-                    default: 'read a byte from serial port',
-                    description: 'ArduinoS4S.ICA_S4S_readByte'
-                }),
-                disableMonitor: true,
-                arguments: {
-                  
-                }
-            },
-
-            {
-                opcode: 'ICA_S4S_readString',//串口读取字符串
-                blockType: BlockType.REPORTER,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_readString',
-                    default: 'serial read string',
-                    description: 'ArduinoS4S.ICA_S4S_readString'
-                }),
-                disableMonitor: true,
-                arguments: {
-                  
-                }
-            },
-
-            {
-                opcode: 'ICA_S4S_readUntil',//读取数据直到满足条件
-                blockType: BlockType.REPORTER,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_readUntil',
-                    default: 'serial read until [CHOICE]',
-                    description: 'ArduinoS4S.ICA_S4S_readUntil'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'READ_UNTIL'
-                    },
-                }
-            },
-
-            {
-                opcode: 'ICA_S4S_setBaud',
-                blockType: BlockType.COMMAND,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_setBaud',
-                    default: 'set serial baud rate to [CHOICE]',
-                    description: 'ArduinoS4S.ICA_S4S_setBaud'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu:'BAUD_RATE'
-                    },
-                }
-            },
+            
 
             // {
             //     opcode: 'ICA_S4S_motorRun',//电机以速度运动
@@ -1084,51 +1014,198 @@ class ArduinoS4S {
             //         }
             //     }
             // }
-        ],
+        ]
+        if(this.mode=='upload'){
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.Serial',
+                        default: 'Serial',
+                    }),
+                },
+    
+                {
+                    opcode: 'ICA_S4S_writeText',//写入文本
+                    blockType: BlockType.COMMAND,
+                    blockIconURI:arduinoSvg,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.ICA_S4S_writeText',
+                        default: 'write [TEXT] to serial port',
+                        description: 'ArduinoS4S.ICA_S4S_writeText'
+                    }),
+                    arguments: {
+                        TEXT: {
+                            type: ArgumentType.STRING,
+                            defaultValue:'hello'
+                        },
+                    }
+                },
+    
+                {
+                    opcode: 'ICA_S4S_readableBytes',//读取字节
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:arduinoSvg,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.ICA_S4S_readableBytes',
+                        default: 'readable bytes from serial port',
+                        description: 'ArduinoS4S.ICA_S4S_readableBytes'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                      
+                    }
+                },
+    
+                {
+                    opcode: 'ICA_S4S_readByte',//串口读取单个字节
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:arduinoSvg,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.ICA_S4S_readByte',
+                        default: 'read a byte from serial port',
+                        description: 'ArduinoS4S.ICA_S4S_readByte'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                      
+                    }
+                },
+    
+                {
+                    opcode: 'ICA_S4S_readString',//串口读取字符串
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:arduinoSvg,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.ICA_S4S_readString',
+                        default: 'serial read string',
+                        description: 'ArduinoS4S.ICA_S4S_readString'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                      
+                    }
+                },
+    
+                {
+                    opcode: 'ICA_S4S_readUntil',//读取数据直到满足条件
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:arduinoSvg,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.ICA_S4S_readUntil',
+                        default: 'serial read until [CHOICE]',
+                        description: 'ArduinoS4S.ICA_S4S_readUntil'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                        CHOICE: {
+                            type: ArgumentType.STRING,
+                            menu: 'READ_UNTIL'
+                        },
+                    }
+                },
+    
+                {
+                    opcode: 'ICA_S4S_setBaud',
+                    blockType: BlockType.COMMAND,
+                    blockIconURI:arduinoSvg,
+                    text: formatMessage({
+                        id: 'ArduinoS4S.ICA_S4S_setBaud',
+                        default: 'set serial baud rate to [CHOICE]',
+                        description: 'ArduinoS4S.ICA_S4S_setBaud'
+                    }),
+                    arguments: {
+                        CHOICE: {
+                            type: ArgumentType.STRING,
+                            menu:'BAUD_RATE'
+                        },
+                    }
+                }
+            )
+        }
+      return {
+        id: 'ArduinoS4S',
+        name: formatMessage({
+            id: 'ArduinoS4S.name',
+            default: 'Arduino',
+            description: 'ArduinoS4S.name'
+        }), 
+        menuIconURI: arduinoSvg, 
+
+        blocks: blocks,
 
         menus: {
             choice_button: {//按钮选项
                 acceptReporters: false,
                 items: [
-                    { text: "A", value: '0' },
-                    { text: "B", value: '1' },
-                    { text: "A+B", value: '2' }
+                    { text: "A", value: '1' },
+                    { text: "B", value: '2' },
+                    { text: "A+B", value: '3' }
+                ]
+            },
+            choice_textSize: {//高低电平*
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_textSize.choice_textSize.small',
+                            default: 'small',
+                            description: 'ArduinoS4S.ICA_S4S_textSize.choice_textSize.small'
+                        }),
+                        value: '1' 
+                    },
+                    { 
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_textSize.choice_textSize.middle',
+                            default: 'low',
+                            description: 'ArduinoS4S.ICA_S4S_textSize.choice_textSize.middle'
+                        }),
+                        value: '2'
+                    },
+                    { 
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_textSize.choice_textSize.large',
+                            default: 'large',
+                            description: 'ArduinoS4S.ICA_S4S_textSize.choice_textSize.large'
+                        }),
+                        value: '3'
+                    }
                 ]
             },
             DIGITAL_PIN: {//数字引脚
                 acceptReporters: false,
                 items: [
-                    { text: "A0", value: '0' },
-                    { text: "A1", value: '1' },
-                    { text: "A2", value: '2' },
-                    { text: "A3", value: '0' },
-                    { text: "A4", value: '1' },
-                    { text: "A5", value: '2' },
-                    { text: "D0", value: '0' },
-                    { text: "D1", value: '1' },
-                    { text: "D2", value: '2' },
-                    { text: "D3", value: '0' },
-                    { text: "D4", value: '1' },
-                    { text: "D5", value: '2' },
-                    { text: "D6", value: '0' },
-                    { text: "D7", value: '1' },
-                    { text: "D8", value: '2' },
-                    { text: "D9", value: '0' },
-                    { text: "D10", value: '1' },
-                    { text: "D11", value: '2' },
-                    { text: "D12", value: '1' },
-                    { text: "D13", value: '2' },
-                    { text: "P003", value: '1' },
-                    { text: "P004", value: '2' },
-                    { text: "P011", value: '1' },
-                    { text: "P012", value: '2' },
-                    { text: "P013", value: '2' },
-                    { text: "P015", value: '1' },
-                    { text: "P113", value: '2' },
-                    { text: "P204", value: '1' },
-                    { text: "P400", value: '2' },
-                    { text: "P401", value: '1' },
-                    { text: "P408", value: '2' },
+                    { text: "A0", value: 'A0' },
+                    { text: "A1", value: 'A1' },
+                    { text: "A2", value: 'A2' },
+                    { text: "A3", value: 'A3' },
+                    { text: "A4", value: 'A4' },
+                    { text: "A5", value: 'A5' },
+                    { text: "D0", value: 'D0' },
+                    { text: "D1", value: 'D1' },
+                    { text: "D2", value: 'D2' },
+                    { text: "D3", value: 'D3' },
+                    { text: "D4", value: 'D4' },
+                    { text: "D5", value: 'D5' },
+                    { text: "D6", value: 'D6' },
+                    { text: "D7", value: 'D7' },
+                    { text: "D8", value: 'D8' },
+                    { text: "D9", value: 'D9' },
+                    { text: "D10", value: 'D10' },
+                    { text: "D11", value: 'D11' },
+                    { text: "D12", value: 'D12' },
+                    { text: "D13", value: 'D13' },
+                    { text: "P003", value: 'P003' },
+                    { text: "P004", value: 'P004' },
+                    { text: "P011", value: 'P011' },
+                    { text: "P012", value: 'P012' },
+                    { text: "P013", value: 'P013' },
+                    { text: "P015", value: 'P015' },
+                    { text: "P113", value: 'P113' },
+                    { text: "P204", value: 'P204' },
+                    { text: "P400", value: 'P400' },
+                    { text: "P401", value: 'P401' },
+                    { text: "P408", value: 'P408' },
                 ]
             },
             DIGITAL_HIGHLOW: {//高低电平*
@@ -1140,7 +1217,7 @@ class ArduinoS4S {
                             default: 'high',
                             description: 'ArduinoS4S.ICA_S4S_setDigital.DIGITAL_HIGHLOW.high'
                         }),
-                        value: '0' 
+                        value: '1' 
                     },
                     { 
                         text: formatMessage({
@@ -1148,7 +1225,7 @@ class ArduinoS4S {
                             default: 'low',
                             description: 'ArduinoS4S.ICA_S4S_setDigital.DIGITAL_HIGHLOW.low'
                         }),
-                        value: '1'
+                        value: '0'
                     }
                 ]
             },
@@ -1181,27 +1258,43 @@ class ArduinoS4S {
                 items: [
                     {
                         text: formatMessage({
-                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.UP',
-                            default: 'UP',
-                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.UP'
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.input',
+                            default: 'input',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.input'
                         }),
                         value: '0' 
                     },
                     {
                         text: formatMessage({
-                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.DOWN',
-                            default: 'DOWN',
-                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.DOWN'
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.output',
+                            default: 'output',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.output'
                         }),
                         value: '1' 
                     },
                     {
                         text: formatMessage({
-                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.NONE',
-                            default: 'NONE',
-                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.NONE'
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.UP',
+                            default: 'pull-up input',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.UP'
                         }),
                         value: '2' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.DOWN',
+                            default: 'pull-down input',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.DOWN'
+                        }),
+                        value: '3' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.openOutput',
+                            default: 'open-drain output',
+                            description: 'ArduinoS4S.ICA_S4S_setInputPull.INPUT_PULL.openOutput'
+                        }),
+                        value: '4' 
                     },
                 ]
             },
@@ -1449,7 +1542,150 @@ class ArduinoS4S {
       };
     }
 
+    
+    async ICA_S4S_oledInit(args){
+        let code = packCommand(`esp_oled.init()`)
+        
+        await ICA_send(code)
+    }
  
+    async ICA_S4S_clearOled(args){
+        let code = packCommand(`esp_oled.clear_screen()`)
+        
+        await ICA_send(code)
+        // await ICA_send(`esp_oled.clear_screen()`)
+    }
+
+    async ICA_S4S_textSize(args){
+        let code = packCommand(`esp_oled.set_text_size(${Number(args.NUM)})`)
+        
+        await ICA_send(code)
+        // await ICA_send(`esp_oled.clear_screen()`)
+    }
+
+    async ICA_S4S_setTextXY(args){
+        let code = packCommand(`esp_oled.print(${Number(args.X)},${Number(args.Y)},"${args.TEXT}")`)
+        
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_drawPixel(args){
+        let code = packCommand(`esp_oled.draw_pixel(${Number(args.X)},${Number(args.Y)})`)
+        
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_drawLine(args){
+        let code = packCommand(`esp_oled.draw_line(${Number(args.X1)},${Number(args.Y1)},${Number(args.X2)},${Number(args.Y2)})`)
+        
+        await ICA_send(code)
+    }
+    async ICA_S4S_drawrectAngle(args){
+        let code = packCommand(`esp_oled.draw_rect(${Number(args.X)},${Number(args.Y)},${Number(args.W)},${Number(args.H)})`)
+        
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_drawCircle(args){
+        let code = packCommand(`esp_oled.draw_circle(${Number(args.X)},${Number(args.Y)},${Number(args.R)})`)
+        
+        await ICA_send(code)
+    }
+    async ICA_S4S_refresh(){
+        let code = packCommand(`esp_oled.refresh()`)
+        
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_button(args){
+        let code = packCommand(`esp_pin.button_pressed()`)
+        let result =await ICA_read(code)
+        if(result==args.CHOICE){
+            return true
+        }
+        return false
+    }
+
+    async ICA_S4S_sound(){
+        let code = packCommand(`esp_audio.get_sound_level()`)
+        return ICA_read(code)
+    }
+
+    async ICA_S4S_startRecording(args){
+        let code = packCommand(`esp_audio.start_recording(${Number(args.NUM)})`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_playRecording(){
+        let code = packCommand(`esp_audio.play_recording(1)`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_stopPlayRecording(){
+        let code = packCommand(`esp_audio.play_recording(0)`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_getAudioFile(args){
+        let code = packCommand(`esp_audio.set_audio_file("${args.TEXT}")`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_setVolume(args){
+        let code = packCommand(`esp_audio.set_volume(${args.NUM})`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_playAudio(){
+        let code = packCommand(`esp_audio.play_audio(1)`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_stopAudio(){
+        let code = packCommand(`esp_audio.play_audio(0)`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_setDigital(args){
+        let code = packCommand(`esp_pin.digitalWrite("${args.PIN}",${Number(args.CHOICE)})`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_setPwm(args){
+        let code = packCommand(`esp_pin.analogWrite("${args.PIN}",${Number(args.NUM)})`)
+        await ICA_send(code)
+    }
+
+    async ICA_S4S_readDigitalPin(args){
+        let code = packCommand(`esp_pin.digitalRead("${args.PIN}")`)
+        let result = await ICA_read(code)
+        return result==1
+    }
+
+    async ICA_S4S_readAnalogPin(args){
+        let code = packCommand(`esp_pin.analogRead("${args.PIN}")`)
+        return ICA_read(code)
+    }
+
+    async ICA_S4S_setInputPull(args){
+        let code = packCommand(`esp_pin.pinMode("${args.PIN}",${Number(args.CHOICE)})`)
+        return ICA_read(code)
+    }
+
+    async ICA_S4S_readPulse(args){
+        let code = packCommand(`esp_pin.pulseIn("${args.CHOICE}",${Number(args.NUM)})`)
+        return ICA_read(code)
+    }
+
+    async ICA_S4S_getTimer(){
+        let code = packCommand(`sys.tick_get()`)
+        return ICA_read(code)
+    }
+
+    async ICA_S4S_resetTimer(){
+        let code = packCommand(`sys.tick_reset()`)
+        await ICA_send(code)
+    }
 
     //--------------------电机---------------------------
     //电机以速度运动
@@ -1675,7 +1911,8 @@ function buildPacket(dataBytes) {
 //发送
 async function ICA_send(dataBytes) {
     try {
-        const packet = buildPacket(dataBytes);
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes
         console.log("发送数据包:", packet);
 
         const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
@@ -1695,7 +1932,8 @@ async function ICA_send(dataBytes) {
 //读取
 async function ICA_read(dataBytes){
     try {
-        const packet = buildPacket(dataBytes);
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
         console.log("发送数据包:", packet);
 
         const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
@@ -1712,6 +1950,97 @@ async function ICA_read(dataBytes){
         return null;
     }
 }
+
+function packCommand(cmd) {
+    const HEADER = [0xaa, 0x01];
+    const TAIL = 0x55;
+  
+    let id = 10;
+  
+    // ✅ 支持无参数
+    const match = cmd.match(/^(\w+)\.(\w+)(?:\((.*)\))?$/);
+    if (!match) {
+      throw new Error("格式错误");
+    }
+  
+    const [, obj, method, argsStr] = match;
+  
+    let args = [];
+  
+    // ✅ 解析参数（支持字符串中的逗号）
+    if (argsStr && argsStr.trim() !== "") {
+      let current = "";
+      let inString = false;
+  
+      for (let c of argsStr) {
+        if (c === '"') {
+          inString = !inString;
+          current += c;
+        } else if (c === ',' && !inString) {
+          args.push(current.trim());
+          current = "";
+        } else {
+          current += c;
+        }
+      }
+  
+      if (current.trim() !== "") {
+        args.push(current.trim());
+      }
+    }
+  
+    // ✅ 判断数字
+    function isNumber(val) {
+      return /^-?\d+(\.\d+)?$/.test(val);
+    }
+  
+    let body = [];
+  
+    // ✅ 1️⃣ obj（强制加引号）
+    const objStr = `"${obj}"`;
+    const objBytes = Array.from(objStr).map(c => c.charCodeAt(0));
+    body.push(id++, objBytes.length, ...objBytes);
+  
+    // ✅ 2️⃣ method（强制加引号）
+    const methodStr = `"${method}"`;
+    const methodBytes = Array.from(methodStr).map(c => c.charCodeAt(0));
+    body.push(id++, methodBytes.length, ...methodBytes);
+  
+    // ✅ 3️⃣ 参数（按你规则处理）
+    for (let arg of args) {
+      let val = arg.trim();
+  
+      // 字符串（必须用户自己带引号）
+      if (val.startsWith('"') && val.endsWith('"')) {
+        // OK，直接用
+      }
+      // 数字
+      else if (isNumber(val)) {
+        // OK，不加引号
+      }
+      else {
+        throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
+      }
+  
+      const bytes = Array.from(val).map(c => c.charCodeAt(0));
+  
+      body.push(id++, bytes.length, ...bytes);
+    }
+  
+    // ✅ 包长 = 字段 + 校验位
+    const length = body.length + 1;
+  
+    const lenHigh = (length >> 8) & 0xff;
+    const lenLow = length & 0xff;
+  
+    return [
+      ...HEADER,
+      lenHigh,
+      lenLow,
+      ...body,
+      TAIL
+    ];
+  }
 
 
 module.exports = ArduinoS4S;

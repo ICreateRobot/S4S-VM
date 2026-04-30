@@ -433,26 +433,33 @@ class LinkBotSensors {
             choice_ultrType :{//超声波
                 acceptReporters: false,
                 items: [
+                    // {
+                    //     text: formatMessage({
+                    //         id: 'LinkBot.choice_MoveMode.mm',
+                    //         default: 'mm',
+                    //     }),
+                    //     value: 'ultrasonic.MM'
+                    // },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_MoveMode.cm',
                             default: 'cm',
                         }),
-                        value: 'CM'
+                        value: 'ultrasonic.CM'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_ultrType.m',
                             default: 'm',
                         }),
-                        value: 'M'
+                        value: 'ultrasonic.M'
                     },
                     {
                         text: formatMessage({
                             id: 'LinkBot.choice_ultrType.in',
                             default: 'in',
                         }),
-                        value: 'INCH'
+                        value: 'ultrasonic.INCH'
                     },
                 ]
             },
@@ -581,15 +588,350 @@ class LinkBotSensors {
             },
             choice_voice:{//语音模块
                 acceptReporters: false,
-                //items: ['1', '2', '3']
                 items: [
                     {
                         text: formatMessage({
-                            id: 'MicrobiteIcreateS4S.wakeup',
-                            default: 'wake-up',
-                            description: 'MicrobiteIcreateS4S.wakeup'
+                            id: 'MicrobiteIcreateS4S.Linkbot',
+                            default: 'Linkbot',
+                            description: 'MicrobiteIcreateS4S.Linkbot'
                         }),
-                        value: '1'
+                        value: 'LINKBOT'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.GoForward',
+                            default: 'Go forward',
+                            description: 'MicrobiteIcreateS4S.GoForward'
+                        }),
+                        value: 'GO_FORWARD'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.GoBack',
+                            default: 'Go back',
+                            description: 'MicrobiteIcreateS4S.GoBack'
+                        }),
+                        value: 'GO_BACK'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.TurnLeft',
+                            default: 'Turn left',
+                            description: 'MicrobiteIcreateS4S.TurnLeft'
+                        }),
+                        value: 'TURN_LEFT'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.TurnRight',
+                            default: 'Turn right',
+                            description: 'MicrobiteIcreateS4S.TurnRight'
+                        }),
+                        value: 'TURN_RIGHT'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.StartMoving',
+                            default: 'Start moving',
+                            description: 'MicrobiteIcreateS4S.StartMoving'
+                        }),
+                        value: 'START_MOVING'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.StopMoving',
+                            default: 'Stop moving',
+                            description: 'MicrobiteIcreateS4S.StopMoving'
+                        }),
+                        value: 'STOP_MOVING'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.SpeedUp',
+                            default: 'Speed up',
+                            description: 'MicrobiteIcreateS4S.SpeedUp'
+                        }),
+                        value: 'SPEED_UP'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.SlowDown',
+                            default: 'Slow down',
+                            description: 'MicrobiteIcreateS4S.SlowDown'
+                        }),
+                        value: 'SLOW_DOWN'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.SpinAround',
+                            default: 'Spin around',
+                            description: 'MicrobiteIcreateS4S.SpinAround'
+                        }),
+                        value: 'SPIN_AROUND'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.FollowLine',
+                            default: 'Follow line',
+                            description: 'MicrobiteIcreateS4S.FollowLine'
+                        }),
+                        value: 'FOLLOW_LINE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.LightsOn',
+                            default: 'Lights on',
+                            description: 'MicrobiteIcreateS4S.LightsOn'
+                        }),
+                        value: 'LIGHTS_ON'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.LightsOff',
+                            default: 'Lights off',
+                            description: 'MicrobiteIcreateS4S.LightsOff'
+                        }),
+                        value: 'LIGHTS_OFF'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ShowRed',
+                            default: 'Show red',
+                            description: 'MicrobiteIcreateS4S.ShowRed'
+                        }),
+                        value: 'SHOW_RED'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ShowGreen',
+                            default: 'Show green',
+                            description: 'MicrobiteIcreateS4S.ShowGreen'
+                        }),
+                        value: 'SHOW_GREEN'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ShowBlue',
+                            default: 'Show blue',
+                            description: 'MicrobiteIcreateS4S.ShowBlue'
+                        }),
+                        value: 'SHOW_BLUE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.CheckDistance',
+                            default: 'Check distance',
+                            description: 'MicrobiteIcreateS4S.CheckDistance'
+                        }),
+                        value: 'CHECK_DISTANCE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ScanSurroundings',
+                            default: 'Scan surroundings',
+                            description: 'MicrobiteIcreateS4S.ScanSurroundings'
+                        }),
+                        value: 'SCAN_SURROUNDINGS'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.DetectObject',
+                            default: 'Detect object',
+                            description: 'MicrobiteIcreateS4S.DetectObject'
+                        }),
+                        value: 'DETECT_OBJECT'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.DetectFace',
+                            default: 'Detect face',
+                            description: 'MicrobiteIcreateS4S.DetectFace'
+                        }),
+                        value: 'DETECT_FACE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.DetectCard',
+                            default: 'Detect card',
+                            description: 'MicrobiteIcreateS4S.DetectCard'
+                        }),
+                        value: 'DETECT_CARD'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ReadSensor',
+                            default: 'Read sensor',
+                            description: 'MicrobiteIcreateS4S.ReadSensor'
+                        }),
+                        value: 'READ_SENSOR'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.CheckBattery',
+                            default: 'Check battery',
+                            description: 'MicrobiteIcreateS4S.CheckBattery'
+                        }),
+                        value: 'CHECK_BATTERY'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.FindLine',
+                            default: 'Find line',
+                            description: 'MicrobiteIcreateS4S.FindLine'
+                        }),
+                        value: 'FIND_LINE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.WhoAmI',
+                            default: 'Who am I',
+                            description: 'MicrobiteIcreateS4S.WhoAmI'
+                        }),
+                        value: 'WHO_AM_I'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.WhoAreYou',
+                            default: 'Who are you',
+                            description: 'MicrobiteIcreateS4S.WhoAreYou'
+                        }),
+                        value: 'WHO_ARE_YOU'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.Start',
+                            default: 'Start',
+                            description: 'MicrobiteIcreateS4S.Start'
+                        }),
+                        value: 'START'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.Stop',
+                            default: 'Stop',
+                            description: 'MicrobiteIcreateS4S.Stop'
+                        }),
+                        value: 'STOP'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.Repeat',
+                            default: 'Repeat',
+                            description: 'MicrobiteIcreateS4S.Repeat'
+                        }),
+                        value: 'REPEAT'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.Next',
+                            default: 'Next',
+                            description: 'MicrobiteIcreateS4S.Next'
+                        }),
+                        value: 'NEXT'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ReturnHome',
+                            default: 'Return home',
+                            description: 'MicrobiteIcreateS4S.ReturnHome'
+                        }),
+                        value: 'RETURN_HOME'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.PickUp',
+                            default: 'Pick up',
+                            description: 'MicrobiteIcreateS4S.PickUp'
+                        }),
+                        value: 'PICK_UP'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.PutDown',
+                            default: 'Put down',
+                            description: 'MicrobiteIcreateS4S.PutDown'
+                        }),
+                        value: 'PUT_DOWN'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.Sleep',
+                            default: 'Sleep',
+                            description: 'MicrobiteIcreateS4S.Sleep'
+                        }),
+                        value: 'SLEEP'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.WakeUp',
+                            default: 'Wake up',
+                            description: 'MicrobiteIcreateS4S.WakeUp'
+                        }),
+                        value: 'WAKE_UP'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.PlayMusic',
+                            default: 'Play music',
+                            description: 'MicrobiteIcreateS4S.PlayMusic'
+                        }),
+                        value: 'PLAY_MUSIC'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.RecordData',
+                            default: 'Record data',
+                            description: 'MicrobiteIcreateS4S.RecordData'
+                        }),
+                        value: 'RECORD_DATA'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.SendMessage',
+                            default: 'Send message',
+                            description: 'MicrobiteIcreateS4S.SendMessage'
+                        }),
+                        value: 'SEND_MESSAGE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ReceiveMessage',
+                            default: 'Receive message',
+                            description: 'MicrobiteIcreateS4S.ReceiveMessage'
+                        }),
+                        value: 'RECEIVE_MESSAGE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.AttackNow',
+                            default: 'Attack now',
+                            description: 'MicrobiteIcreateS4S.AttackNow'
+                        }),
+                        value: 'ATTACK_NOW'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.DefendYourself',
+                            default: 'Defend yourself',
+                            description: 'MicrobiteIcreateS4S.DefendYourself'
+                        }),
+                        value: 'DEFEND_YOURSELF'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.ShowMeADance',
+                            default: 'Show me a dance',
+                            description: 'MicrobiteIcreateS4S.ShowMeADance'
+                        }),
+                        value: 'SHOW_ME_A_DANCE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.TellMeAJoke',
+                            default: 'Tell me a joke',
+                            description: 'MicrobiteIcreateS4S.TellMeAJoke'
+                        }),
+                        value: 'TELL_ME_A_JOKE'
                     }
                 ]
             },
@@ -602,43 +944,50 @@ class LinkBotSensors {
                             id: 'MicrobiteIcreateP.choiceLightRingColor.grayscale',
                             default: 'grayscale',
                         }),
-                        value: 'GRAY'
+                        value: 'line_sensor.GRAY'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.colornone',
+                            default: 'clear color',
+                        }),
+                        value: 'line_sensor.COLOR_NONE'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.black',
                             default: 'Black',
                         }),
-                        value: 'BLACK'
+                        value: 'line_sensor.BLACK'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.red',
                             default: 'Red',
                         }),
-                        value: 'RED'
+                        value: 'line_sensor.RED'
                     },
-                    {
-                        text: formatMessage({
-                            id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
-                            default: 'Orange',
-                            description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
-                        }),
-                        value: 'ORANGE'
-                    },
+                    // {
+                    //     text: formatMessage({
+                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
+                    //         default: 'Orange',
+                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
+                    //     }),
+                    //     value: 'line_sensor.ORANGE'
+                    // },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.yellow',
                             default: 'Yellow',
                         }),
-                        value: 'YELLOW'
+                        value: 'line_sensor.YELLOW'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.green',
                             default: 'Green',
                         }),
-                        value: 'GREEN'
+                        value: 'line_sensor.GREEN'
                     },
                     {
                         text: formatMessage({
@@ -646,21 +995,21 @@ class LinkBotSensors {
                             default: 'Cyan',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
                         }),
-                        value: 'CYAN'
+                        value: 'line_sensor.CYAN'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.blue',
                             default: 'Blue',
                         }),
-                        value: 'BLUE'
+                        value: 'line_sensor.BLUE'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.purple',
                             default: 'Purple',
                         }),
-                        value: 'PURPLE'
+                        value: 'line_sensor.PURPLE'
                     }
                 ]
             },
@@ -690,23 +1039,23 @@ class LinkBotSensors {
                             default: 'Red',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.red'
                         }),
-                        value: 'RED'
+                        value: 'line_sensor.RED'
                     },
-                    {
-                        text: formatMessage({
-                            id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
-                            default: 'Orange',
-                            description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
-                        }),
-                        value: 'ORANGE'
-                    },
+                    // {
+                    //     text: formatMessage({
+                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.origen',
+                    //         default: 'Orange',
+                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.origen'
+                    //     }),
+                    //     value: 'line_sensor.ORANGE'
+                    // },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.yellow',
                             default: 'Yellow',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.yellow'
                         }),
-                        value: 'YELLOW'
+                        value: 'line_sensor.YELLOW'
                     },
                     {
                         text: formatMessage({
@@ -714,23 +1063,23 @@ class LinkBotSensors {
                             default: 'Green',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.green'
                         }),
-                        value: 'GREEN'
+                        value: 'line_sensor.GREEN'
                     },
-                    {
-                        text: formatMessage({
-                            id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
-                            default: 'Cyan',
-                            description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
-                        }),
-                        value: 'CYAN'
-                    },
+                    // {
+                    //     text: formatMessage({
+                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
+                    //         default: 'Cyan',
+                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
+                    //     }),
+                    //     value: 'line_sensor.CYAN'
+                    // },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.blue',
                             default: 'Blue',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.blue'
                         }),
-                        value: 'BLUE'
+                        value: 'line_sensor.BLUE'
                     },
                     {
                         text: formatMessage({
@@ -738,7 +1087,7 @@ class LinkBotSensors {
                             default: 'Purple',
                             description: 'MicrobiteIcreateP.choiceLightRingColor.purple'
                         }),
-                        value: 'PURPLE'
+                        value: 'line_sensor.PURPLE'
                     }
                 ]
             },
@@ -763,10 +1112,10 @@ class LinkBotSensors {
             
             choice_gray: {//灰度传感器探头
                 acceptReporters: false,
-                items: [ { text: "L2", value: 'PROBE_L2' },
-                    { text: "L1", value: 'PROBE_L1' },
-                    { text: "R1", value: 'PROBE_R1' },
-                    { text: "R2", value: 'PROBE_R2' },
+                items: [ { text: "L2", value: 'line_sensor.PROBE_L2' },
+                    { text: "L1", value: 'line_sensor.PROBE_L1' },
+                    { text: "R1", value: 'line_sensor.PROBE_R1' },
+                    { text: "R2", value: 'line_sensor.PROBE_R2' },
                 ]
             },
             choice_rtcData:{
@@ -837,28 +1186,28 @@ class LinkBotSensors {
                             id: 'MicrobiteIcreateS4S.year',
                             default: 'year',
                         }),
-                        value: '0'
+                        value: 'rtc.YEAR'
                     },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateS4S.month',
                             default: 'month',
                         }),
-                        value: '1'
+                        value: 'rtc.MONTH'
                     },
-                    // {
-                    //     text: formatMessage({
-                    //         id: 'MicrobiteIcreateS4S.week',
-                    //         default: 'week',
-                    //     }),
-                    //     value: '3'
-                    // },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateS4S.week',
+                            default: 'week',
+                        }),
+                        value: 'rtc.WEEK'
+                    },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateS4S.day',
                             default: 'day',
                         }),
-                        value: '2'
+                        value: 'rtc.DAY'
                     },
                     {
                         text: formatMessage({
@@ -866,7 +1215,7 @@ class LinkBotSensors {
                             default: 'hour',
                             description: 'MicrobiteIcreateS4S.hour'
                         }),
-                        value: '4'
+                        value: 'rtc.HOUR'
                     },
                     {
                         text: formatMessage({
@@ -874,7 +1223,7 @@ class LinkBotSensors {
                             default: 'minute',
                             description: 'MicrobiteIcreateS4S.minute'
                         }),
-                        value: '5'
+                        value: 'rtc.MINUTE'
                     },
                     {
                         text: formatMessage({
@@ -882,7 +1231,7 @@ class LinkBotSensors {
                             default: 'second',
                             description: 'MicrobiteIcreateS4S.second'
                         }),
-                        value: '6'
+                        value: 'rtc.SECOND'
                     }
                 ]
             },
@@ -934,14 +1283,14 @@ class LinkBotSensors {
     ICM_S4S_voice(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`voice.recognized()`
+            code=`voice.recognized('${args.CHOICE}')`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            code=packCommand(`bot.voice_recognized("${args.CHOICE}")`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`voice.recognized()`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -960,11 +1309,12 @@ class LinkBotSensors {
             code=`ultrasonic.get_distance(${args.TYPE})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            let type='ULTRASONIC_'+getAfterDot(args.TYPE)
+            code=packCommand(`cultr.ultrasonic_get_distance("${type}")`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`ultrasonic.get_distance(${args.TYPE})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -975,19 +1325,27 @@ class LinkBotSensors {
         // return ICMB_read(`ultr.get_distance(${args.TYPE})`)
     }
      //超声波判断
-    ICM_S4S_ultrGetLog(args){
+    async ICM_S4S_ultrGetLog(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            let distance=ICMB_read(code)
+            let distance=await ICMB_read(code)
             
-            return this.operators[args.CHOICE](distance, args.NUM) 
+            console.log(distance,args.NUM)
+            return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            let type='ULTRASONIC_'+getAfterDot(args.TYPE)
+            code=packCommand(`cultr.ultrasonic_get_distance("${type}")`)
+            let distance=await ICA_read(code)
+            
+            console.log(distance,args.NUM)
+            return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`ultrasonic.get_distance(${args.TYPE})`
+            let distance=await ICE_read(code)
+            
+            console.log(distance,args.NUM)
+            return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1028,11 +1386,12 @@ class LinkBotSensors {
             code=`line_sensor.learn(${args.CHOICE})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
+            code=packCommand(`gray.line_sensor_learn("${choice}")`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`line_sensor.learn(${args.CHOICE})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1053,11 +1412,12 @@ class LinkBotSensors {
             code=`line_sensor.gray(${args.CHOICE})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
+            code=packCommand(`gray.line_sensor_gray("${choice}")`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`line_sensor.gray(${args.CHOICE})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1069,18 +1429,21 @@ class LinkBotSensors {
     }
 
     //巡线获取颜色
-    ICM_S4S_colorGet(args){
+    async ICM_S4S_colorGet(args){
 
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            let choice1='LINE_SENSOR_'+getAfterDot(args.CHOICE1)
+            let choice ='LINE_SENSOR_'+getAfterDot(args.CHOICE)
+            code=packCommand(`gray.line_sensor_color("${choice}","${choice1}")`)
+            let bool = await ICA_read(code)
+            return bool==1
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1092,17 +1455,19 @@ class LinkBotSensors {
     }
 
     //巡线获取黑线
-    ICM_S4S_blackGet(args){
+    async ICM_S4S_blackGet(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`line_sensor.line(${args.CHOICE})`
+            code=`line_sensor.detect_line(${args.CHOICE})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
+            code=packCommand(`gray.line_sensor_detect_line("${choice}")`)
+            let bool=await ICA_read(code)
+            return bool==1
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`line_sensor.detect_line(${args.CHOICE})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1121,11 +1486,11 @@ class LinkBotSensors {
             code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.rtc_set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1142,11 +1507,11 @@ class LinkBotSensors {
             code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
             await ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            await ICMB_send(code)
+            code=packCommand(`bot.rtc_set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`)
+            await ICA_send(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            await ICMB_send(code)
+            code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
+            await ICE_send(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1169,14 +1534,17 @@ class LinkBotSensors {
 
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`rtc.get(${Number(args.CHOICE)})`
+            code=`rtc.get(${args.CHOICE})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=``
-            return ICMB_read(code)
+            console.log(args.CHOICE)
+            let choice='RTC_'+getAfterDot(args.CHOICE)
+            console.log(choice)
+            code=packCommand(`bot.rtc_get("${choice}")`)
+            return ICA_read(code)
         }else if(this.runtime.currentDevice=='Esp32'){
-            code=``
-            return ICMB_read(code)
+            code=`rtc.get(${args.CHOICE})`
+            return ICE_read(code)
         }else{
             showToast(formatMessage({
                 id: 'gui.alert.selectDevice',
@@ -1191,8 +1559,53 @@ class LinkBotSensors {
         return ICMB_read(`mainBoard.rtc_get_time(${args.CHOICE})`)
     } */
 
+    
+
 }
 
+
+//发送
+async function ICA_send(dataBytes) {
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+        console.log('[收到返回]', result);
+        if (!result.success) {
+            showToast(result.error);
+        }
+        return result;
+
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+
+//读取
+async function ICA_read(dataBytes){
+    try {
+        // const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
+        console.log("发送数据包:", packet);
+
+        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+        if (result.success) {
+            console.log('[读取返回]', result.response);
+            return result.response;
+        } else {
+            console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
 
 
 //发送
@@ -1232,7 +1645,101 @@ async function ICMB_read(str){
         return null;
     }
 }
-
+function packCommand(cmd) {
+    const HEADER = [0xaa, 0x01];
+    const TAIL = 0x55;
+  
+    let id = 10;
+  
+    // ✅ 支持无参数
+    const match = cmd.match(/^(\w+)\.(\w+)(?:\((.*)\))?$/);
+    if (!match) {
+      throw new Error("格式错误");
+    }
+  
+    const [, obj, method, argsStr] = match;
+  
+    let args = [];
+  
+    // ✅ 解析参数（支持字符串中的逗号）
+    if (argsStr && argsStr.trim() !== "") {
+      let current = "";
+      let inString = false;
+  
+      for (let c of argsStr) {
+        if (c === '"') {
+          inString = !inString;
+          current += c;
+        } else if (c === ',' && !inString) {
+          args.push(current.trim());
+          current = "";
+        } else {
+          current += c;
+        }
+      }
+  
+      if (current.trim() !== "") {
+        args.push(current.trim());
+      }
+    }
+  
+    // ✅ 判断数字
+    function isNumber(val) {
+      return /^-?\d+(\.\d+)?$/.test(val);
+    }
+  
+    let body = [];
+  
+    // ✅ 1️⃣ obj（强制加引号）
+    const objStr = `"${obj}"`;
+    const objBytes = Array.from(objStr).map(c => c.charCodeAt(0));
+    body.push(id++, objBytes.length, ...objBytes);
+  
+    // ✅ 2️⃣ method（强制加引号）
+    const methodStr = `"${method}"`;
+    const methodBytes = Array.from(methodStr).map(c => c.charCodeAt(0));
+    body.push(id++, methodBytes.length, ...methodBytes);
+  
+    // ✅ 3️⃣ 参数（按你规则处理）
+    for (let arg of args) {
+      let val = arg.trim();
+  
+      // 字符串（必须用户自己带引号）
+      if (val.startsWith('"') && val.endsWith('"')) {
+        // OK，直接用
+      }
+      // 数字
+      else if (isNumber(val)) {
+        // OK，不加引号
+      }
+      else {
+        throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
+      }
+  
+      const bytes = Array.from(val).map(c => c.charCodeAt(0));
+  
+      body.push(id++, bytes.length, ...bytes);
+    }
+  
+    // ✅ 包长 = 字段 + 校验位
+    const length = body.length + 1;
+  
+    const lenHigh = (length >> 8) & 0xff;
+    const lenLow = length & 0xff;
+  
+    return [
+      ...HEADER,
+      lenHigh,
+      lenLow,
+      ...body,
+      TAIL
+    ];
+  }
+  function getAfterDot(str) {
+    const index = str.indexOf('.');
+    if (index === -1) return ''; // 没有点
+    return str.slice(index + 1);
+  }
 function showToast(message) {
     const toast = document.createElement('div');
     Object.assign(toast.style, {

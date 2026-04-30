@@ -18,114 +18,114 @@ class Esp32S4S {
             id: 'Esp32S4S.name',
             default: 'Esp32',
         }),
-        color1: '#55DAD1',  // 主颜色
-        color2: '#45C2B9',  // 次颜色（渐变）
+        color1: '#317edb',  // 主颜色
+        // color2: '#45C2B9',  // 次颜色（渐变）
         color3: '#36AAA1',   // 边框颜色
         // menuIconURI: icon, 
 
         //模块 
         blocks: [
 
-            {
-                blockType: BlockType.LABEL,
-                text: formatMessage({
-                    id: 'Esp32S4S.display',
-                    default: 'Display',
-                }),
-            },
-            {
-                opcode: 'clearScreen',//初始化oled
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'Esp32S4S.clearScreen',
-                    default: 'Clear screen',
-                    description: 'Esp32S4S.clearScreen'
-                }),
-                arguments: {
-                }
-            },
-            {
-                opcode: 'setScreenColor',//初始化oled
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'Esp32S4S.setScreenColor',
-                    default: 'Set screen color [COLOR]',
-                    description: 'Esp32S4S.setScreenColor'
-                }),
-                arguments: {
-                    COLOR: {
-                        type: ArgumentType.COLOR,
-                        defaultValue:'#FF0000'
-                    }
-                }
-            },
+            // {
+            //     blockType: BlockType.LABEL,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.display',
+            //         default: 'Display',
+            //     }),
+            // },
+            // {
+            //     opcode: 'clearScreen',//初始化oled
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.clearScreen',
+            //         default: 'clear screen',
+            //         description: 'Esp32S4S.clearScreen'
+            //     }),
+            //     arguments: {
+            //     }
+            // },
+            // {
+            //     opcode: 'setScreenColor',//初始化oled
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.setScreenColor',
+            //         default: 'set screen color [COLOR]',
+            //         description: 'Esp32S4S.setScreenColor'
+            //     }),
+            //     arguments: {
+            //         COLOR: {
+            //             type: ArgumentType.COLOR,
+            //             defaultValue:'#FF0000'
+            //         }
+            //     }
+            // },
 
-            {
-                opcode: 'displayText',//初始化oled
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'Esp32S4S.displayText',
-                    default: 'Display text [TEXT] with color [COLOR]',
-                    description: 'Esp32S4S.displayText'
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.STRING,
-                        defaultValue:'Hello LinkBot'
-                    },
-                    COLOR: {
-                        type: ArgumentType.COLOR,
-                        defaultValue:'#FF0000'
-                    }
-                }
-            },
-            {
-                opcode: 'drawPixel',//初始化oled
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'Esp32S4S.drawPixel',
-                    default: 'draw pixel at x[X] y[Y]',
-                    description: 'Esp32S4S.drawPixel'
-                }),
-                arguments: {
-                    X: {
-                        type: ArgumentType.STRING,
-                        defaultValue:0
-                    },
-                    Y: {
-                        type: ArgumentType.STRING,
-                        defaultValue:0
-                    }
-                }
-            },
+            // {
+            //     opcode: 'displayText',//初始化oled
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.displayText',
+            //         default: 'display text [TEXT] with color [COLOR]',
+            //         description: 'Esp32S4S.displayText'
+            //     }),
+            //     arguments: {
+            //         TEXT: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:'Hello LinkBot'
+            //         },
+            //         COLOR: {
+            //             type: ArgumentType.COLOR,
+            //             defaultValue:'#FF0000'
+            //         }
+            //     }
+            // },
+            // {
+            //     opcode: 'drawPixel',//初始化oled
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.drawPixel',
+            //         default: 'draw pixel at x[X] y[Y]',
+            //         description: 'Esp32S4S.drawPixel'
+            //     }),
+            //     arguments: {
+            //         X: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:0
+            //         },
+            //         Y: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:0
+            //         }
+            //     }
+            // },
 
-            {
-                opcode: 'drawLine',//初始化oled
-                blockType: BlockType.COMMAND,
-                text: formatMessage({
-                    id: 'Esp32S4S.drawLine',
-                    default: 'draw line X1[X1]Y1[Y1] X2[X2]Y2[Y2]',
-                    description: 'Esp32S4S.drawLine'
-                }),
-                arguments: {
-                    X1: {
-                        type: ArgumentType.STRING,
-                        defaultValue:0
-                    },
-                    Y1: {
-                        type: ArgumentType.STRING,
-                        defaultValue:0
-                    },
-                    X2: {
-                        type: ArgumentType.STRING,
-                        defaultValue:1
-                    },
-                    Y2: {
-                        type: ArgumentType.STRING,
-                        defaultValue:1
-                    }
-                }
-            },
+            // {
+            //     opcode: 'drawLine',//初始化oled
+            //     blockType: BlockType.COMMAND,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.drawLine',
+            //         default: 'draw line X1[X1]Y1[Y1] X2[X2]Y2[Y2]',
+            //         description: 'Esp32S4S.drawLine'
+            //     }),
+            //     arguments: {
+            //         X1: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:0
+            //         },
+            //         Y1: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:0
+            //         },
+            //         X2: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:1
+            //         },
+            //         Y2: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue:1
+            //         }
+            //     }
+            // },
 
             {
                 blockType: BlockType.LABEL,
@@ -431,7 +431,7 @@ class Esp32S4S {
                 // blockIconURI:arduinoSvg,
                 text: formatMessage({
                     id: 'Esp32S4S.getTimer',
-                    default: 'Get timer value',
+                    default: 'get timer value',
                     description: 'Esp32S4S.getTimer'
                 }),
                 disableMonitor: true,
@@ -446,7 +446,7 @@ class Esp32S4S {
                 // blockIconURI:arduinoSvg,
                 text: formatMessage({
                     id: 'Esp32S4S.resetTimer',
-                    default: 'Reset timer',
+                    default: 'reset timer',
                     description: 'Esp32S4S.resetTimer'
                 }),
                 arguments: {
