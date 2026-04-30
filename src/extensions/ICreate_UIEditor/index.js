@@ -11,15 +11,17 @@ class UIEditor {
         this.runtime.on('UI_DELETE_COMPONENT', this.deleteFromUI.bind(this));
         this.runtime.on('UI_CLEAR_ALL', this.clearAllFromUI.bind(this)); 
 
+        //记录组件数据
         this.components = {
             title: [],
             label: [],
             rectangle: [],
             circle: [],
             line: [],
-
+            image: [],
             button: [],
-            
+            switch: [],
+            slider: []
         };
     }
 
@@ -63,7 +65,7 @@ class UIEditor {
         }, 10);
     }
 
-    // 清空所有组件
+    // 清空所有组件（无需数据直接删）
     clearAllFromUI() {
         for (const type in this.components) {
             this.components[type] = [];
@@ -380,11 +382,11 @@ class UIEditor {
                         },
                         WIDTH: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50
+                            defaultValue: 40
                         },
                         HEIGHT: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50
+                            defaultValue: 40
                         }       
                     }
                 },
@@ -402,7 +404,7 @@ class UIEditor {
                         },
                         WIDTH: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50
+                            defaultValue: 40
                         }
                     }
                 },
@@ -420,7 +422,7 @@ class UIEditor {
                         },
                         HEIGHT: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50
+                            defaultValue: 40
                         }
                     }
                 },
@@ -547,7 +549,7 @@ class UIEditor {
                         },
                         RADIUS: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 30
+                            defaultValue: 20
                         }
                     }
                 },
@@ -652,18 +654,858 @@ class UIEditor {
         // =================================================
         // 线条
         // =================================================
-        // if (this.has('line')) {
-        //     blocks.push(
-        //         {
-        //             blockType: BlockType.LABEL,
-        //             text: formatMessage({
-        //                 id: 'UIEditor.line',
-        //                 default: 'Line',
-        //             }),
-        //         },
+        if (this.has('line')) {
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'UIEditor.line',
+                        default: 'Line',
+                    }),
+                },
+                {
+                    opcode: 'setLinePosition',//设置线条位置
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setLinePosition',
+                        default: 'set Line [LINE] position x1 [X1] y1 [Y1] x2 [X2] y2 [Y2]'
+                    }),
+                    arguments: {
+                        LINE: {
+                            type: ArgumentType.STRING,
+                            menu: 'lineMenu'
+                        },
+                        X1: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        Y1: {        
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        X2: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        Y2: {        
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setLineColor',//设置线条颜色
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setLineColor',
+                        default: 'set Line [LINE] color [COLOR]'
+                    }),
+                    arguments: {
+                        LINE: {
+                            type: ArgumentType.STRING,
+                            menu: 'lineMenu'
+                        },
+                        COLOR: {
+                            type: ArgumentType.COLOR,
+                            defaultValue: '#FF0000'
+                        }
+                    }
+                }, 
+            )
+        }   
+
+        // =================================================
+        // 图片
+        // =================================================
+        if (this.has('image')) {
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'UIEditor.image',
+                        default: 'Image',
+                    }),
+                },
+                {
+                    opcode: 'setImagePath',//设置图片路径
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImagePath',
+                        default: 'set Image [IMAGE] path [PATH]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        PATH: {
+                            type: ArgumentType.STRING,
+                            defaultValue: '/img/1.png'
+                        }
+                    }
+                },
+                {
+                    opcode: 'setImageSize',//设置图片大小
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImageSize',
+                        default: 'set Image [IMAGE] size width [WIDTH] height [HEIGHT]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 70
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 70
+                        }
+                    }
+                 },
+                 {
+                    opcode: 'setImageSizeWidth',//设置图片宽度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImageSizeWidth',
+                        default: 'set Image [IMAGE] size width [WIDTH]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 70
+                        }
+                    }
+                 },
+                 {
+                    opcode: 'setImageSizeHeight',//设置图片高度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImageSizeHeight',
+                        default: 'set Image [IMAGE] size height [HEIGHT]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 70
+                        }       
+                     }
+                },
+                {
+                    opcode: 'setImagePosition',//设置图片位置
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImagePosition',
+                        default: 'set Image [IMAGE] position x [X] y [Y]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        Y: {    
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0 
+                        }
+                    }
+                },
+                {
+                    opcode: 'setImagePositionX',//设置图片位置-x
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImagePositionX',
+                        default: 'set Image [IMAGE] position x [X]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setImagePositionY',//设置图片位置-y
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setImagePositionY',
+                        default: 'set Image [IMAGE] position y [Y]'
+                    }),
+                    arguments: {
+                        IMAGE: {
+                            type: ArgumentType.STRING,
+                            menu: 'imageMenu'
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                }                
+            )
+        }
+
+        // =================================================
+        // 按钮
+        // =================================================
+        if (this.has('button')) {
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'UIEditor.button',
+                        default: 'Button',
+                    }),
+                },
+                {
+                    opcode: 'setButtonText',//设置按钮文本
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonText',
+                        default: 'set Button [BUTTON] text [TEXT]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        TEXT: {
+                            type: ArgumentType.STRING,
+                            defaultValue: 'button'
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonSize',//设置按钮大小
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonSize',
+                        default: 'set Button [BUTTON] size width [WIDTH] height [HEIGHT]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 80
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }       
+                    }
+                },
+                {
+                    opcode: 'setButtonSizeWidth',//设置按钮宽度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonSizeWidth',
+                        default: 'set Button [BUTTON] size width [WIDTH]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 80
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonSizeHeight',//设置按钮高度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonSizeHeight',
+                        default: 'set Button [BUTTON] size height [HEIGHT]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }       
+                    }
+                },
+                {
+                    opcode: 'setButtonPosition',//设置按钮位置
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonPosition',
+                        default: 'set Button [BUTTON] position x [X] y [Y]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonPositionX',//设置按钮位置-x
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonPositionX',      
+                        default: 'set Button [BUTTON] position x [X]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonPositionY',//设置按钮位置-y
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonPositionY',
+                        default: 'set Button [BUTTON] position y [Y]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonColor',//设置按钮颜色
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonColor',
+                        default: 'set Button [BUTTON] color [COLOR]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        COLOR: {
+                            type: ArgumentType.COLOR,
+                            defaultValue: '#0000FF'
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonTextColor',//设置按钮文本颜色
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonTextColor',
+                        default: 'set Button [BUTTON] text color [COLOR]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        COLOR: {
+                            type: ArgumentType.COLOR,
+                            defaultValue: '#FFFFFF'
+                        }
+                    }
+                },
+                {
+                    opcode: 'setButtonFontSize',//设置按钮字体大小
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setButtonFontSize',
+                        default: 'set Button [BUTTON] font size [SIZE]'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        SIZE: {
+                            type: ArgumentType.STRING,
+                            menu: 'fontSizeMenu'
+                        }
+                    }
+                },
+                {
+                    opcode: 'whenButtonClicked',//当按钮被点击
+                    blockType: BlockType.HAT,
+                    text: formatMessage({
+                        id: 'UIEditor.whenButtonClicked',
+                        default: 'when Button [BUTTON] clicked'
+                    }),
+                    arguments: {
+                        BUTTON: {
+                            type: ArgumentType.STRING,
+                            menu: 'buttonMenu'
+                        },
+                        SUBSTACK: {                    
+                            type: ArgumentType.STATEMENT
+                        }
+                    }
+                },
+            )
+        }
+
+        // =================================================
+        // 开关
+        // =================================================
+        if (this.has('switch')) {
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'UIEditor.switch',
+                        default: 'Switch',
+                    }),
+                },
+                {
+                    opcode: 'setSwitchOnColor',//设置开启状态颜色
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchOnColor',
+                        default: 'set Switch [SWITCH] on color [COLOR]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        COLOR: {
+                            type: ArgumentType.COLOR,   
+                            defaultValue: '#00FF00'
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSwitchOffColor',//设置关闭状态颜色
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchOffColor',
+                        default: 'set Switch [SWITCH] off color [COLOR]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        COLOR: {
+                            type: ArgumentType.COLOR,   
+                            defaultValue: '#FF0000'
+                        }
+                    }
+                },    
+                {
+                    opcode: 'setSwitchSize',//设置开关大小
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchSize',
+                        default: 'set Switch [SWITCH] size width [WIDTH] height [HEIGHT]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 80
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }       
+                    }
+                 },
+                 {
+                    opcode: 'setSwitchSizeWidth',//设置开关宽度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchSizeWidth',
+                        default: 'set Switch [SWITCH] size width [WIDTH]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 80
+                        }  
+                    } 
+                },
+                {
+                    opcode: 'setSwitchSizeHeight',//设置开关高度    
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchSizeHeight',
+                        default: 'set Switch [SWITCH] size height [HEIGHT]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }  
+                    }
+                 },
+                 {
+                    opcode: 'setSwitchPosition',//设置开关位置
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchPosition',
+                        default: 'set Switch [SWITCH] position x [X] y [Y]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSwitchPositionX',//设置开关位置-x
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchPositionX',
+                        default: 'set Switch [SWITCH] position x [X]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSwitchPositionY',//设置开关位置-y
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchPositionY',
+                        default: 'set Switch [SWITCH] position y [Y]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSwitchState',//设置开关状态
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSwitchState',
+                        default: 'set Switch [SWITCH] state [STATE]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        STATE: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchStateMenu'
+                        }
+                    }
+                },
+                {
+                    opcode: 'whenSwitchChanged',//当开关状态改变
+                    blockType: BlockType.HAT,
+                    text: formatMessage({
+                        id: 'UIEditor.whenSwitchChanged',
+                        default: 'when Switch [SWITCH] [STATE]'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        },
+                        STATE: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchStateMenu'
+                        },
+                        SUBSTACK: {                    
+                            type: ArgumentType.STATEMENT
+                        }
+                     }
+                 },
+                 {
+                    opcode: 'getSwitchState',//获取开关状态
+                    blockType: BlockType.BOOLEAN,
+                    disableMonitor: true,
+                    text: formatMessage({
+                        id: 'UIEditor.getSwitchState',
+                        default: 'get Switch [SWITCH] state'
+                    }),
+                    arguments: {
+                        SWITCH: {
+                            type: ArgumentType.STRING,
+                            menu: 'switchMenu'
+                        }
+                     }
+                  },
+            )
+        }
+
+        // =================================================
+        // 滑块
+        // =================================================
+        if (this.has('slider')) {
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'UIEditor.slider',
+                        default: 'Slider',
+                    }),
+                },
+                {
+                    opcode: 'setSliderColor',//设置滑块颜色
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderColor',
+                        default: 'set Slider [SLIDER] color [COLOR]'
+                    }),
+                    arguments: {  
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        COLOR: {
+                            type: ArgumentType.COLOR,
+                            defaultValue: '#FF0000'
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSliderSize',//设置滑块大小
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderSize',
+                        default: 'set Slider [SLIDER] size width [WIDTH] height [HEIGHT]'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 100
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }       
+                    }
+                },
+                {
+                    opcode: 'setSliderSizeWidth',//设置滑块宽度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({   
+                        id: 'UIEditor.setSliderSizeWidth',
+                        default: 'set Slider [SLIDER] size width [WIDTH]'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        WIDTH: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 100
+                        }  
+                    }
+                },
+                {
+                    opcode: 'setSliderSizeHeight',//设置滑块高度
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderSizeHeight',
+                        default: 'set Slider [SLIDER] size height [HEIGHT]'
+                    }),
+                    arguments: {    
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        HEIGHT: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }  
+                    }
+                },
+                {
+                    opcode: 'setSliderPosition',//设置滑块位置
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderPosition',
+                        default: 'set Slider [SLIDER] position x [X] y [Y]'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSliderPositionX',//设置滑块位置-x
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderPositionX',
+                        default: 'set Slider [SLIDER] position x [X]'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        X: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+                {
+                    opcode: 'setSliderPositionY',//设置滑块位置-y
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderPositionY',
+                        default: 'set Slider [SLIDER] position y [Y]'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        Y: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
+                        }
+                    }
+                },
+
+                {
+                    opcode: 'setSliderValue',//设置滑块数值
+                    blockType: BlockType.COMMAND,
+                    text: formatMessage({
+                        id: 'UIEditor.setSliderValue',
+                        default: 'set Slider [SLIDER] value [VALUE]'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        VALUE: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 50
+                        }
+                    }
+                },
+                {
+                    opcode: 'whenSliderChanged',//当滑块数值改变
+                    blockType: BlockType.HAT,
+                    text: formatMessage({
+                        id: 'UIEditor.whenSliderChanged',
+                        default: 'when Slider [SLIDER] value changed'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        },
+                        SUBSTACK: {                    
+                            type: ArgumentType.STATEMENT
+                        }
+                    }
+                },
+                {
+                    opcode: 'getSliderValue',//获取滑块数值
+                    blockType: BlockType.REPORTER,
+                    disableMonitor: true,
+                    text: formatMessage({
+                        id: 'UIEditor.getSliderValue',
+                        default: 'get Slider [SLIDER] value'
+                    }),
+                    arguments: {
+                        SLIDER: {
+                            type: ArgumentType.STRING,
+                            menu: 'sliderMenu'
+                        }
+                    }
+                },
                 
-        //     )
-        // }   
+            )
+        }
+
+
 
        
 
@@ -693,9 +1535,25 @@ class UIEditor {
                     acceptReporters: false,
                     items: this.getMenu('circle')
                 },
+                lineMenu:{
+                    acceptReporters: false,
+                    items: this.getMenu('line')
+                },
+                imageMenu: {
+                    acceptReporters: false,
+                    items: this.getMenu('image')
+                },
                 buttonMenu: {
                     acceptReporters: false,
                     items: this.getMenu('button')
+                },
+                switchMenu: {
+                    acceptReporters: false,
+                    items: this.getMenu('switch')
+                },
+                sliderMenu: {
+                    acceptReporters: false,
+                    items: this.getMenu('slider')
                 },
                 fontSizeMenu: {
                     acceptReporters: false,
@@ -703,6 +1561,13 @@ class UIEditor {
                         { text: 'small', value: "12" },
                         { text: 'medium', value: "14" },
                         { text: 'large', value: "16" }
+                    ]
+                },
+                switchStateMenu: {
+                    acceptReporters: false,
+                    items: [
+                        { text: 'on', value: "true" },
+                        { text: 'off', value: "false" }
                     ]
                 }
             }
