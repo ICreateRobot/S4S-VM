@@ -75,6 +75,8 @@ defaultBuiltinExtensions['LinkBotSensors'] = () => require('../extensions/ICreat
 defaultBuiltinExtensions['LinkBotPower'] = () => require('../extensions/ICreate_LinkBot_Power');
 defaultBuiltinExtensions['Esp32S4S'] = () => require('../extensions/ICreate_Esp32');
 defaultBuiltinExtensions['UIEditor'] = () => require('../extensions/ICreate_UIEditor');
+defaultBuiltinExtensions['Ultrasonic'] = () => require('../extensions/ICreate_Ultrasonic');
+defaultBuiltinExtensions['LineFollow'] = () => require('../extensions/ICreate_LineFollow');
 /**
  * @typedef {object} ArgumentInfo - Information about an extension block argument
  * @property {ArgumentType} type - the type of value this argument can take
