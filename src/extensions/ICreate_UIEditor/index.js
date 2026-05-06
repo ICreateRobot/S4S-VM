@@ -765,8 +765,8 @@ class UIEditor {
                             defaultValue: 70
                         }
                     }
-                 },
-                 {
+                },
+                {
                     opcode: 'setImageSizeWidth',//设置图片宽度
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
@@ -783,8 +783,8 @@ class UIEditor {
                             defaultValue: 70
                         }
                     }
-                 },
-                 {
+                },
+                {
                     opcode: 'setImageSizeHeight',//设置图片高度
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
@@ -1188,8 +1188,8 @@ class UIEditor {
                             defaultValue: 40
                         }  
                     }
-                 },
-                 {
+                },
+                {
                     opcode: 'setSwitchPosition',//设置开关位置
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
@@ -1285,8 +1285,8 @@ class UIEditor {
                             type: ArgumentType.STATEMENT
                         }
                      }
-                 },
-                 {
+                },
+                {
                     opcode: 'getSwitchState',//获取开关状态
                     blockType: BlockType.BOOLEAN,
                     disableMonitor: true,
@@ -1300,7 +1300,7 @@ class UIEditor {
                             menu: 'switchMenu'
                         }
                      }
-                  },
+                },
             )
         }
 
@@ -1505,10 +1505,6 @@ class UIEditor {
             )
         }
 
-
-
-       
-
         return {
             id: 'UIEditor',
             name: 'UI Editor',
@@ -1575,18 +1571,10 @@ class UIEditor {
     }
 
 
-
-
-
-
+    //-----------------执行------------------------------
     setScreenColor(args, util) {
         console.log(this.runtime.runMode)
     }
-
-
-   
-
-
     
 }
 
