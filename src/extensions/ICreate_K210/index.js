@@ -7,6 +7,63 @@ class ICreateK210 {
 
     constructor(runtime) {
         this.runtime = runtime;
+        this.modeMap=[
+                formatMessage({
+                    id: 'k210.menuMode.recogn',
+                    default: 'color recognition',
+                    description: 'k210.menuMode.recogn'
+                }),
+
+                formatMessage({
+                    id: 'k210.menuMode.colorBlock',
+                    default: 'color block tracking',
+                    description: 'k210.menuMode.colorBlock'
+                }),
+                formatMessage({
+                    id: 'k210.menuMode.tag',
+                    default: 'tag recognition',
+                    description: 'k210.menuMode.tag'
+                }),
+                formatMessage({
+                    id: 'k210.menuMode.line',
+                    default: 'line recognition',
+                    description: 'k210.menuMode.line'
+                }),
+                formatMessage({
+                    id: 'k210.menuMode.class',
+                    default: '20-class object recognition',
+                    description: 'k210.menuMode.class'
+                }),
+
+                formatMessage({
+                    id: 'k210.menuMode.qr',
+                    default: 'QR code recognition',
+                    description: 'k210.menuMode.qr'
+                }),
+                formatMessage({
+                    id: 'k210.menuMode.faceAttr',
+                    default: 'face attributes',
+                    description: 'k210.menuMode.faceAttr'
+                }),
+
+                formatMessage({
+                    id: 'k210.menuMode.faceRecogn',
+                    default: 'face recognition',
+                    description: 'k210.menuMode.faceRecogn'
+                }),
+                
+                formatMessage({
+                    id: 'k210.menuMode.deep',
+                    default: 'deep learning',
+                    description: 'k210.menuMode.deep'
+                }),
+
+                formatMessage({
+                    id: 'k210.menuMode.road',
+                    default: 'road sign recognition',
+                    description: 'k210.menuMode.road'
+                }),
+        ]
     }
 
     getInfo() {
@@ -454,12 +511,12 @@ class ICreateK210 {
             },
 
             {
-                opcode: 'faceRecogLearnNum',
-                blockType: BlockType.REPORTER,
+                opcode: 'faceRecogLearn',
+                blockType: BlockType.BOOLEAN,
                 text: formatMessage({
-                    id: 'k210.faceRecogLearnNum',
-                    default: 'Number of recognized learned faces',
-                    description: 'k210.faceRecogLearnNum'
+                    id: 'k210.faceRecogLearn',
+                    default: 'Is a learned face detected?',
+                    description: 'k210.faceRecogLearn'
                 }),
                 arguments:{
                 
@@ -571,133 +628,133 @@ class ICreateK210 {
                 disableMonitor: true
             },
 
-            {
-                blockType: BlockType.LABEL,
-                text: formatMessage({
-                    id: 'k210.chat',
-                    default: 'AI chat',
-                    description: 'k210.chat'
-                }),
-            },
+            // {
+            //     blockType: BlockType.LABEL,
+            //     text: formatMessage({
+            //         id: 'k210.chat',
+            //         default: 'AI chat',
+            //         description: 'k210.chat'
+            //     }),
+            // },
 
-            {
-                opcode: 'chatState',
-                blockType: BlockType.BOOLEAN,
-                text: formatMessage({
-                    id: 'k210.chatState',
-                    default: 'Current state is [ONE]?',
-                    description: 'k210.chatState'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_CHAT'
-                    },
-                },
-                disableMonitor: true
-            },
+            // {
+            //     opcode: 'chatState',
+            //     blockType: BlockType.BOOLEAN,
+            //     text: formatMessage({
+            //         id: 'k210.chatState',
+            //         default: 'Current state is [ONE]?',
+            //         description: 'k210.chatState'
+            //     }),
+            //     arguments:{
+            //         ONE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_CHAT'
+            //         },
+            //     },
+            //     disableMonitor: true
+            // },
 
-            {
-                opcode: 'chatMotion',
-                blockType: BlockType.BOOLEAN,
-                text: formatMessage({
-                    id: 'k210.chatMotion',
-                    default: 'Detected motion command [ONE]?',
-                    description: 'k210.chatMotion'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_MOTION'
-                    },
-                },
-                disableMonitor: true
-            },
+            // {
+            //     opcode: 'chatMotion',
+            //     blockType: BlockType.BOOLEAN,
+            //     text: formatMessage({
+            //         id: 'k210.chatMotion',
+            //         default: 'Detected motion command [ONE]?',
+            //         description: 'k210.chatMotion'
+            //     }),
+            //     arguments:{
+            //         ONE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_MOTION'
+            //         },
+            //     },
+            //     disableMonitor: true
+            // },
 
-            {
-                opcode: 'chatMotionSpeed',
-                blockType: BlockType.REPORTER,
-                text: formatMessage({
-                    id: 'k210.chatMotionSpeed',
-                    default: 'Detected motion speed',
-                    description: 'k210.chatMotionSpeed'
-                }),
-                arguments:{
+            // {
+            //     opcode: 'chatMotionSpeed',
+            //     blockType: BlockType.REPORTER,
+            //     text: formatMessage({
+            //         id: 'k210.chatMotionSpeed',
+            //         default: 'Detected motion speed',
+            //         description: 'k210.chatMotionSpeed'
+            //     }),
+            //     arguments:{
                     
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'chatCustomCommand',
-                blockType: BlockType.REPORTER,
-                text: formatMessage({
-                    id: 'k210.chatCustomCommand',
-                    default: 'Detected custom command',
-                    description: 'k210.chatCustomCommand'
-                }),
-                arguments:{
+            //     },
+            //     disableMonitor: true
+            // },
+            // {
+            //     opcode: 'chatCustomCommand',
+            //     blockType: BlockType.REPORTER,
+            //     text: formatMessage({
+            //         id: 'k210.chatCustomCommand',
+            //         default: 'Detected custom command',
+            //         description: 'k210.chatCustomCommand'
+            //     }),
+            //     arguments:{
                     
-                },
-                disableMonitor: true
-            },
+            //     },
+            //     disableMonitor: true
+            // },
 
-            {
-                blockType: BlockType.LABEL,
-                text: formatMessage({
-                    id: 'k210.wirelessLabel',
-                    default: 'WIRELESS IMAGE TRANSMISSION',
-                    description: 'k210.wirelessLabel'
-                }),
-            },
+            // {
+            //     blockType: BlockType.LABEL,
+            //     text: formatMessage({
+            //         id: 'k210.wirelessLabel',
+            //         default: 'WIRELESS IMAGE TRANSMISSION',
+            //         description: 'k210.wirelessLabel'
+            //     }),
+            // },
 
-            {
-                opcode: 'wirelessJoystick',
-                blockType: BlockType.REPORTER,
-                text: formatMessage({
-                    id: 'k210.wirelessJoystick',
-                    default: 'Get joystick position [ONE]',
-                    description: 'k210.wirelessJoystick'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_POSITION'
-                    },
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'wirelessButton',
-                blockType: BlockType.BOOLEAN,
-                text: formatMessage({
-                    id: 'k210.wirelessButton',
-                    default: 'Button [ONE] pressed ?',
-                    description: 'k210.wirelessButton'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_BUTTON'
-                    },
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'wirelessKeybord',
-                blockType: BlockType.BOOLEAN,
-                text: formatMessage({
-                    id: 'k210.wirelessKeybord',
-                    default: 'Keyboard [ONE] pressed ?',
-                    description: 'k210.wirelessKeybord'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_KEYBOARD'
-                    },
-                },
-                disableMonitor: true
-            },
+            // {
+            //     opcode: 'wirelessJoystick',
+            //     blockType: BlockType.REPORTER,
+            //     text: formatMessage({
+            //         id: 'k210.wirelessJoystick',
+            //         default: 'Get joystick position [ONE]',
+            //         description: 'k210.wirelessJoystick'
+            //     }),
+            //     arguments:{
+            //         ONE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_POSITION'
+            //         },
+            //     },
+            //     disableMonitor: true
+            // },
+            // {
+            //     opcode: 'wirelessButton',
+            //     blockType: BlockType.BOOLEAN,
+            //     text: formatMessage({
+            //         id: 'k210.wirelessButton',
+            //         default: 'Button [ONE] pressed ?',
+            //         description: 'k210.wirelessButton'
+            //     }),
+            //     arguments:{
+            //         ONE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_BUTTON'
+            //         },
+            //     },
+            //     disableMonitor: true
+            // },
+            // {
+            //     opcode: 'wirelessKeybord',
+            //     blockType: BlockType.BOOLEAN,
+            //     text: formatMessage({
+            //         id: 'k210.wirelessKeybord',
+            //         default: 'Keyboard [ONE] pressed ?',
+            //         description: 'k210.wirelessKeybord'
+            //     }),
+            //     arguments:{
+            //         ONE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_KEYBOARD'
+            //         },
+            //     },
+            //     disableMonitor: true
+            // },
 
             // {
             //     opcode: 'wirelessSet',
@@ -867,7 +924,7 @@ class ICreateK210 {
                             default: 'Turn Right',
                             description: 'k210.menuRoad.turnRight'
                         }),
-                        value: '4'
+                        value: 'TURN_RIGHT'
                     },
                     {
                         text: formatMessage({
@@ -875,7 +932,7 @@ class ICreateK210 {
                             default: 'Turn Left',
                             description: 'k210.menuRoad.turnLeft'
                         }),
-                        value: '1'
+                        value: 'TURN_LEFT'
                     },
                     {
                         text: formatMessage({
@@ -883,7 +940,7 @@ class ICreateK210 {
                             default: 'Stop',
                             description: 'k210.menuRoad.stop'
                         }),
-                        value: '2'
+                        value: 'STOP_MOVING'
                     },
                     {
                         text: formatMessage({
@@ -891,7 +948,7 @@ class ICreateK210 {
                             default: 'Honk',
                             description: 'k210.menuRoad.honk'
                         }),
-                        value: '5'
+                        value: 'EVENT_HONK'
                     },
                     {
                         text: formatMessage({
@@ -899,7 +956,7 @@ class ICreateK210 {
                             default: 'Green Light',
                             description: 'k210.menuRoad.greenLight'
                         }),
-                        value: '0'
+                        value: 'GREEN'
                     },
                     {
                         text: formatMessage({
@@ -907,7 +964,7 @@ class ICreateK210 {
                             default: 'Red Light',
                             description: 'k210.menuRoad.redLight'
                         }),
-                        value: '3'
+                        value: 'RED'
                     },
                     {
                         text: formatMessage({
@@ -915,7 +972,7 @@ class ICreateK210 {
                             default: 'Target',
                             description: 'k210.menuRoad.target'
                         }),
-                        value: '6'
+                        value: 'EVENT_TARGET'
                     }
                 ]
             },
@@ -927,18 +984,18 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuDeepClass.class0',
-                            default: 'class 0',
+                            default: 'class 1',
                             description: 'k210.menuDeepClass.class0'
                         }),
-                        value: '0'
+                        value: '1'
                     },
                     {
                         text: formatMessage({
                             id: 'k210.menuDeepClass.class1',
-                            default: 'class 1',
+                            default: 'class 2',
                             description: 'k210.menuDeepClass.class1'
                         }),
-                        value: '1'
+                        value: '2'
                     },
                 
                 ]
@@ -954,7 +1011,7 @@ class ICreateK210 {
                             default: 'Mouth Open',
                             description: 'k210.menuEmote.open'
                         }),
-                        value: '1'
+                        value: 'FACE_OPEN_MOUTH'
                     },
                     {
                         text: formatMessage({
@@ -962,7 +1019,7 @@ class ICreateK210 {
                             default: 'Smiling',
                             description: 'k210.menuEmote.smiling'
                         }),
-                        value: '2'
+                        value: 'FACE_SMILE'
                     },
                     {
                         text: formatMessage({
@@ -970,7 +1027,7 @@ class ICreateK210 {
                             default: 'Wearing Glasses',
                             description: 'k210.menuEmote.Wearing'
                         }),
-                        value: '3'
+                        value: 'FACE_GLASSES'
                     },
                 
                 ]
@@ -984,7 +1041,7 @@ class ICreateK210 {
                             default: 'Face 0',
                             description: 'k210.menuFace.face0'
                         }),
-                        value: '0'
+                        value: '1'
                     },
                     {
                         text: formatMessage({
@@ -992,7 +1049,7 @@ class ICreateK210 {
                             default: 'Face 1',
                             description: 'k210.menuFace.face1'
                         }),
-                        value: '1'
+                        value: '2'
                     },
                     {
                         text: formatMessage({
@@ -1000,7 +1057,7 @@ class ICreateK210 {
                             default: 'Face 2',
                             description: 'k210.menuFace.face2'
                         }),
-                        value: '2'
+                        value: '3'
                     },
                     {
                         text: formatMessage({
@@ -1008,7 +1065,7 @@ class ICreateK210 {
                             default: 'Face 3',
                             description: 'k210.menuFace.face3'
                         }),
-                        value: '3'
+                        value: '4'
                     },
                 
                 ]
@@ -1024,7 +1081,7 @@ class ICreateK210 {
                             default: '(0)Airplane',
                             description: 'k210.menuObj.Airplane'
                         }),
-                        value: '0'
+                        value: 'OBJECT_AIRPLANE'
                     },
                     {
                         text: formatMessage({
@@ -1032,7 +1089,7 @@ class ICreateK210 {
                             default: '(1)Bicycle',
                             description: 'k210.menuObj.Bicycle'
                         }),
-                        value: '1'
+                        value: 'OBJECT_BICYCLE'
                     },
                     {
                         text: formatMessage({
@@ -1040,7 +1097,7 @@ class ICreateK210 {
                             default: '(2)Bird',
                             description: 'k210.menuObj.Bird'
                         }),
-                        value: '2'
+                        value: 'OBJECT_BIRD'
                     },
                     {
                         text: formatMessage({
@@ -1048,7 +1105,7 @@ class ICreateK210 {
                             default: '(3)Boat',
                             description: 'k210.menuObj.Boat'
                         }),
-                        value: '3'
+                        value: 'OBJECT_BOAT'
                     },
                     {
                         text: formatMessage({
@@ -1056,7 +1113,7 @@ class ICreateK210 {
                             default: '(4)Bottle',
                             description: 'k210.menuObj.Bottle'
                         }),
-                        value: '4'
+                        value: 'OBJECT_BOTTLE'
                     },
                     {
                         text: formatMessage({
@@ -1064,7 +1121,7 @@ class ICreateK210 {
                             default: '(5)Bus',
                             description: 'k210.menuObj.Bus'
                         }),
-                        value: '5'
+                        value: 'OBJECT_BUS'
                     },
                     {
                         text: formatMessage({
@@ -1072,7 +1129,7 @@ class ICreateK210 {
                             default: '(6)Car',
                             description: 'k210.menuObj.Car'
                         }),
-                        value: '6'
+                        value: 'OBJECT_CAR'
                     },
                     {
                         text: formatMessage({
@@ -1080,7 +1137,7 @@ class ICreateK210 {
                             default: '(7)Cat',
                             description: 'k210.menuObj.Cat'
                         }),
-                        value: '7'
+                        value: 'OBJECT_CAT'
                     },
                     {
                         text: formatMessage({
@@ -1088,7 +1145,7 @@ class ICreateK210 {
                             default: '(8)Chair',
                             description: 'k210.menuObj.Chair'
                         }),
-                        value: '8'
+                        value: 'OBJECT_CHAIR'
                     },
                     {
                         text: formatMessage({
@@ -1096,7 +1153,7 @@ class ICreateK210 {
                             default: '(9)Cow',
                             description: 'k210.menuObj.Cow'
                         }),
-                        value: '9'
+                        value: 'OBJECT_COW'
                     },
                     {
                         text: formatMessage({
@@ -1104,7 +1161,7 @@ class ICreateK210 {
                             default: '(10)Dining Table',
                             description: 'k210.menuObj.DiningTable'
                         }),
-                        value: '10'
+                        value: 'OBJECT_DININGTABLE'
                     },
                     {
                         text: formatMessage({
@@ -1112,7 +1169,7 @@ class ICreateK210 {
                             default: '(11)Dog',
                             description: 'k210.menuObj.Dog'
                         }),
-                        value: '11'
+                        value: 'OBJECT_DOG'
                     },
                     {
                         text: formatMessage({
@@ -1120,7 +1177,7 @@ class ICreateK210 {
                             default: '(12)House',
                             description: 'k210.menuObj.House'
                         }),
-                        value: '12'
+                        value: 'OBJECT_HORSE'
                     },
                     {
                         text: formatMessage({
@@ -1128,7 +1185,7 @@ class ICreateK210 {
                             default: '(13)Motorcycle',
                             description: 'k210.menuObj.Motorcycle'
                         }),
-                        value: '13'
+                        value: 'OBJECT_MOTORBIKE'
                     },
                     {
                         text: formatMessage({
@@ -1136,7 +1193,7 @@ class ICreateK210 {
                             default: '(14)Person',
                             description: 'k210.menuObj.Person'
                         }),
-                        value: '14'
+                        value: ' OBJECT_PERSON'
                     },
                     {
                         text: formatMessage({
@@ -1144,7 +1201,7 @@ class ICreateK210 {
                             default: '(15)Potted Plant',
                             description: 'k210.menuObj.PottedPlant'
                         }),
-                        value: '15'
+                        value: 'OBJECT_POTTEDPLANT'
                     },
                     {
                         text: formatMessage({
@@ -1152,7 +1209,7 @@ class ICreateK210 {
                             default: '(16)Sheep',
                             description: 'k210.menuObj.Sheep'
                         }),
-                        value: '16'
+                        value: 'OBJECT_SHEEP'
                     },
                     {
                         text: formatMessage({
@@ -1160,7 +1217,7 @@ class ICreateK210 {
                             default: '(17)Sofa',
                             description: 'k210.menuObj.Sofa'
                         }),
-                        value: '17'
+                        value: 'OBJECT_SOFA'
                     },
                     {
                         text: formatMessage({
@@ -1168,7 +1225,7 @@ class ICreateK210 {
                             default: '(18)Ship',
                             description: 'k210.menuObj.Ship'
                         }),
-                        value: '18'
+                        value: 'OBJECT_TRAIN'
                     },
                     {
                         text: formatMessage({
@@ -1176,7 +1233,7 @@ class ICreateK210 {
                             default: '(19)Television',
                             description: 'k210.menuObj.Television'
                         }),
-                        value: '19'
+                        value: 'OBJECT_TV'
                     }
                 ]
             },
@@ -1190,7 +1247,7 @@ class ICreateK210 {
                             default: 'top',
                             description: 'k210.menuPlaceVertical.top'
                         }),
-                        value: '2'
+                        value: 'UP'
                     },
                     {
                         text: formatMessage({
@@ -1198,7 +1255,7 @@ class ICreateK210 {
                             default: 'middle',
                             description: 'k210.menuPlaceVertical.middle'
                         }),
-                        value: '1'
+                        value: 'MIDDLE'
                     },
                     {
                         text: formatMessage({
@@ -1206,7 +1263,7 @@ class ICreateK210 {
                             default: 'bottom',
                             description: 'k210.menuPlaceVertical.bottom'
                         }),
-                        value: '0'
+                        value: 'DOWN'
                     },
                 
                 ]
@@ -1217,19 +1274,19 @@ class ICreateK210 {
                 items: [
                     {
                         text: 'x',
-                        value: '0'
+                        value: 'AXIS_X'
                     },
                     {
                         text: 'y',
-                        value: '1'
+                        value: 'AXIS_Y'
                     },
                     {
                         text: 'W',
-                        value: '2'
+                        value: 'AXIS_W'
                     },
                     {
                         text: 'H',
-                        value: '3'
+                        value: 'AXIS_H'
                     },
                 
                 ]
@@ -1239,15 +1296,15 @@ class ICreateK210 {
                 items: [
                     {
                         text: 'R',
-                        value: 'r'
+                        value: 'RED'
                     },
                     {
                         text: 'G',
-                        value: 'g'
+                        value: 'GREEN'
                     },
                     {
                         text: 'B',
-                        value: 'b'
+                        value: 'BLUE'
                     },
 
                 ]
@@ -1261,7 +1318,7 @@ class ICreateK210 {
                             default: 'Red',
                             description: 'robotcolorplace.menuColor.red'
                         }),
-                        value: '1'
+                        value: 'RED'
                     },
                     {
                         text: formatMessage({
@@ -1269,7 +1326,7 @@ class ICreateK210 {
                             default: 'Green',
                             description: 'robotcolorplace.menuColor.green'
                         }),
-                        value: '2'
+                        value: 'GREEN'
                     },
                     {
                         text: formatMessage({
@@ -1277,7 +1334,7 @@ class ICreateK210 {
                             default: 'Blue',
                             description: 'robotcolorplace.menuColor.blue'
                         }),
-                        value: '3'
+                        value: 'BLUE'
                     },
                     {
                         text: formatMessage({
@@ -1285,7 +1342,7 @@ class ICreateK210 {
                             default: 'Yellow',
                             description: 'robotcolorplace.menuColor.yellow'
                         }),
-                        value: '4'
+                        value: 'YELLOW'
                     },
                     {
                         text: formatMessage({
@@ -1293,7 +1350,7 @@ class ICreateK210 {
                             default: 'Black',
                             description: 'robotcolorplace.menuColor.black'
                         }),
-                        value: '5'
+                        value: 'BLACK'
                     },
                     {
                         text: formatMessage({
@@ -1301,7 +1358,7 @@ class ICreateK210 {
                             default: 'White',
                             description: 'robotcolorplace.menuColor.white'
                         }),
-                        value: '6'
+                        value: 'WHITE'
                     },
                 ]
             },
@@ -1353,7 +1410,7 @@ class ICreateK210 {
                             default: 'color recognition',
                             description: 'k210.menuMode.recogn'
                         }),
-                        value: '1'
+                        value: 'COLOR'
                     },
                     {
                         text: formatMessage({
@@ -1361,7 +1418,7 @@ class ICreateK210 {
                             default: 'color block tracking',
                             description: 'k210.menuMode.colorBlock'
                         }),
-                        value: '2'
+                        value: 'COLOR_TRACK'
                     },
                     {
                         text: formatMessage({
@@ -1369,7 +1426,7 @@ class ICreateK210 {
                             default: 'tag recognition',
                             description: 'k210.menuMode.tag'
                         }),
-                        value: '3'
+                        value: 'TAG'
                     },
                     {
                         text: formatMessage({
@@ -1377,7 +1434,7 @@ class ICreateK210 {
                             default: 'line recognition',
                             description: 'k210.menuMode.line'
                         }),
-                        value: '4'
+                        value: 'LINE'
                     },
                     {
                         text: formatMessage({
@@ -1385,7 +1442,7 @@ class ICreateK210 {
                             default: '20-class object recognition',
                             description: 'k210.menuMode.class'
                         }),
-                        value: '5'
+                        value: 'OBJECT'
                     },
 
                     {
@@ -1394,7 +1451,7 @@ class ICreateK210 {
                             default: 'QR code recognition',
                             description: 'k210.menuMode.qr'
                         }),
-                        value: '6'
+                        value: 'QR'
                     },
 
                     {
@@ -1403,7 +1460,7 @@ class ICreateK210 {
                             default: 'face attributes',
                             description: 'k210.menuMode.faceAttr'
                         }),
-                        value: '7'
+                        value: 'FACE_DETECT'
                     },
 
                     {
@@ -1412,7 +1469,7 @@ class ICreateK210 {
                             default: 'face recognition',
                             description: 'k210.menuMode.faceRecogn'
                         }),
-                        value: '8'
+                        value: 'FACE_RECOGNIZE'
                     },
                     {
                         text: formatMessage({
@@ -1420,7 +1477,7 @@ class ICreateK210 {
                             default: 'deep learning',
                             description: 'k210.menuMode.deep'
                         }),
-                        value: '9'
+                        value: 'AI'
                     },
 
                     {
@@ -1429,8 +1486,16 @@ class ICreateK210 {
                             default: 'road sign recognition',
                             description: 'k210.menuMode.road'
                         }),
-                        value: '10'
+                        value: 'CARD'
                     },
+                    // {
+                    //     text: formatMessage({
+                    //         id: 'k210.menuMode.wifi',
+                    //         default: 'Video transmission mode',
+                    //         description: 'k210.menuMode.wifi'
+                    //     }),
+                    //     value: 'WIFI'
+                    // },
                 ]
             },
             MENU_CHAT: {
@@ -1442,7 +1507,7 @@ class ICreateK210 {
                             default: 'Not Started',
                             description: 'k210.menuChat.notStart'
                         }),
-                        value: '1'
+                        value: 'AI_OFF'
                     },
                     {
                         text: formatMessage({
@@ -1450,7 +1515,7 @@ class ICreateK210 {
                             default: 'Connecting',
                             description: 'k210.menuChat.connecting'
                         }),
-                        value: '2'
+                        value: 'AI_CONNECTING'
                     },
                     {
                         text: formatMessage({
@@ -1458,7 +1523,7 @@ class ICreateK210 {
                             default: 'tag Standby',
                             description: 'k210.menuChat.standby'
                         }),
-                        value: '3'
+                        value: 'AI_IDLE'
                     },
                     {
                         text: formatMessage({
@@ -1466,7 +1531,7 @@ class ICreateK210 {
                             default: 'Listening',
                             description: 'k210.menuChat.listening'
                         }),
-                        value: '4'
+                        value: 'AI_LISTENING'
                     },
                     {
                         text: formatMessage({
@@ -1474,7 +1539,7 @@ class ICreateK210 {
                             default: 'Speaking',
                             description: 'k210.menuChat.speaking'
                         }),
-                        value: '5'
+                        value: 'AI_SPEAKING'
                     },
 
                     {
@@ -1483,7 +1548,7 @@ class ICreateK210 {
                             default: 'Network Config',
                             description: 'k210.menuChat.config'
                         }),
-                        value: '6'
+                        value: 'AI_CONFIGURING'
                     },
                 ]
             },
@@ -1497,7 +1562,7 @@ class ICreateK210 {
                             default: 'Forward',
                             description: 'k210.menuMotion.forward'
                         }),
-                        value: '1'
+                        value: 'GO_FORWARD'
                     },
                     {
                         text: formatMessage({
@@ -1505,7 +1570,7 @@ class ICreateK210 {
                             default: 'Backward',
                             description: 'k210.menuMotion.backward'
                         }),
-                        value: '2'
+                        value: 'GO_BACK'
                     },
                     {
                         text: formatMessage({
@@ -1513,7 +1578,7 @@ class ICreateK210 {
                             default: 'Turn left',
                             description: 'k210.menuMotion.left'
                         }),
-                        value: '3'
+                        value: 'TURN_LEFT'
                     },
                     {
                         text: formatMessage({
@@ -1521,7 +1586,7 @@ class ICreateK210 {
                             default: 'Turn right',
                             description: 'k210.menuMotion.right'
                         }),
-                        value: '4'
+                        value: 'TURN_RIGHT'
                     },
                     {
                         text: formatMessage({
@@ -1529,7 +1594,7 @@ class ICreateK210 {
                             default: 'Stop',
                             description: 'k210.menuMotion.stop'
                         }),
-                        value: '5'
+                        value: 'STOP_MOVING'
                     },
                 ]
             },
@@ -1538,11 +1603,11 @@ class ICreateK210 {
                 items: [
                     {
                         text: 'X',
-                        value: '1'
+                        value: 'AXIS_X'
                     },
                     {
                         text: 'Y',
-                        value: '2'
+                        value: 'AXIS_Y'
                     },
                     
                 ]
@@ -1616,271 +1681,654 @@ class ICreateK210 {
     // 设置
     async settings(args){
         if(this.runtime.currentDevice === "Microbit"){
-            await ICMB_send(`aiVision.set_sys_mode(${Number(args.TWO)})`)
+            await ICMB_send(`vision.set_mode(vision.${args.TWO})`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
             
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
         }   
     }
 
     async currentMode(){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`aiVision.get_sys_mode()`);
-        }
+            let info=await ICMBP_read(`vision.get_mode()`);
+            return this.modeMap[Number(info)];
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+            
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
     }
 
     // ###############颜色识别###############
     async colorRecogn(args){
         if(this.runtime.currentDevice === "Microbit"){
-            const str = await ICMBP_read(`aiVision.get_color_rgb()`);
-            const [R, G, B] = str.slice(1, -1).split(',').map(Number);
-            return { r: R, g: G, b: B }[args.ONE];
+            const str = await ICMBP_read(`vision.color_value(vision.${args.ONE})`);
+            // const [R, G, B] = str.slice(1, -1).split(',').map(Number);
+            return str;
         }else if(this.runtime.currentDevice === "Arduino"){
         
         }else if(this.runtime.currentDevice === "ESP32"){
             
-        }
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
              
     }
 
     // ###############色块追踪###############
     //设置追踪颜色
     async colorBlockSet(args){
-        await ICMB_send(`aiVision.set_find_color(ai_camera.patch_color_tab[${Number(args.ONE)}])`)
+        if(this.runtime.currentDevice === "Microbit"){
+            await ICMB_send(`vision.set_color(vision.${args.ONE})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+            
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        }   
+        
     }
     //是否追踪到
     async colorIsTrack(){
-        let num = await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_PATCH)`)
-        if(num>0){
-            return true
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.color_detected()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
         }else{
-            return false
-        }
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     //位置信息
     async colorBlockInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_PATCH)`)
-        // let istrack = await this.colorIsTrack()
-        // if(istrack){
-            return JSON.parse(info)[Number(args.ONE)]
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.color_position(vision.${args.ONE})`)
+            
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############标签识别###############
     //数量
     async tagNum(){
-        let num = await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_TAG)`)
-        return num
+        if(this.runtime.currentDevice === "Microbit"){
+            let num = await ICMBP_read(`vision.tag_count()`)
+            return num
+        }else if(this.runtime.currentDevice ==="Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     //内容
     async tagCont(){
-        let id = await ICMBP_read(`aiVision.get_identify_id(ai_camera.AI_CAMERA_TAG)`)
-        // if(await this.tagNum()>0){
-            return id
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            let id = await ICMBP_read(`vision.tag_id()`)
+            // if(await this.tagNum()>0){
+                return id
+            // }else{
+            //     return ''
+            // }
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 旋转角度
     async tagAngle(){
-        let angle = await ICMBP_read(`aiVision.get_identify_rotation(ai_camera.AI_CAMERA_TAG)`)
-        // if(await this.tagNum()>0){
-            return angle
-        // }else{
-        //     return 0;
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            let angle = await ICMBP_read(`vision.tag_rotation()`)
+            // if(await this.tagNum()>0){
+                return angle
+            // }else{
+            //     return 0;
+            // }
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 位置信息
     async tagInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_TAG)`)
-        // if(await this.tagNum()>0){
-            return JSON.parse(info)[Number(args.ONE)]
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.tag_position(vision.${args.ONE})`)
+            
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############线条识别###############
     //是否识别
     async lineIsRecog(){
-        let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_LINE)`)
-        if(num>0){
-            return true
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.line_detected()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice ==="ESP32"){
+
         }else{
-            return false
-        }
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 位置信息
     async lineInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_LINE,${Number(args.ONE)})`)
-        // if(await this.lineIsRecog()){
-            return JSON.parse(info)[Number(args.TWO)]
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
+            return info
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############20类物体###############
     //数量
     async objectNum(){
-        return await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_20_CLASS)`)
+        if(this.runtime.currentDevice === "Microbit"){
+            return await ICMBP_read(`vision.object_count()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 识别到？
     async objectIsRecogn(args){
-        //let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_20_CLASS)`)
-        let obj = await ICMBP_read(`aiVision.get_identify_id(ai_camera.AI_CAMERA_20_CLASS)`)
-        if( args.ONE == obj ){ //&& num>0
-            return true
+        if(this.runtime.currentDevice === "Microbit"){
+            //let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_20_CLASS)`)
+            return ICMBP_read(`vision.object_detected(vision.${args.ONE})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice ==="ESP32"){
+
         }else{
-            return false
-        }
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 位置信息
     async objInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_20_CLASS)`)
-        // if(await this.objectNum()>0){
-            return JSON.parse(info)[Number(args.ONE)]
-        // }else{
-        //     return ''
-        // }     
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.object_position(vision.${args.ONE})`)
+            return info
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############二维码###############
     //是否识别
     async qrIsRecogn(){
-        let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_QRCODE)`)
-        if(num>0){
-            return true
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.qr_detected()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
         }else{
-            return false
-        }
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 内容
     async qrCont(){
-        let info = await ICMBP_read(`aiVision.get_qrcode_content()`)
-        // if(await this.qrIsRecogn()){
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.qr_data()`)
             return info
-        // }else{
-        //     return ''
-        // }
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 位置信息
     async qrInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_QRCODE)`)
-        // if(await this.qrIsRecogn()){
-            return JSON.parse(info)[Number(args.ONE)]
-        // }else{
-        //     return ''
-        // }  
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.qr_position(vision.${args.ONE})`)
+            return info
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############人脸属性###############
     // 数量
     async faceAttrNum(){
-        return await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_FACE_ATTRIBUTE,1)`)
+        if(this.runtime.currentDevice === "Microbit"){
+            return await ICMBP_read(`vision.face_count()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 位置信息
     async faceAttrInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_FACE_ATTRIBUTE,${Number(args.ONE)})`)
-        // if(await this.faceAttrNum()>0){
-            return JSON.parse(info)[Number(args.TWO)]
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
+            return info
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 属性
     async faceAttrEmote(args){
-        let num=await ICMBP_read(`aiVision.get_identify_face_attribute(${Number(args.ONE)})`)
-        let [mouse, smile, glasse] = num.slice(1, -1).split(",").map(Number);
-        // if(await this.faceAttrNum()>0){
-            if(args.TWO=='1'){
-                if(mouse==0){
-                    return false
-                }else{
-                    return true
-                }
-            }else if(args.TWO=='2'){
-                if(smile==0){
-                    return false
-                }else{
-                    return true
-                }
-            }else if(args.TWO=='3'){
-                if(glasse==0){
-                    return false
-                }else{
-                    return true
-                }
-            }
-        // }else{
-        //     return false
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            let num=await ICMBP_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
+            return num
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+            
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############人脸识别###############
     // 学习
     async faceLearn(){
-        await ICMB_send(`aiVision.face_study()`)
+        if(this.runtime.currentDevice === "Microbit"){
+            await ICMB_send(`vision.face_recognized_learn()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        } 
+        
     }
     // 数量
     async faceRecogNum(){
-        return await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_FACE_RE,1)`)
+        if(this.runtime.currentDevice === "Microbit"){
+            return await ICMBP_read(`vision.face_recognized_count()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
-    // 识别到学习的数量
-    async faceRecogLearnNum(){
-        return await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_FACE_RE,0)`)
+    // 是否检测到一张学习过的人脸
+    async faceRecogLearn(){
+        if(this.runtime.currentDevice === "Microbit"){
+            return await ICMBP_read(`vision.face_recognized_detected()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
     // 位置信息
     async faceRecognEmote(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_FACE_RE,${Number(args.ONE)})`)
-        // if(await this.faceRecogLearnNum()){
-            return JSON.parse(info)[Number(args.TWO)]
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
+            return info
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return ''
+        } 
+        
     }
 
     // ###############深度学习###############
     async deepLearning(args){
-        let id=await ICMBP_read(`aiVision.get_identify_id(ai_camera.AI_CAMERA_DEEP_LEARN)`)
-        //let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_DEEP_LEARN)`)
-        //if(num>0){
-            if(Number(args.ONE)==Number(id)){
-                return true
-            }else{
-                return false
-            }
-        // }else{
-        //     return false
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.class_recognized(${Number(args.ONE)})`)
+           
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+        
     }
 
     // ###############路标识别###############
     // 数量
     async roadNum(){
-        let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_CARD)`)
-        return num
+        if(this.runtime.currentDevice === "Microbit"){
+            let num=await ICMBP_read(`vision.card_count()`)
+            return num
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+        
     }
     // 识别到？
     async roadRecog(args){
-        let flag=await ICMBP_read(`aiVision.get_identify_id(ai_camera.AI_CAMERA_CARD)`)
-        if(args.ONE==flag ){//&& await this.roadNum()>0
-            return true
+        if(this.runtime.currentDevice === "Microbit"){
+            if(args.ONE=='RED' || args.ONE=='GREEN'){
+                return ICMBP_read(`vision.card_detected(vision.${args.ONE},1)`)
+            }else{
+                return ICMBP_read(`vision.card_detected(vision.${args.ONE},2)`)
+            }
+            
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
         }else{
-            return false
-        }
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+        
     }
     // 位置信息
     async roadInfo(args){
-        let info = await ICMBP_read(`aiVision.get_identify_position(ai_camera.AI_CAMERA_CARD)`)
-        // if(await this.roadNum()>0){
-            return JSON.parse(info)[Number(args.ONE)]
-        // }else{
-        //     return ''
-        // }
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.card_position(vision.${args.ONE})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+        
+        
+    }
+
+    async chatState(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.state_is(vision.${args.ONE})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+
+    }
+
+    async chatMotion(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.motion_command_detected(vision.${args.ONE})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+    }
+
+    async chatMotionSpeed(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.motion_speed()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+    }
+    async chatCustomCommand(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.custom_command()`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+    }
+
+    async wirelessJoystick(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.joystick_position(vision.${args.ONE})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+    }
+
+    //是否按下指定按钮
+    async wirelessButton(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.button_pressed(${Number(args.ONE)})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+    }
+
+    //是否按下指定键盘按键
+    async wirelessKeybord(args){
+        if(this.runtime.currentDevice === "Microbit"){
+            return ICMBP_read(`vision.key_pressed(${Number(args.ONE)})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
     }
 
     // ###############无线图传###############
@@ -1894,20 +2342,60 @@ class ICreateK210 {
 
     // ###############设置###############
     async lightSwitch(args){
-        if(args.ONE=='1'){
-            await ICMB_send(`aiVision.set_light_brightness(5)`)
+        if(this.runtime.currentDevice === "Microbit"){
+            if(Number(args.ONE)==1){
+                await ICMB_send(`vision.set_fill_light_brightness(1)`)
+            }else{
+                await ICMB_send(`vision.set_fill_light_brightness(0)`)
+            }
+            // await ICMB_send(`vision.fill_light(${Number(args.ONE)})`)
+
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
         }else{
-            await ICMB_send(`aiVision.set_light_brightness(0)`)
-        }
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        } 
+        
     }
 
     async lightBrightness(args){
-        await ICMB_send(`aiVision.set_light_brightness(${args.ONE})`)
+        if(this.runtime.currentDevice === "Microbit"){
+            await ICMB_send(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+        } 
+        
     }
 
     async lightGetBrightness(){
-        let info = await ICMBP_read(`aiVision.get_light_brightness()`)
-        return info
+
+        if(this.runtime.currentDevice === "Microbit"){
+            let info = await ICMBP_read(`vision.get_fill_light_brightness()`)
+            return info
+        }else if(this.runtime.currentDevice === "Arduino"){
+
+        }else if(this.runtime.currentDevice === "ESP32"){
+
+        }else{
+            showToast(formatMessage({
+                id: 'gui.alert.selectDevice',
+                default: 'Please select a device first'
+            }))
+            return
+        } 
+        
     }
 
 
@@ -1918,7 +2406,7 @@ class ICreateK210 {
 // ################################Microbit########################################
 //发送
 async function ICMB_send(str){
-    //console.log('[发送]', str);
+    console.log('[发送]', str);
     // 发送命令到主进程
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
@@ -1935,7 +2423,7 @@ async function ICMB_send(str){
 
 //读取
 async function ICMBP_read(str){
-    //console.log('[读取]', str);
+    console.log('[读取]', str);
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
         if (result.success) {
