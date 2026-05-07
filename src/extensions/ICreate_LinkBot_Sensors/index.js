@@ -1283,7 +1283,7 @@ class LinkBotSensors {
     ICM_S4S_voice(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
-            code=`voice.recognized('${args.CHOICE}')`
+            code=`voice.recognized(voice.${args.CHOICE})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.voice_recognized("${args.CHOICE}")`)
