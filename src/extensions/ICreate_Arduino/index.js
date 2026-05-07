@@ -494,7 +494,7 @@ class ArduinoS4S {
                 blockIconURI:arduinoSvg,
                 text: formatMessage({
                     id: 'ArduinoS4S.ICA_S4S_readPulse',
-                    default: 'read pulse pin [CHOICE] timeout [NUM]',
+                    default: 'read pulse pin [CHOICE] [LEVEL] timeout [NUM]',
                     description: 'ArduinoS4S.ICA_S4S_readPulse'
                 }),
                 disableMonitor: true,
@@ -502,6 +502,10 @@ class ArduinoS4S {
                     CHOICE: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN'
+                    },
+                    LEVEL: {
+                        type: ArgumentType.STRING,
+                        menu: 'DIGITAL_HIGHLOW'
                     },
                     NUM: {
                         type: ArgumentType.STRING,
