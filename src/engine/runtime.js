@@ -2275,6 +2275,10 @@ class Runtime extends EventEmitter {
      *     determines whether we show a visual report when turning on the script.
      */
     toggleScript (topBlockId, opts) {
+        console.log(this.runMode)
+        if(this.runMode === 'upload'){
+            return
+        }
         opts = Object.assign({
             target: this._editingTarget,
             stackClick: false
