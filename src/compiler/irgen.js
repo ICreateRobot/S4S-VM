@@ -693,7 +693,7 @@ class ScriptTreeGenerator {
      * @returns {Node} Compiled node for this block.
      */
     descendStackedBlock (block) {
-        console.log(block.opcode)
+        //console.log(block.opcode)
         switch (block.opcode) {
         case 'control_all_at_once':
             // In Scratch 3, this block behaves like "if 1 = 1"

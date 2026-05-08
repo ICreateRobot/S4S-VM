@@ -32,6 +32,7 @@ const Mouse = require('../io/mouse');
 const MouseWheel = require('../io/mouseWheel');
 const UserData = require('../io/userData');
 const Video = require('../io/video');
+const toast = require('../io/toast');
 
 const StringUtil = require('../util/string-util');
 const uid = require('../util/uid');
@@ -544,7 +545,8 @@ class Runtime extends EventEmitter {
             mouse: new Mouse(this),
             mouseWheel: new MouseWheel(this),
             userData: new UserData(),
-            video: new Video(this)
+            video: new Video(this),
+            toast: new toast()
         };
 
         /**

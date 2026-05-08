@@ -1472,32 +1472,32 @@ class MicrobitIcreate {
 
     //显示数字
     async ICM_showNumber(args) {
-        await ICMB_send(`display.show(${args.NUM})`) ;
+        await this.ICMB_send(`display.show(${args.NUM})`) ;
         return
     }
     //显示自定义图像
     async ICM_showSelfImage(args){
         let replaced = args.MATRIX.replace(/1/g, '9');// 1替换成9
         let result = replaced.match(/.{1,5}/g).join(':');//每5个字符分割一次
-        await ICMB_send(`display.show(Image("${result}"))`) ;
+        await this.ICMB_send(`display.show(Image("${result}"))`) ;
     }
     //显示图像
     async ICM_showImage(args) {
-        await ICMB_send(`display.show(Image.${args.IMAGE})`) ;
+        await this.ICMB_send(`display.show(Image.${args.IMAGE})`) ;
         return
     }
     //显示字符串
     async ICM_showString(args){
-        await ICMB_send(`display.show("${args.TEXT}")`) ;
+        await this.ICMB_send(`display.show("${args.TEXT}")`) ;
     }
     //显示箭头
     async ICM_showArrow(args) {
-        await ICMB_send(`display.show(${args.IMAGE})`) ;
+        await this.ICMB_send(`display.show(${args.IMAGE})`) ;
         return
     }
     //绘图
     async ICM_showPlot(args){
-        await ICMB_send(`display.set_pixel(${args.X},${args.Y},9)`) ;
+        await this.ICMB_send(`display.set_pixel(${args.X},${args.Y},9)`) ;
     }
     //切换
     async ICM_showToggle(args){
@@ -1711,6 +1711,45 @@ class MicrobitIcreate {
     async ICM_radioRecive(){
         await ICMB_send(`radio.receive()`) ;
     }
+
+    //发送
+    async  ICMB_send(str){
+        //console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            //console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);//
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    //读取
+    async ICMB_read(str){
+        //console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                showToast(result.error)
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
 }
 
 
@@ -1800,46 +1839,6 @@ let DICT_speakerPlay = {
     'On': "on"
 }
 
-
-
-//发送
-async function ICMB_send(str){
-    console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
-        }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-
-//读取
-async function ICMB_read(str){
-    //console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
-
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
 
 module.exports = MicrobitIcreate;
 
@@ -2015,6 +2014,6 @@ function hideFlashModal() {
     }
 }
 
-window.EditorPreload.onFlashProgress(updateFlashProgress);//更新
-window.EditorPreload.onFlashError(showFlashError);//报错
-window.EditorPreload.onFlashDone(hideFlashModal);//结束
+// window.EditorPreload.onFlashProgress(updateFlashProgress);//更新
+// window.EditorPreload.onFlashError(showFlashError);//报错
+// window.EditorPreload.onFlashDone(hideFlashModal);//结束
