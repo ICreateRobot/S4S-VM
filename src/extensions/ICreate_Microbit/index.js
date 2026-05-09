@@ -1501,16 +1501,16 @@ class MicrobitIcreate {
     }
     //切换
     async ICM_showToggle(args){
-        await ICMB_send(`display.toggle_pixel(${args.X},${args.Y})`) ;
+        await this.ICMB_send(`display.toggle_pixel(${args.X},${args.Y})`) ;
     }
     
     //熄灭
     async ICM_showUnplot(args){
-        await ICMB_send(`display.set_pixel(${args.X},${args.Y},0)`) ;
+        await this.ICMB_send(`display.set_pixel(${args.X},${args.Y},0)`) ;
     }
     //是否点亮
     async ICM_showPoint(args){
-        let result = await ICMB_read(`display.get_pixel(${args.X},${args.Y})`)
+        let result = await this.ICMB_read(`display.get_pixel(${args.X},${args.Y})`)
         console.log(result)
         console.log(typeof result)
         console.log(result>0)
@@ -1518,7 +1518,7 @@ class MicrobitIcreate {
     }
     //清除显示
     async ICM_showClear(){
-        await ICMB_send(`display.clear()`) ;
+        await this.ICMB_send(`display.clear()`) ;
     }
 
     //-----------------------音乐----------------------------------------
@@ -1526,12 +1526,12 @@ class MicrobitIcreate {
     async ICM_playSpeaker(args){
         // 映射到 0–255
         const volume = Math.round(args.VALUE * 255 / 100);
-        await ICMB_send(`Link_buzzer.pitch(hz=${args.HZ},vol=${volume})`) ;
+        await this.ICMB_send(`Link_buzzer.pitch(hz=${args.HZ},vol=${volume})`) ;
     }
 
     async ICM_stopSpeaker(){
         //import music
-        await ICMB_send(`Link_buzzer.stop()`)
+        await this.ICMB_send(`Link_buzzer.stop()`)
     }
 
    
@@ -1545,15 +1545,15 @@ class MicrobitIcreate {
         }else if(args.CHOICE == 'B'){
             code = `button_b.is_pressed()`
         }
-        return ICMB_read(code) ;
+        return this.ICMB_read(code) ;
     }
 
     //磁力
     ICM_magnetStrength(args){
-        return ICMB_read(`compass.${DICT_magnetStrengthPlay[args.CHOICE]}()`) ; 
+        return this.ICMB_read(`compass.${DICT_magnetStrengthPlay[args.CHOICE]}()`) ; 
     }
     ICM_acceleration(args){
-        return ICMB_read(`Link_transducer.gyro_acc('${args.CHOICE}')`) ; 
+        return this.ICMB_read(`Link_transducer.gyro_acc('${args.CHOICE}')`) ; 
     }
     //pin按下
     ICM_pinPressed(args){
@@ -1563,32 +1563,32 @@ class MicrobitIcreate {
         // }else if(args.CHOICE == 'B'){
         //     code = `button_a.is_pressed()`
         // }
-        return ICMB_read(code) ;
+        return this.ICMB_read(code) ;
     }
     //手势
     ICM_accelerometerGesture(args){
-        return ICMB_read(`accelerometer.was_gesture("${args.CHOICE}")`);
+        return this.ICMB_read(`accelerometer.was_gesture("${args.CHOICE}")`);
     }
     //徽标被按下
     ICM_logoPressed(args){
-        return ICMB_read(`pin_logo.is_touched()`);
+        return this.ICMB_read(`pin_logo.is_touched()`);
     }
 
     //亮度
     ICM_light(){
-        return ICMB_read(`display.read_light_level()`) ; 
+        return this.ICMB_read(`display.read_light_level()`) ; 
     }
     //声音
     ICM_soundLevel(){
-        return ICMB_read(`microphone.sound_level()`) ; 
+        return this.ICMB_read(`microphone.sound_level()`) ; 
     }
     //指南针朝向
     ICM_compassHeading(){
-        return ICMB_read(`compass.heading()`) ; 
+        return this.ICMB_read(`compass.heading()`) ; 
     }
     //温度
     ICM_temperature(){
-        return ICMB_read(`temperature()`) ; 
+        return this.ICMB_read(`temperature()`) ; 
     }
     
     //指南针校准
@@ -1598,7 +1598,7 @@ class MicrobitIcreate {
     
     // //磁力
     // ICM_magnetStrength(args){
-    //     return ICMB_read(`compass.${DICT_magnetStrengthPlay[args.CHOICE]}()`) ; 
+    //     return this.ICMB_read(`compass.${DICT_magnetStrengthPlay[args.CHOICE]}()`) ; 
     // }
     
     // //加速度
@@ -1611,7 +1611,7 @@ class MicrobitIcreate {
     //     }else if(args.CHOICE == 'Z'){
     //         code = "get_z"
     //     }
-    //     return ICMB_read(`accelerometer.${code}()`) ; 
+    //     return this.ICMB_read(`accelerometer.${code}()`) ; 
     // }
 
     // // -----------------------音乐---------------------------------------
@@ -1657,59 +1657,59 @@ class MicrobitIcreate {
 
     //串口写入
     async ICM_uartWrite(args){
-        await ICMB_send(`print(${args.TEXT})`) ;
+        await this.ICMB_send(`print(${args.TEXT})`) ;
     }
     //串口读取
     ICM_uartRead(args){
-        // return ICMB_read(`uart.readline()`) ; 
-        return ICMB_read(`link_uart.readline()`) ; 
+        // return this.ICMB_read(`uart.readline()`) ; 
+        return this.ICMB_read(`link_uart.readline()`) ; 
     }
     ICM_uartReadUntil(args){
-        return ICMB_read(`link_uart.readstring('${args.CHOICE}')`)
+        return this.ICMB_read(`link_uart.readstring('${args.CHOICE}')`)
     }
 
     //数字写入
     async ICM_digitalWrite(args){
-        await ICMB_send(`pin${args.CHOICE}.write_digital(${args.TEXT})`) ;
+        await this.ICMB_send(`pin${args.CHOICE}.write_digital(${args.TEXT})`) ;
     }
    
     //模拟写入
     async ICM_analogWrite(args){
         // 映射到 0–1023
         const volume = Math.round(args.TEXT * 1023 / 100);
-        await ICMB_send(`pin${args.CHOICE}.write_analog(${volume})`) ;
+        await this.ICMB_send(`pin${args.CHOICE}.write_analog(${volume})`) ;
     }
 
 
     //模拟读取
     ICM_analogRead(args){
-        return ICMB_read(`pin${args.CHOICE}.read_analog()`) ; 
+        return this.ICMB_read(`pin${args.CHOICE}.read_analog()`) ; 
     }
     //写入
     async ICM_pinInput(args){
-        await ICMB_send(`pin${args.CHOICE}.set_pull(pin${args.CHOICE}.${args.TYPE})`) ;
+        await this.ICMB_send(`pin${args.CHOICE}.set_pull(pin${args.CHOICE}.${args.TYPE})`) ;
     }
     //数字读取
     ICM_digitalRead(args){
-        return ICMB_read(`pin${args.CHOICE}.read_digital()==1`) ; 
+        return this.ICMB_read(`pin${args.CHOICE}.read_digital()==1`) ; 
     }
 
     async ICM_uartRedirect(args){
-        await ICMB_send(`link_uart.init(${args.CHOICE},'${args.TX}','${args.RX}')`) ;
+        await this.ICMB_send(`link_uart.init(${args.CHOICE},'${args.TX}','${args.RX}')`) ;
     }
     async ICM_uartRedirectUSB(args){
-        await ICMB_send(`link_uart.redirect_usb_uart()`) ;
+        await this.ICMB_send(`link_uart.redirect_usb_uart()`) ;
     }
 
     async ICM_radioSetGroup(args){
-        await ICMB_send(`radio.config(group=${args.TEXT},power=${args.CHOICE})`) ;
+        await this.ICMB_send(`radio.config(group=${args.TEXT},power=${args.CHOICE})`) ;
     }
 
     async ICM_radioSend(args){
-        await ICMB_send(`radio.send('${args.TEXT}')`) ;
+        await this.ICMB_send(`radio.send('${args.TEXT}')`) ;
     }
     async ICM_radioRecive(){
-        await ICMB_send(`radio.receive()`) ;
+        await this.ICMB_send(`radio.receive()`) ;
     }
 
     //发送
