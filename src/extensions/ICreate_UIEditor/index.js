@@ -3,6 +3,8 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
 
+const icon = require('./uiEditor.svg');
+
 class UIEditor {
     constructor(runtime) {
         this.runtime = runtime;
@@ -112,6 +114,8 @@ class UIEditor {
             {
                 opcode: 'setScreenColor',//设置背景色
                 blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'UIEditor.setScreenColor',
                     default: 'set Screen background color [COLOR]'
@@ -140,6 +144,7 @@ class UIEditor {
                 {
                     opcode: 'setTitleText',//设置标题文本
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setTitleText',
                         default: 'set Title [TITLE] text [TEXT]'
@@ -158,6 +163,7 @@ class UIEditor {
                 {
                     opcode: 'setTitleColor',//设置标题文本颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setTitleColor',
                         default: 'set Title [TITLE] color [COLOR]'
@@ -176,6 +182,7 @@ class UIEditor {
                 {
                     opcode: 'setTitleBackgroundColor',//设置标题背景颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setTitleBackgroundColor',
                         default: 'set Title [TITLE] background color [COLOR]'
@@ -194,6 +201,7 @@ class UIEditor {
                 {
                     opcode: 'setTitleFontSize',//设置字体大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setTitleFontSize',
                         default: 'set Title [TITLE] font size [SIZE]'
@@ -227,6 +235,7 @@ class UIEditor {
                 {
                     opcode: 'setLabelText',//设置标签文本
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelText',
                         default: 'set Label [LABEL] text [TEXT]'
@@ -245,6 +254,7 @@ class UIEditor {
                 {
                     opcode: 'setLabelPosition',//设置标签位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelPosition',
                         default: 'set Label [LABEL] position x [X] y [Y]'
@@ -267,6 +277,7 @@ class UIEditor {
                 {   
                     opcode: 'setLabelPositionX',//设置标签位置-X
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelPositionX',
                         default: 'set Label [LABEL] position x [X]'
@@ -285,6 +296,7 @@ class UIEditor {
                 {
                     opcode: 'setLabelPositionY',//设置标签位置-Y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelPositionY',
                         default: 'set Label [LABEL] position y [Y]'
@@ -303,6 +315,7 @@ class UIEditor {
                 {
                     opcode: 'setLabelColor',//设置标签文本颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelColor',
                         default: 'set Label [LABEL] color [COLOR]'
@@ -321,6 +334,7 @@ class UIEditor {
                 {
                     opcode: 'setLabelBackgroundColor',//设置标签背景颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelBackgroundColor',
                         default: 'set Label [LABEL] background color [COLOR]'
@@ -339,6 +353,7 @@ class UIEditor {
                 {
                     opcode: 'setLabelFontSize',//设置标签字体大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLabelFontSize',
                         default: 'set Label [LABEL] font size [SIZE]'
@@ -372,6 +387,7 @@ class UIEditor {
                 {
                     opcode: 'setRectangleSize',//设置矩形大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectangleSize',
                         default: 'set Rectangle [RECTANGLE] size width [WIDTH] height [HEIGHT]'
@@ -394,6 +410,7 @@ class UIEditor {
                 {
                     opcode: 'setRectangleSizeWidth',//设置矩形宽度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectangleSizeWidth',
                         default: 'set Rectangle [RECTANGLE] size width [WIDTH]'
@@ -412,6 +429,7 @@ class UIEditor {
                 {   
                     opcode: 'setRectangleSizeHeight',//设置矩形高度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectangleSizeHeight',
                         default: 'set Rectangle [RECTANGLE] size height [HEIGHT]'
@@ -430,6 +448,7 @@ class UIEditor {
                 {
                     opcode: 'setRectanglePosition',//设置矩形位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectanglePosition',
                         default: 'set Rectangle [RECTANGLE] position x [X] y [Y]'
@@ -452,6 +471,7 @@ class UIEditor {
                 {
                     opcode: 'setRectanglePositionX',//设置矩形位置-X
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectanglePositionX',
                         default: 'set Rectangle [RECTANGLE] position x [X]'
@@ -470,6 +490,7 @@ class UIEditor {
                 {
                     opcode: 'setRectanglePositionY',//设置矩形位置-Y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectanglePositionY',
                         default: 'set Rectangle [RECTANGLE] position y [Y]'
@@ -488,6 +509,7 @@ class UIEditor {
                 {
                     opcode: 'setRectangleColor',//设置矩形颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectangleColor',
                         default: 'set Rectangle [RECTANGLE] color [COLOR]'
@@ -506,6 +528,7 @@ class UIEditor {
                 {
                     opcode: 'setRectangleBorderColor',//设置矩形边框颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setRectangleBorderColor',
                         default: 'set Rectangle [RECTANGLE] border color [COLOR]'
@@ -539,6 +562,7 @@ class UIEditor {
                 {
                     opcode: 'setCircleSize',//设置圆形大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setCircleSize',
                         default: 'set Circle [CIRCLE] size radius [RADIUS]'
@@ -557,6 +581,7 @@ class UIEditor {
                 {
                     opcode: 'setCirclePosition',//设置圆形位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setCirclePosition',
                         default: 'set Circle [CIRCLE] position x [X] y [Y]'
@@ -579,6 +604,7 @@ class UIEditor {
                 {
                     opcode: 'setCirclePositionX',//设置圆形位置-X
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({       
                         id: 'UIEditor.setCirclePositionX',
                         default: 'set Circle [CIRCLE] position x [X]'
@@ -597,6 +623,7 @@ class UIEditor {
                 {
                     opcode: 'setCirclePositionY',//设置圆形位置-Y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setCirclePositionY',  
                         default: 'set Circle [CIRCLE] position y [Y]'                    
@@ -615,6 +642,7 @@ class UIEditor {
                 {
                     opcode: 'setCircleColor',//设置圆形颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setCircleColor',
                         default: 'set Circle [CIRCLE] color [COLOR]'
@@ -633,6 +661,7 @@ class UIEditor {
                 {
                     opcode: 'setCircleBorderColor',//设置圆形边框颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setCircleBorderColor',
                         default: 'set Circle [CIRCLE] border color [COLOR]'
@@ -667,6 +696,7 @@ class UIEditor {
                 {
                     opcode: 'setLinePosition',//设置线条位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLinePosition',
                         default: 'set Line [LINE] position x1 [X1] y1 [Y1] x2 [X2] y2 [Y2]'
@@ -697,6 +727,7 @@ class UIEditor {
                 {
                     opcode: 'setLineColor',//设置线条颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setLineColor',
                         default: 'set Line [LINE] color [COLOR]'
@@ -730,6 +761,7 @@ class UIEditor {
                 {
                     opcode: 'setImagePath',//设置图片路径
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImagePath',
                         default: 'set Image [IMAGE] path [PATH]'
@@ -748,6 +780,7 @@ class UIEditor {
                 {
                     opcode: 'setImageSize',//设置图片大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImageSize',
                         default: 'set Image [IMAGE] size width [WIDTH] height [HEIGHT]'
@@ -770,6 +803,7 @@ class UIEditor {
                 {
                     opcode: 'setImageSizeWidth',//设置图片宽度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImageSizeWidth',
                         default: 'set Image [IMAGE] size width [WIDTH]'
@@ -788,6 +822,7 @@ class UIEditor {
                 {
                     opcode: 'setImageSizeHeight',//设置图片高度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImageSizeHeight',
                         default: 'set Image [IMAGE] size height [HEIGHT]'
@@ -806,6 +841,7 @@ class UIEditor {
                 {
                     opcode: 'setImagePosition',//设置图片位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImagePosition',
                         default: 'set Image [IMAGE] position x [X] y [Y]'
@@ -828,6 +864,7 @@ class UIEditor {
                 {
                     opcode: 'setImagePositionX',//设置图片位置-x
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImagePositionX',
                         default: 'set Image [IMAGE] position x [X]'
@@ -846,6 +883,7 @@ class UIEditor {
                 {
                     opcode: 'setImagePositionY',//设置图片位置-y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setImagePositionY',
                         default: 'set Image [IMAGE] position y [Y]'
@@ -879,6 +917,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonText',//设置按钮文本
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonText',
                         default: 'set Button [BUTTON] text [TEXT]'
@@ -897,6 +936,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonSize',//设置按钮大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonSize',
                         default: 'set Button [BUTTON] size width [WIDTH] height [HEIGHT]'
@@ -919,6 +959,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonSizeWidth',//设置按钮宽度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonSizeWidth',
                         default: 'set Button [BUTTON] size width [WIDTH]'
@@ -937,6 +978,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonSizeHeight',//设置按钮高度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonSizeHeight',
                         default: 'set Button [BUTTON] size height [HEIGHT]'
@@ -955,6 +997,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonPosition',//设置按钮位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonPosition',
                         default: 'set Button [BUTTON] position x [X] y [Y]'
@@ -977,6 +1020,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonPositionX',//设置按钮位置-x
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonPositionX',      
                         default: 'set Button [BUTTON] position x [X]'
@@ -995,6 +1039,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonPositionY',//设置按钮位置-y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonPositionY',
                         default: 'set Button [BUTTON] position y [Y]'
@@ -1013,6 +1058,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonColor',//设置按钮颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonColor',
                         default: 'set Button [BUTTON] color [COLOR]'
@@ -1031,6 +1077,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonTextColor',//设置按钮文本颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonTextColor',
                         default: 'set Button [BUTTON] text color [COLOR]'
@@ -1049,6 +1096,7 @@ class UIEditor {
                 {
                     opcode: 'setButtonFontSize',//设置按钮字体大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setButtonFontSize',
                         default: 'set Button [BUTTON] font size [SIZE]'
@@ -1067,6 +1115,7 @@ class UIEditor {
                 {
                     opcode: 'whenButtonClicked',//当按钮被点击
                     blockType: BlockType.HAT,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.whenButtonClicked',
                         default: 'when Button [BUTTON] clicked'
@@ -1099,6 +1148,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchOnColor',//设置开启状态颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchOnColor',
                         default: 'set Switch [SWITCH] on color [COLOR]'
@@ -1117,6 +1167,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchOffColor',//设置关闭状态颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchOffColor',
                         default: 'set Switch [SWITCH] off color [COLOR]'
@@ -1135,6 +1186,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchSize',//设置开关大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchSize',
                         default: 'set Switch [SWITCH] size width [WIDTH] height [HEIGHT]'
@@ -1157,6 +1209,7 @@ class UIEditor {
                  {
                     opcode: 'setSwitchSizeWidth',//设置开关宽度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchSizeWidth',
                         default: 'set Switch [SWITCH] size width [WIDTH]'
@@ -1175,6 +1228,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchSizeHeight',//设置开关高度    
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchSizeHeight',
                         default: 'set Switch [SWITCH] size height [HEIGHT]'
@@ -1193,6 +1247,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchPosition',//设置开关位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchPosition',
                         default: 'set Switch [SWITCH] position x [X] y [Y]'
@@ -1215,6 +1270,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchPositionX',//设置开关位置-x
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchPositionX',
                         default: 'set Switch [SWITCH] position x [X]'
@@ -1233,6 +1289,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchPositionY',//设置开关位置-y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchPositionY',
                         default: 'set Switch [SWITCH] position y [Y]'
@@ -1251,6 +1308,7 @@ class UIEditor {
                 {
                     opcode: 'setSwitchState',//设置开关状态
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSwitchState',
                         default: 'set Switch [SWITCH] state [STATE]'
@@ -1269,6 +1327,7 @@ class UIEditor {
                 {
                     opcode: 'whenSwitchChanged',//当开关状态改变
                     blockType: BlockType.HAT,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.whenSwitchChanged',
                         default: 'when Switch [SWITCH] [STATE]'
@@ -1290,6 +1349,7 @@ class UIEditor {
                 {
                     opcode: 'getSwitchState',//获取开关状态
                     blockType: BlockType.BOOLEAN,
+                    blockIconURI:icon,
                     disableMonitor: true,
                     text: formatMessage({
                         id: 'UIEditor.getSwitchState',
@@ -1320,6 +1380,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderColor',//设置滑块颜色
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderColor',
                         default: 'set Slider [SLIDER] color [COLOR]'
@@ -1338,6 +1399,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderSize',//设置滑块大小
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderSize',
                         default: 'set Slider [SLIDER] size width [WIDTH] height [HEIGHT]'
@@ -1360,6 +1422,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderSizeWidth',//设置滑块宽度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({   
                         id: 'UIEditor.setSliderSizeWidth',
                         default: 'set Slider [SLIDER] size width [WIDTH]'
@@ -1378,6 +1441,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderSizeHeight',//设置滑块高度
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderSizeHeight',
                         default: 'set Slider [SLIDER] size height [HEIGHT]'
@@ -1396,6 +1460,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderPosition',//设置滑块位置
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderPosition',
                         default: 'set Slider [SLIDER] position x [X] y [Y]'
@@ -1418,6 +1483,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderPositionX',//设置滑块位置-x
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderPositionX',
                         default: 'set Slider [SLIDER] position x [X]'
@@ -1436,6 +1502,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderPositionY',//设置滑块位置-y
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderPositionY',
                         default: 'set Slider [SLIDER] position y [Y]'
@@ -1455,6 +1522,7 @@ class UIEditor {
                 {
                     opcode: 'setSliderValue',//设置滑块数值
                     blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.setSliderValue',
                         default: 'set Slider [SLIDER] value [VALUE]'
@@ -1473,6 +1541,7 @@ class UIEditor {
                 {
                     opcode: 'whenSliderChanged',//当滑块数值改变
                     blockType: BlockType.HAT,
+                    blockIconURI:icon,
                     text: formatMessage({
                         id: 'UIEditor.whenSliderChanged',
                         default: 'when Slider [SLIDER] value changed'
@@ -1490,6 +1559,7 @@ class UIEditor {
                 {
                     opcode: 'getSliderValue',//获取滑块数值
                     blockType: BlockType.REPORTER,
+                    blockIconURI:icon,
                     disableMonitor: true,
                     text: formatMessage({
                         id: 'UIEditor.getSliderValue',
@@ -1512,6 +1582,7 @@ class UIEditor {
             color1: '#00897B',  // 主颜色
             color2: '#00796D',  // 次颜色（渐变）
             color3: '#00695F',  // 边框颜色
+            menuIconURI: icon, 
 
             blocks: blocks,
 
