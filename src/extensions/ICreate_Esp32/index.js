@@ -2,7 +2,7 @@
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const formatMessage = require('format-message');
-// const icon = require('./battery.png');
+const icon = require('./ESP32.svg');
 
  
 class Esp32S4S {
@@ -21,7 +21,7 @@ class Esp32S4S {
         color1: '#00897B',  // 主颜色
         color2: '#00796D',  // 次颜色（渐变）
         color3: '#00695F',  // 边框颜色
-        // menuIconURI: icon, 
+        menuIconURI: icon, 
 
         //模块 
         blocks: [
@@ -138,7 +138,7 @@ class Esp32S4S {
                 opcode: 'buttonPressed',
                 blockType: BlockType.BOOLEAN,
                 disableMonitor: true,
-                // blockIconURI:icon,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.buttonPressed',
                     default: '[CHOICE] button pressed?',
@@ -154,7 +154,7 @@ class Esp32S4S {
                 opcode: 'soundLevel',
                 blockType: BlockType.REPORTER,
                 disableMonitor: true,
-                // blockIconURI:icon,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.soundLevel',
                     default: 'sound level',
@@ -175,7 +175,7 @@ class Esp32S4S {
             {
                 opcode: 'startRecording',//开始录音
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.startRecording',
                     default: 'start recording for [NUM] seconds',
@@ -192,7 +192,7 @@ class Esp32S4S {
             {
                 opcode: 'playRecording',//播放录音
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.playRecording',
                     default: 'play recording',
@@ -205,7 +205,7 @@ class Esp32S4S {
             {
                 opcode: 'stopPlayRecording',//停止播放录音
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.stopPlayRecording',
                     default: 'stop play recording',
@@ -226,7 +226,7 @@ class Esp32S4S {
             {
                 opcode: 'getAudioFile',//获取音频文件
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.getAudioFile',
                     default: 'get audio file [TEXT] from sd card',
@@ -243,7 +243,7 @@ class Esp32S4S {
             {
                 opcode: 'setVolume',//设置播放声音大小
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.setVolume',
                     default: 'set output volume to [NUM]',
@@ -260,7 +260,7 @@ class Esp32S4S {
             {
                 opcode: 'playAudio',//播放音频
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.playAudio',
                     default: 'play audio',
@@ -273,7 +273,7 @@ class Esp32S4S {
             {
                 opcode: 'stopAudio',//停止播放音频
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.stopAudio',
                     default: 'stop audio',
@@ -295,7 +295,7 @@ class Esp32S4S {
             {
                 opcode: 'setDigital',//设置数字引脚输出为高低电平
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.setDigital',
                     default: 'set digital pin [PIN] output as [CHOICE]',
@@ -317,7 +317,7 @@ class Esp32S4S {
             {
                 opcode: 'setPwm',//设置pwm引脚
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.setPwm',
                     default: 'set pwm pin [PIN] output as [NUM]',
@@ -338,7 +338,7 @@ class Esp32S4S {
             {
                 opcode: 'readDigitalPin',//读取数字引脚
                 blockType: BlockType.BOOLEAN,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readDigitalPin',
                     default: 'read status of digital pin [PIN]',
@@ -357,7 +357,7 @@ class Esp32S4S {
             {
                 opcode: 'readAnalogPin',//读取模拟引脚
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readAnalogPin',
                     default: 'read analog pin [PIN]',
@@ -375,7 +375,7 @@ class Esp32S4S {
             {
                 opcode: 'setInputPull',//将所选引脚配置为输入模式
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.setInputPull',
                     default: 'set pin [PIN] to input pull [CHOICE]',
@@ -397,7 +397,7 @@ class Esp32S4S {
             {
                 opcode: 'readPulse',//测量所选引脚上高电平或低电平脉冲的持续时间
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readPulse',
                     default: 'read pulse pin [CHOICE] timeout [NUM]',
@@ -428,7 +428,7 @@ class Esp32S4S {
             {
                 opcode: 'getTimer',//获取时间值
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.getTimer',
                     default: 'get timer value',
@@ -443,7 +443,7 @@ class Esp32S4S {
             {
                 opcode: 'resetTimer',//重置计时器
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.resetTimer',
                     default: 'reset timer',
@@ -465,7 +465,7 @@ class Esp32S4S {
             {
                 opcode: 'writeText',//写入文本
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.writeText',
                     default: 'write [TEXT] to serial port',
@@ -482,7 +482,7 @@ class Esp32S4S {
             {
                 opcode: 'readableBytes',//读取字节
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readableBytes',
                     default: 'readable bytes from serial port',
@@ -497,7 +497,7 @@ class Esp32S4S {
             {
                 opcode: 'readByte',//串口读取单个字节
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readByte',
                     default: 'read a byte from serial port',
@@ -512,7 +512,7 @@ class Esp32S4S {
             {
                 opcode: 'readString',//串口读取字符串
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readString',
                     default: 'serial read string',
@@ -527,7 +527,7 @@ class Esp32S4S {
             {
                 opcode: 'readUntil',//读取数据直到满足条件
                 blockType: BlockType.REPORTER,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.readUntil',
                     default: 'serial read until [CHOICE]',
@@ -545,7 +545,7 @@ class Esp32S4S {
             {
                 opcode: 'setBaud',
                 blockType: BlockType.COMMAND,
-                // blockIconURI:arduinoSvg,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.setBaud',
                     default: 'set serial baud rate to [CHOICE]',

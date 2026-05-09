@@ -2,7 +2,7 @@
 const BlockType = require('../../extension-support/block-type');
 const ArgumentType = require('../../extension-support/argument-type')
 const formatMessage = require('format-message');
-
+const icon = require('./K210.svg');
 class ICreateK210 {
 
     constructor(runtime) {
@@ -20,11 +20,13 @@ class ICreateK210 {
             }),
         color1: '#2196F3',   
         color2: '#21CBF3',
+        menuIconURI: icon, 
         
         blocks: [
             {
                 opcode: 'settings',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.settings',
                     default: 'Switch vision module to [TWO]',
@@ -41,6 +43,7 @@ class ICreateK210 {
             {
                 opcode: 'currentMode',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.currentMode',
                     default: 'Current mode',
@@ -63,6 +66,7 @@ class ICreateK210 {
             {
                 opcode: 'colorRecogn',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorRecogn',
                     default: 'Recognized color [ONE] value',
@@ -90,6 +94,7 @@ class ICreateK210 {
             {
                 opcode: 'colorBlockSet',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorBlockSet',
                     default: 'Set tracking color [ONE]',
@@ -106,6 +111,7 @@ class ICreateK210 {
             {
                 opcode: 'colorIsTrack',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorIsTrack',
                     default: 'Tracked target color?',
@@ -119,6 +125,7 @@ class ICreateK210 {
             {
                 opcode: 'colorBlockInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorBlockInfo',
                     default: 'Get color block position info [ONE]',
@@ -146,6 +153,7 @@ class ICreateK210 {
             {
                 opcode: 'tagNum',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagNum',
                     default: 'Number of recognized tags',
@@ -160,6 +168,7 @@ class ICreateK210 {
             {
                 opcode: 'tagCont',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagCont',
                     default: 'Recognized tag content',
@@ -174,6 +183,7 @@ class ICreateK210 {
             {
                 opcode: 'tagAngle',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagAngle',
                     default: 'Tag rotation angle',
@@ -189,6 +199,7 @@ class ICreateK210 {
             {
                 opcode: 'tagInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagInfo',
                     default: 'Recognized tag position info [ONE]',
@@ -214,6 +225,7 @@ class ICreateK210 {
             {
                 opcode: 'lineIsRecog',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lineIsRecog',
                     default: 'Is a line recognized?',
@@ -226,6 +238,7 @@ class ICreateK210 {
             {
                 opcode: 'lineInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lineInfo',
                     default: 'Get line position info at [ONE] [TWO]',
@@ -246,6 +259,7 @@ class ICreateK210 {
 
             {
                 blockType: BlockType.LABEL,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objectLabel',
                     default: '20-class object recognition',
@@ -256,6 +270,7 @@ class ICreateK210 {
             {
                 opcode: 'objectNum',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objectNum',
                     default: 'Number of recognized objects',
@@ -270,6 +285,7 @@ class ICreateK210 {
             {
                 opcode: 'objectIsRecogn',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objectIsRecogn',
                     default: 'Recognized object  [ONE]?',
@@ -287,6 +303,7 @@ class ICreateK210 {
             {
                 opcode: 'objInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objInfo',
                     default: 'Recognized object position info [ONE]',
@@ -315,6 +332,7 @@ class ICreateK210 {
             {
                 opcode: 'qrIsRecogn',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrIsRecogn',
                     default: 'Is a QR code recognized?',
@@ -328,6 +346,7 @@ class ICreateK210 {
             {
                 opcode: 'qrCont',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrCont',
                     default: 'Recognized QR code content',
@@ -340,6 +359,7 @@ class ICreateK210 {
             {
                 opcode: 'qrInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrInfo',
                     default: 'Recognized QR code position info [ONE]',
@@ -366,6 +386,7 @@ class ICreateK210 {
             {
                 opcode: 'faceAttrNum',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceAttrNum',
                     default: 'Number of detected faces',
@@ -381,6 +402,7 @@ class ICreateK210 {
             {
                 opcode: 'faceAttrInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceAttrInfo',
                     default: 'Detected [ONE] position info [TWO]',
@@ -402,6 +424,7 @@ class ICreateK210 {
             {
                 opcode: 'faceAttrEmote',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceAttrEmote',
                     default: 'Is [ONE] [TWO]?',
@@ -431,6 +454,7 @@ class ICreateK210 {
             {
                 opcode: 'faceLearn',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceLearn',
                     default: 'Learn current face',
@@ -442,6 +466,7 @@ class ICreateK210 {
             {
                 opcode: 'faceRecogNum',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceRecogNum',
                     default: 'Number of recognized faces',
@@ -456,6 +481,7 @@ class ICreateK210 {
             {
                 opcode: 'faceRecogLearn',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceRecogLearn',
                     default: 'Is a learned face detected?',
@@ -470,6 +496,7 @@ class ICreateK210 {
             {
                 opcode: 'faceRecognEmote',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceRecognEmote',
                     default: 'Recognized [ONE] position info [TWO]?',
@@ -500,6 +527,7 @@ class ICreateK210 {
             {
                 opcode: 'deepLearning',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.deepLearning',
                     default: 'Is [ONE] recognized?',
@@ -526,6 +554,7 @@ class ICreateK210 {
             {
                 opcode: 'roadNum',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.roadNum',
                     default: 'Number of recognized road signs',
@@ -540,6 +569,7 @@ class ICreateK210 {
             {
                 opcode: 'roadRecog',
                 blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.roadRecog',
                     default: 'Recognized road sign [ONE]?',
@@ -557,6 +587,7 @@ class ICreateK210 {
             {
                 opcode: 'roadInfo',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.roadInfo',
                     default: 'Recognized road sign position info [ONE]',
@@ -741,6 +772,7 @@ class ICreateK210 {
             {
                 opcode: 'lightSwitch',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lightSwitch',
                     default: '[ONE] fill light',
@@ -757,6 +789,7 @@ class ICreateK210 {
             {
                 opcode: 'lightBrightness',
                 blockType: BlockType.COMMAND,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lightBrightness',
                     default: 'Set fill light brightness [ONE]',
@@ -772,6 +805,7 @@ class ICreateK210 {
             {
                 opcode: 'lightGetBrightness',
                 blockType: BlockType.REPORTER,
+                blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lightGetBrightness',
                     default: 'Fill light brightness',
