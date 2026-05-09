@@ -20,7 +20,7 @@ class Esp32S4S {
         }),
         color1: '#317edb',  // 主颜色
         // color2: '#45C2B9',  // 次颜色（渐变）
-        color3: '#36AAA1',   // 边框颜色
+        // color3: '#36AAA1',   // 边框颜色
         // menuIconURI: icon, 
 
         //模块 
@@ -578,7 +578,7 @@ class Esp32S4S {
                 items: [
                     { text: "A", value: '0' },
                     { text: "B", value: '1' },
-                    { text: "A+B", value: '2' }
+                    // { text: "A+B", value: '2' }
                 ]
             },
             DIGITAL_PIN: {//数字引脚
@@ -728,6 +728,76 @@ class Esp32S4S {
         }
 
       };
+    }
+    
+    buttonPressed(args){
+
+    }
+    soundLevel(args){
+
+    }
+    startRecording(args){
+
+    }
+    playRecording(args){
+
+    }
+    stopPlayRecording(args){
+
+    }
+    getAudioFile(args){
+
+    }
+    setVolume(args){
+
+    }
+    playAudio(args){
+
+    }
+    stopAudio(args){
+
+    }
+    setDigital(args){
+
+    }
+    setPwm(args){
+
+    }
+    readDigitalPin(args){
+
+    }
+    readAnalogPin(args){
+        
+    }
+    setInputPull(args){
+
+    }
+    readPulse(args){
+
+    }
+    getTimer(args){
+
+    }
+    resetTimer(args){
+
+    }
+    writeText(args){
+
+    }
+    readableBytes(args){
+
+    }
+    readByte(args){
+
+    }
+    readString(args){
+
+    }
+    readUntil(args){
+
+    }
+    setBaud(args){
+        
     }
 
 }
