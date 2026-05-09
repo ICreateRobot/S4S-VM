@@ -83,8 +83,9 @@ class UIEditor {
         if (list.length === 0) {
             return [[' ', '__none__']];
         }
+        console.log(list)
 
-        return list.map(item => ({ text: item.name , value: item.id }));
+        return list.map(item => ({ text: item.name , value: item.name }));
     }
 
     // 是否存在组件
