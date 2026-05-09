@@ -7,63 +7,7 @@ class ICreateK210 {
 
     constructor(runtime) {
         this.runtime = runtime;
-        this.modeMap=[
-                formatMessage({
-                    id: 'k210.menuMode.recogn',
-                    default: 'color recognition',
-                    description: 'k210.menuMode.recogn'
-                }),
-
-                formatMessage({
-                    id: 'k210.menuMode.colorBlock',
-                    default: 'color block tracking',
-                    description: 'k210.menuMode.colorBlock'
-                }),
-                formatMessage({
-                    id: 'k210.menuMode.tag',
-                    default: 'tag recognition',
-                    description: 'k210.menuMode.tag'
-                }),
-                formatMessage({
-                    id: 'k210.menuMode.line',
-                    default: 'line recognition',
-                    description: 'k210.menuMode.line'
-                }),
-                formatMessage({
-                    id: 'k210.menuMode.class',
-                    default: '20-class object recognition',
-                    description: 'k210.menuMode.class'
-                }),
-
-                formatMessage({
-                    id: 'k210.menuMode.qr',
-                    default: 'QR code recognition',
-                    description: 'k210.menuMode.qr'
-                }),
-                formatMessage({
-                    id: 'k210.menuMode.faceAttr',
-                    default: 'face attributes',
-                    description: 'k210.menuMode.faceAttr'
-                }),
-
-                formatMessage({
-                    id: 'k210.menuMode.faceRecogn',
-                    default: 'face recognition',
-                    description: 'k210.menuMode.faceRecogn'
-                }),
-                
-                formatMessage({
-                    id: 'k210.menuMode.deep',
-                    default: 'deep learning',
-                    description: 'k210.menuMode.deep'
-                }),
-
-                formatMessage({
-                    id: 'k210.menuMode.road',
-                    default: 'road sign recognition',
-                    description: 'k210.menuMode.road'
-                }),
-        ]
+        
     }
 
     getInfo() {
@@ -1693,11 +1637,60 @@ class ICreateK210 {
             }))
         }   
     }
+    modeMap=[
+        {
+            id: 'k210.menuMode.recogn',
+            default: 'color recognition'
+        },
+        {
+            id: 'k210.menuMode.colorBlock',
+            default: 'color block tracking'
+        },
+        {
+            id: 'k210.menuMode.tag',
+            default: 'tag recognition'
+        },
+        {
+            id: 'k210.menuMode.line',
+            default: 'line recognition'
+        },
+        {
+            id: 'k210.menuMode.class',
+            default: '20-class object recognition'
+        },
+        {
+            id: 'k210.menuMode.qr',
+            default: 'QR code recognition'
+        },
+        {
+            id: 'k210.menuMode.faceAttr',
+            default: 'face attributes'
+        },
+        {
+            id: 'k210.menuMode.faceRecogn',
+            default: 'face recognition'
+        },
+        {
+            id: 'k210.menuMode.deep',
+            default: 'deep learning'
+        },
+        {
+            id: 'k210.menuMode.road',
+            default: 'road sign recognition'
+        }
+    ]
 
     async currentMode(){
         if(this.runtime.currentDevice === "Microbit"){
             let info=await ICMBP_read(`vision.get_mode()`);
-            return this.modeMap[Number(info)];
+            const index = Number(info);
+
+            if (!this.modeMap[index]) {
+                return '';
+            }
+    
+            const { id, default: defaultText } = this.modeMap[index];
+            return `'${formatMessage({ id, default: defaultText })}'`;
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
