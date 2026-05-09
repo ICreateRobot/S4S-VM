@@ -418,7 +418,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.servo_set_angle(${Number(args.CHOICE)},${Number(args.TEXT)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`servo.set_angle(${Number(args.CHOICE)},${Number(args.TEXT)})`
             await ICE_send(code)
         }else{
@@ -438,7 +438,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.servo_release(${Number(args.CHOICE)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`servo.release(${Number(args.CHOICE)})`
             await ICE_send(code)
         }else{
@@ -458,7 +458,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.servo_set_speed(${Number(args.CHOICE)},${Number(args.TEXT)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`servo.set_speed(${Number(args.CHOICE)},${Number(args.TEXT)})`
             await ICE_send(code)
         }else{
@@ -478,7 +478,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.servo_stop(${Number(args.CHOICE)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`servo.stop(${Number(args.CHOICE)})`
             await ICE_send(code)
         }else{
@@ -502,7 +502,7 @@ class LinkBotActuators {
             let type='MOTORS_'+getAfterDot(args.TYPE)
             code=packCommand(`bot.motors_run_for(${Number(args.CHOICE)},"${diversion}",${Number(args.NUM)},"${type}")`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.run_for(${Number(args.CHOICE)},${args.DIVERSION},${Number(args.NUM)},${args.TYPE})`
             await ICE_send(code)
         }else{
@@ -523,7 +523,7 @@ class LinkBotActuators {
             let diversion='MOTORS_'+getAfterDot(args.DIVERSION)
             code=packCommand(`bot.motors_start(${Number(args.CHOICE)},"${diversion}")`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.start(${Number(args.CHOICE)},${args.DIVERSION})`
             await ICE_send(code)
         }else{
@@ -543,7 +543,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_stop(${Number(args.CHOICE)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.stop(${Number(args.CHOICE)})`
             await ICE_send(code)
         }else{
@@ -563,7 +563,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_set_speed(${Number(args.CHOICE)},${Number(args.NUM)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.set_speed(${Number(args.CHOICE)},${Number(args.NUM)})`
             await ICMB_send(code)
         }else{
@@ -583,7 +583,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_position(${Number(args.CHOICE)})`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.position(${Number(args.CHOICE)})`
             return ICE_read(code)
         }else{
@@ -606,7 +606,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_speed(${Number(args.CHOICE)})`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.speed(${Number(args.CHOICE)})`
             return ICE_read(code)
         }else{
@@ -627,7 +627,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_reset_position(${Number(args.CHOICE)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.reset_position(${Number(args.CHOICE)})`
             await ICE_send(code)
         }else{
@@ -655,7 +655,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_start_rpm(${Number(args.CHOICE)},${Number(args.NUM)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.start_rpm(${Number(args.CHOICE)},${Number(args.NUM)})`
             await ICE_send(code)
         }else{
@@ -675,7 +675,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.motors_rpm(${Number(args.CHOICE)})`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`motors.rpm(${Number(args.CHOICE)})`
             return ICE_read(code)
         }else{
@@ -701,7 +701,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.light_set_color(${r},${g},${b})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`light.set_color(${r},${g},${b})`
             await ICE_send(code)
         }else{
@@ -723,7 +723,7 @@ class LinkBotActuators {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`cultr.ultrasonic_set_color(${r},${g},${b})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.set_color(${r},${g},${b})`
             await ICE_send(code)
         }else{
@@ -801,6 +801,42 @@ async function ICA_read(dataBytes){
 }
 //读取
 async function ICMB_read(str){
+    //console.log('[读取]', str);
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        if (result.success) {
+            const raw = result.response.trim();
+            //console.log('[读取返回]', raw);
+            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+            return lines.length === 1 ? lines[0] : lines;
+        } else {
+            //console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+async function ICE_send(str){
+    console.log('[发送]', str);
+    // 发送命令到主进程
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        console.log('[收到返回]', result.response || result.error);
+        if(!result.success){
+            showToast(result.error)
+        }
+        return result;
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+//读取
+async function ICE_read(str){
     //console.log('[读取]', str);
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");

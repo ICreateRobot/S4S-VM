@@ -291,7 +291,7 @@ class LinkBot {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.movement_set_motors(${Number(args.P1)}, ${Number(args.P2)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.set_motors(${Number(args.P1)}, ${Number(args.P2)})`
             await ICE_send(code)
         }else{
@@ -312,7 +312,7 @@ class LinkBot {
             let type='MOVEMENT_'+getAfterDot(args.TYPE)
             code=packCommand(`bot.movement_start("${type}")`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.start(${args.TYPE})`
             await ICE_send(code)
         }else{
@@ -334,7 +334,7 @@ class LinkBot {
             let mode = 'MOVEMENT_'+getAfterDot(args.MODE)
             code=packCommand(`bot.movement_move("${type}",${Number(args.NUM)},"${mode}")`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.move(${args.TYPE},${Number(args.NUM)},${args.MODE})`
             await ICE_send(code)
         }else{
@@ -354,7 +354,7 @@ class LinkBot {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.movement_drive(${Number(args.P1)},${Number(args.P2)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.drive(${Number(args.P1)},${Number(args.P2)})`
             await ICE_send(code)
         }else{
@@ -375,7 +375,7 @@ class LinkBot {
             let mode='MOVEMENT_'+getAfterDot(args.MODE)
             code=packCommand(`bot.movement_drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},"${mode}")`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},${args.MODE})`
             await ICE_send(code)
         }else{
@@ -395,7 +395,7 @@ class LinkBot {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.movement_stop()`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.stop()`
             await ICE_send(code)
         }else{
@@ -415,7 +415,7 @@ class LinkBot {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.movement_set_speed(${Number(args.NUM)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.set_speed(${Number(args.NUM)})`
             await ICE_send(code)
         }else{
@@ -450,6 +450,43 @@ async function ICMB_send(str){
 }
 //读取
 async function ICMB_read(str){
+    //console.log('[读取]', str);
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        if (result.success) {
+            const raw = result.response.trim();
+            //console.log('[读取返回]', raw);
+            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+            return lines.length === 1 ? lines[0] : lines;
+        } else {
+            //console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+
+async function ICE_send(str){
+    console.log('[发送]', str);
+    // 发送命令到主进程
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        console.log('[收到返回]', result.response || result.error);
+        if(!result.success){
+            showToast(result.error)
+        }
+        return result;
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+//读取
+async function ICE_read(str){
     //console.log('[读取]', str);
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");

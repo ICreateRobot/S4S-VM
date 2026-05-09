@@ -1288,8 +1288,8 @@ class LinkBotSensors {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.voice_recognized("${args.CHOICE}")`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
-            code=`voice.recognized()`
+        }else if(this.runtime.currentDevice=='ESP32'){
+            code=`voice.recognized(voice.${args.CHOICE})`
             return ICE_read(code)
         }else{
             showToast(formatMessage({
@@ -1312,7 +1312,7 @@ class LinkBotSensors {
             let type='ULTRASONIC_'+getAfterDot(args.TYPE)
             code=packCommand(`cultr.ultrasonic_get_distance("${type}")`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.get_distance(${args.TYPE})`
             return ICE_read(code)
         }else{
@@ -1340,7 +1340,7 @@ class LinkBotSensors {
             
             console.log(distance,args.NUM)
             return this.operators[args.CHOICE](distance, Number(args.NUM)) 
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.get_distance(${args.TYPE})`
             let distance=await ICE_read(code)
             
@@ -1389,7 +1389,7 @@ class LinkBotSensors {
             let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_learn("${choice}")`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.learn(${args.CHOICE})`
             await ICE_send(code)
         }else{
@@ -1415,7 +1415,7 @@ class LinkBotSensors {
             let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_gray("${choice}")`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.gray(${args.CHOICE})`
             return ICE_read(code)
         }else{
@@ -1441,7 +1441,7 @@ class LinkBotSensors {
             code=packCommand(`gray.line_sensor_color("${choice}","${choice1}")`)
             let bool = await ICA_read(code)
             return bool==1
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
             return ICE_read(code)
         }else{
@@ -1465,7 +1465,7 @@ class LinkBotSensors {
             code=packCommand(`gray.line_sensor_detect_line("${choice}")`)
             let bool=await ICA_read(code)
             return bool==1
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.detect_line(${args.CHOICE})`
             return ICE_read(code)
         }else{
@@ -1488,7 +1488,7 @@ class LinkBotSensors {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.rtc_set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
             await ICE_send(code)
         }else{
@@ -1509,7 +1509,7 @@ class LinkBotSensors {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.rtc_set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`)
             await ICA_send(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
             await ICE_send(code)
         }else{
@@ -1542,7 +1542,7 @@ class LinkBotSensors {
             console.log(choice)
             code=packCommand(`bot.rtc_get("${choice}")`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.get(${args.CHOICE})`
             return ICE_read(code)
         }else{
@@ -1598,6 +1598,43 @@ async function ICA_read(dataBytes){
             return result.response;
         } else {
             console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+
+async function ICE_send(str){
+    console.log('[发送]', str);
+    // 发送命令到主进程
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        console.log('[收到返回]', result.response || result.error);
+        if(!result.success){
+            showToast(result.error)
+        }
+        return result;
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+//读取
+async function ICE_read(str){
+    //console.log('[读取]', str);
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        if (result.success) {
+            const raw = result.response.trim();
+            //console.log('[读取返回]', raw);
+            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+            return lines.length === 1 ? lines[0] : lines;
+        } else {
+            //console.error('[读取失败]', result.error);
             showToast(result.error)
             return null;
         }

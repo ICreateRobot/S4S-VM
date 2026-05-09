@@ -62,7 +62,7 @@ class LinkBotPower {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.device_battery()`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`device.battery()`
             return ICE_read(code)
         }else{
@@ -84,7 +84,7 @@ class LinkBotPower {
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.device_voltage()`)
             return ICA_read(code)
-        }else if(this.runtime.currentDevice=='Esp32'){
+        }else if(this.runtime.currentDevice=='ESP32'){
             code=`device.voltage()`
             return ICE_read(code)
         }else{
@@ -162,6 +162,42 @@ async function ICA_read(dataBytes){
 }
 //读取
 async function ICMB_read(str){
+    //console.log('[读取]', str);
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        if (result.success) {
+            const raw = result.response.trim();
+            //console.log('[读取返回]', raw);
+            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+            return lines.length === 1 ? lines[0] : lines;
+        } else {
+            //console.error('[读取失败]', result.error);
+            showToast(result.error)
+            return null;
+        }
+    } catch (e) {
+        console.error('[读取异常]', e);
+        return null;
+    }
+}
+async function ICE_send(str){
+    console.log('[发送]', str);
+    // 发送命令到主进程
+    try {
+        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+        console.log('[收到返回]', result.response || result.error);
+        if(!result.success){
+            showToast(result.error)
+        }
+        return result;
+    } catch (e) {
+        console.error('[发送失败]', e);
+        return { success: false, error: e.message };
+    }
+}
+//读取
+async function ICE_read(str){
     //console.log('[读取]', str);
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
