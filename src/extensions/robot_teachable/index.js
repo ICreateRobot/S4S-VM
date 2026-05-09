@@ -144,7 +144,9 @@ class robotteachable {
                 default: 'Machine Learning',
                 description: 'robotteachable.name'
             }),
-        color1: '#66ffcc',
+        color1: '#AB47BC',  // 主颜色
+        color2: '#963FA5',  // 次颜色（渐变）
+        color3: '#82378F',  // 边框颜色
         blocks: [
 
             {

@@ -18,9 +18,9 @@ class Esp32S4S {
             id: 'Esp32S4S.name',
             default: 'Esp32',
         }),
-        color1: '#317edb',  // 主颜色
-        // color2: '#45C2B9',  // 次颜色（渐变）
-        // color3: '#36AAA1',   // 边框颜色
+        color1: '#00897B',  // 主颜色
+        color2: '#00796D',  // 次颜色（渐变）
+        color3: '#00695F',  // 边框颜色
         // menuIconURI: icon, 
 
         //模块 

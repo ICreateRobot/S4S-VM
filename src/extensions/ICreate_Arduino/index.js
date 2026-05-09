@@ -1134,6 +1134,9 @@ class ArduinoS4S {
             default: 'Arduino',
             description: 'ArduinoS4S.name'
         }), 
+        color1: '#00796B',  // 主颜色
+        color2: '#00695D',  // 次颜色（渐变）
+        color3: '#00594F',  // 边框颜色
         menuIconURI: arduinoSvg, 
 
         blocks: blocks,

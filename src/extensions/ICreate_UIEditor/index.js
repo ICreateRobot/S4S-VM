@@ -1509,9 +1509,9 @@ class UIEditor {
         return {
             id: 'UIEditor',
             name: 'UI Editor',
-            color1: '#55DAD1',
-            color2: '#45C2B9',
-            color3: '#36AAA1',
+            color1: '#00897B',  // 主颜色
+            color2: '#00796D',  // 次颜色（渐变）
+            color3: '#00695F',  // 边框颜色
 
             blocks: blocks,
 

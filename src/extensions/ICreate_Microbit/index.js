@@ -820,9 +820,9 @@ class MicrobitIcreate {
             default: 'Micro:bit',
             description: 'MicrobitIcreate.name'
         }), 
-        color1: '#0da57a',  
-        color2: '#0b8d68', 
-        color3: '#097556',  
+        color1: '#5C6BC0',  // 主颜色
+        color2: '#4F5DA8',  // 次颜色（渐变）
+        color3: '#445091',  // 边框颜色 
         menuIconURI: icon, 
 
         blocks:blocks,
