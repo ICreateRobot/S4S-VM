@@ -19,8 +19,8 @@ class LineFollow {
                 default: 'Line Following Sensor',
             }),
             color1: '#FF8F00',  // 主颜色
-            color2: '#FFB300',  // 次颜色（渐变）
-            color3: '#36AAA1',   // 边框颜色
+            color2: '#F57C00',  // 次颜色（渐变）
+            color3: '#EF6C00',  // 边框颜色
             menuIconURI: icon, 
 
             //模块 
