@@ -45,10 +45,10 @@ class MicrobitIcreate {
                     default: 'display leds [MATRIX]'
                 }),
                 arguments: {
-                MATRIX: {
-                    type: ArgumentType.MATRIX,
-                    defaultValue: "0101011111111110111000100"
-                }
+                    MATRIX: {
+                        type: ArgumentType.MATRIX,
+                        defaultValue: "0101011111111110111000100"
+                    }
                 }
             },
 
