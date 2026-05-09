@@ -24,8 +24,8 @@ class LinkBotSensors {
             id: 'LinkBotSensors.name',
             default: 'Sensors',
         }),
-        color1: '#55DAD1',  // 主颜色
-        color2: '#45C2B9',  // 次颜色（渐变）
+        color1: '#2196F3',  // 主颜色
+        color2: '#21CBF3',  // 次颜色（渐变）
         color3: '#36AAA1',   // 边框颜色
         menuIconURI: icon, 
 

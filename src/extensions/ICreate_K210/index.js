@@ -18,9 +18,8 @@ class ICreateK210 {
                 default: 'AI Vision',
                 description: 'k210.name'
             }),
-        color1: '#4ca5f3',  
-        color2: '#3a8bda',  
-        color3: '#2c72c1',   
+        color1: '#2196F3',   
+        color2: '#21CBF3',
         
         blocks: [
             {
