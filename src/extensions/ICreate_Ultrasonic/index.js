@@ -18,8 +18,8 @@ class Ultrasonic {
                 id: 'Ultrasonic.name',
                 default: 'Ultrasonic',
             }),
-            color1: '#55DAD1',  // 主颜色
-            color2: '#45C2B9',  // 次颜色（渐变）
+            color1: '#FF8F00',  // 主颜色
+            color2: '#FFB300',  // 次颜色（渐变）
             color3: '#36AAA1',   // 边框颜色
             menuIconURI: icon, 
 
