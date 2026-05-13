@@ -305,7 +305,7 @@ class ArduinoS4S {
                 blockIconURI:arduinoSvg,
                 text: formatMessage({
                     id: 'ArduinoS4S.ICA_S4S_stopPlayRecording',
-                    default: 'stop play recording',
+                    default: 'stop recording',
                     description: 'ArduinoS4S.ICA_S4S_stopPlayRecording'
                 }),
                 arguments: {
@@ -332,7 +332,7 @@ class ArduinoS4S {
                 arguments: {
                     TEXT: {
                         type: ArgumentType.STRING,
-                        defaultValue: ''
+                        defaultValue: '/music/test.wav'
                     }
                 }
             },
@@ -501,7 +501,7 @@ class ArduinoS4S {
                 arguments: {
                     CHOICE: {
                         type: ArgumentType.STRING,
-                        menu: 'DIGITAL_PIN'
+                        menu: 'PULSE_PIN'
                     },
                     LEVEL: {
                         type: ArgumentType.STRING,
@@ -1202,17 +1202,17 @@ class ArduinoS4S {
                     { text: "D11", value: 'D11' },
                     { text: "D12", value: 'D12' },
                     { text: "D13", value: 'D13' },
-                    { text: "P003", value: 'P003' },
-                    { text: "P004", value: 'P004' },
-                    { text: "P011", value: 'P011' },
-                    { text: "P012", value: 'P012' },
-                    { text: "P013", value: 'P013' },
-                    { text: "P015", value: 'P015' },
-                    { text: "P113", value: 'P113' },
-                    { text: "P204", value: 'P204' },
-                    { text: "P400", value: 'P400' },
-                    { text: "P401", value: 'P401' },
-                    { text: "P408", value: 'P408' },
+                    { text: "D28", value: 'D28' },
+                    { text: "D29", value: 'D29' },
+                    { text: "D30", value: 'D30' },
+                    { text: "D31", value: 'D31' },
+                    { text: "D32", value: 'D32' },
+                    { text: "D33", value: 'D33' },
+                    { text: "D34", value: 'D34' },
+                    { text: "D35", value: 'D35' },
+                    { text: "D36", value: 'D36' },
+                    { text: "D37", value: 'D37' },
+                    { text: "D38", value: 'D38' },
                 ]
             },
             DIGITAL_HIGHLOW: {//高低电平*
@@ -1240,12 +1240,20 @@ class ArduinoS4S {
             PWM_PIN: {//PWM端口
                 acceptReporters: false,
                 items: [
+                    { text: "D0", value: 'D0' },
+                    { text: "D1", value: 'D1' },
+                    { text: "D2", value: 'D2' },
                     { text: "D3", value: 'D3' },
+                    { text: "D4", value: 'D4' },
                     { text: "D5", value: 'D5' },
                     { text: "D6", value: 'D6' },
+                    { text: "D7", value: 'D7' },
+                    { text: "D8", value: 'D8' },
                     { text: "D9", value: 'D9' },
                     { text: "D10", value: 'D10' },
-                    { text: "D11", value: 'D11' }
+                    { text: "D11", value: 'D11' },
+                    { text: "D12", value: 'D12' },
+                    { text: "D13", value: 'D13' }
                 ]
             },
             ANALOG_PIN: {//ANALOG端口
@@ -1257,6 +1265,13 @@ class ArduinoS4S {
                     { text: "A3", value: 'A4' },
                     { text: "A4", value: 'A5' },
                     { text: "A5", value: 'A6' }
+                ]
+            },
+            PULSE_PIN: {//PULSE_PIN端口
+                acceptReporters: false,
+                items: [
+                    { text: "D2", value: 'D2' },
+                    { text: "D3", value: 'D3' },
                 ]
             },
 
@@ -1309,15 +1324,15 @@ class ArduinoS4S {
             READ_UNTIL:{//串口读取数据直到
                 acceptReporters: false,
                 items: [
-                    'new line()',
+                    { text: "new line()", value: '\\n' },
                     ',',
                     '$',
                     ':',
                     '.',
                     '#',
-                    'carriage return()',
-                    'space',
-                    'tab()',
+                    { text: "carriage return()", value: '\\r' },
+                    { text: "space", value: ' ' },
+                    { text: "tab()", value: '\\t' },
                     '|',
                     ';'
                     
