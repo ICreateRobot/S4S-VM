@@ -7,126 +7,23 @@ const icon = require('./ESP32.svg');
  
 class Esp32S4S {
     
-    constructor(runtime) {
-        this.runtime = runtime;
+    constructor(runtime){
+        this.runtime=runtime
+
+        console.log(this.runtime)
+        this.runtime.on('VM_UPDATE_MODE', this.updateMode.bind(this));
+        this.mode=this.runtime.runMode
+    }
+    updateMode(obj){
+        console.log(obj)
+        this.mode=obj
+        setTimeout(() => {
+            this.runtime.extensionManager.refreshBlocks();
+        }, 10);
     }
 
     getInfo() {
-      return {
-        id: 'Esp32S4S',
-        name: formatMessage({
-            id: 'Esp32S4S.name',
-            default: 'Esp32',
-        }),
-        color1: '#00897B',  // 主颜色
-        color2: '#00796D',  // 次颜色（渐变）
-        color3: '#00695F',  // 边框颜色
-        menuIconURI: icon, 
-
-        //模块 
-        blocks: [
-
-            // {
-            //     blockType: BlockType.LABEL,
-            //     text: formatMessage({
-            //         id: 'Esp32S4S.display',
-            //         default: 'Display',
-            //     }),
-            // },
-            // {
-            //     opcode: 'clearScreen',//初始化oled
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //         id: 'Esp32S4S.clearScreen',
-            //         default: 'clear screen',
-            //         description: 'Esp32S4S.clearScreen'
-            //     }),
-            //     arguments: {
-            //     }
-            // },
-            // {
-            //     opcode: 'setScreenColor',//初始化oled
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //         id: 'Esp32S4S.setScreenColor',
-            //         default: 'set screen color [COLOR]',
-            //         description: 'Esp32S4S.setScreenColor'
-            //     }),
-            //     arguments: {
-            //         COLOR: {
-            //             type: ArgumentType.COLOR,
-            //             defaultValue:'#FF0000'
-            //         }
-            //     }
-            // },
-
-            // {
-            //     opcode: 'displayText',//初始化oled
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //         id: 'Esp32S4S.displayText',
-            //         default: 'display text [TEXT] with color [COLOR]',
-            //         description: 'Esp32S4S.displayText'
-            //     }),
-            //     arguments: {
-            //         TEXT: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:'Hello LinkBot'
-            //         },
-            //         COLOR: {
-            //             type: ArgumentType.COLOR,
-            //             defaultValue:'#FF0000'
-            //         }
-            //     }
-            // },
-            // {
-            //     opcode: 'drawPixel',//初始化oled
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //         id: 'Esp32S4S.drawPixel',
-            //         default: 'draw pixel at x[X] y[Y]',
-            //         description: 'Esp32S4S.drawPixel'
-            //     }),
-            //     arguments: {
-            //         X: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:0
-            //         },
-            //         Y: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:0
-            //         }
-            //     }
-            // },
-
-            // {
-            //     opcode: 'drawLine',//初始化oled
-            //     blockType: BlockType.COMMAND,
-            //     text: formatMessage({
-            //         id: 'Esp32S4S.drawLine',
-            //         default: 'draw line X1[X1]Y1[Y1] X2[X2]Y2[Y2]',
-            //         description: 'Esp32S4S.drawLine'
-            //     }),
-            //     arguments: {
-            //         X1: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:0
-            //         },
-            //         Y1: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:0
-            //         },
-            //         X2: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:1
-            //         },
-            //         Y2: {
-            //             type: ArgumentType.STRING,
-            //             defaultValue:1
-            //         }
-            //     }
-            // },
-
+        let blocks=[
             {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
@@ -178,14 +75,22 @@ class Esp32S4S {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.startRecording',
-                    default: 'start recording for [NUM] seconds',
+                    default: 'Record [NUM]s as [FILENAME] using [AUDIOSOURCE].',
                     description: 'Esp32S4S.startRecording'
                 }),
                 arguments: {
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES1_60,
                         defaultValue: 5
-                    }
+                    },
+                    FILENAME: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 'test'
+                    },
+                    AUDIOSOURCE:{
+                        type: ArgumentType.STRING,
+                        menu:"AUDIOSOURCE_MENU"
+                    },
                 }
             },
 
@@ -195,10 +100,18 @@ class Esp32S4S {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.playRecording',
-                    default: 'play recording',
+                    default: 'play recording [FILENAME] using [AUDIOSOURCE].',
                     description: 'Esp32S4S.playRecording'
                 }),
                 arguments: {
+                    FILENAME: {
+                        type: ArgumentType.STRING,
+                        defaultValue: 'test'
+                    },
+                    AUDIOSOURCE:{
+                        type: ArgumentType.STRING,
+                        menu:"AUDIOSOURCE_MENU"
+                    },
                 }
             },
 
@@ -223,22 +136,22 @@ class Esp32S4S {
                 }),
             },
 
-            {
-                opcode: 'getAudioFile',//获取音频文件
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.getAudioFile',
-                    default: 'get audio file [TEXT] from sd card',
-                    description: 'Esp32S4S.getAudioFile'
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.STRING,
-                        defaultValue: ''
-                    }
-                }
-            },
+            // {
+            //     opcode: 'getAudioFile',//获取音频文件
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.getAudioFile',
+            //         default: 'get audio file [TEXT] from sd card',
+            //         description: 'Esp32S4S.getAudioFile'
+            //     }),
+            //     arguments: {
+            //         TEXT: {
+            //             type: ArgumentType.STRING,
+            //             defaultValue: ''
+            //         }
+            //     }
+            // },
 
             {
                 opcode: 'setVolume',//设置播放声音大小
@@ -251,7 +164,7 @@ class Esp32S4S {
                 }),
                 arguments: {
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMRES0_100,
                         defaultValue: 5
                     }
                 }
@@ -263,11 +176,14 @@ class Esp32S4S {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.playAudio',
-                    default: 'play audio',
+                    default: 'play audio [TEXT]',
                     description: 'Esp32S4S.playAudio'
                 }),
                 arguments: {
-                    
+                    TEXT: {
+                        type: ArgumentType.STRING,
+                        defaultValue: ''
+                    }
                 }
             },
             {
@@ -305,7 +221,7 @@ class Esp32S4S {
                     PIN: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'0'
+                        defaultValue:'IO0'
                     },
                     CHOICE: {
                         type: ArgumentType.STRING,
@@ -349,7 +265,7 @@ class Esp32S4S {
                     PIN: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'0'
+                        defaultValue:'IO0'
                     },
                 }
             },
@@ -385,7 +301,7 @@ class Esp32S4S {
                     PIN: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'0'
+                        defaultValue:'IO0'
                     },
                     CHOICE: {
                         type: ArgumentType.STRING,
@@ -408,7 +324,7 @@ class Esp32S4S {
                     CHOICE: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'0'
+                        defaultValue:'IO0'
                     },
                     NUM: {
                         type: ArgumentType.STRING,
@@ -453,168 +369,152 @@ class Esp32S4S {
                   
                 }
             },
+        ]
+        if(this.mode=='upload'){
+            blocks.push(
+                {
+                    blockType: BlockType.LABEL,
+                    text: formatMessage({
+                        id: 'Esp32S4S.Serial',
+                        default: 'Serial',
+                    }),
+                },
+    
+                {
+                    opcode: 'writeText',//写入文本
+                    blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
+                    text: formatMessage({
+                        id: 'Esp32S4S.writeText',
+                        default: 'write [TEXT] to serial port',
+                        description: 'Esp32S4S.writeText'
+                    }),
+                    arguments: {
+                        TEXT: {
+                            type: ArgumentType.STRING,
+                            defaultValue:'hello'
+                        },
+                    }
+                },
+    
+                {
+                    opcode: 'readableBytes',//读取字节
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:icon,
+                    text: formatMessage({
+                        id: 'Esp32S4S.readableBytes',
+                        default: 'readable bytes from serial port',
+                        description: 'Esp32S4S.readableBytes'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                      
+                    }
+                },
+    
+                {
+                    opcode: 'readByte',//串口读取单个字节
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:icon,
+                    text: formatMessage({
+                        id: 'Esp32S4S.readByte',
+                        default: 'read a byte from serial port',
+                        description: 'Esp32S4S.readByte'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                      
+                    }
+                },
+    
+                {
+                    opcode: 'readString',//串口读取字符串
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:icon,
+                    text: formatMessage({
+                        id: 'Esp32S4S.readString',
+                        default: 'serial read string',
+                        description: 'Esp32S4S.readString'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                      
+                    }
+                },
+    
+                {
+                    opcode: 'readUntil',//读取数据直到满足条件
+                    blockType: BlockType.REPORTER,
+                    blockIconURI:icon,
+                    text: formatMessage({
+                        id: 'Esp32S4S.readUntil',
+                        default: 'serial read until [CHOICE]',
+                        description: 'Esp32S4S.readUntil'
+                    }),
+                    disableMonitor: true,
+                    arguments: {
+                        CHOICE: {
+                            type: ArgumentType.STRING,
+                            menu: 'READ_UNTIL'
+                        },
+                    }
+                },
+    
+                {
+                    opcode: 'setBaud',
+                    blockType: BlockType.COMMAND,
+                    blockIconURI:icon,
+                    text: formatMessage({
+                        id: 'Esp32S4S.setBaud',
+                        default: 'set serial baud rate to [CHOICE]',
+                        description: 'Esp32S4S.setBaud'
+                    }),
+                    arguments: {
+                        CHOICE: {
+                            type: ArgumentType.STRING,
+                            menu:'BAUD_RATE'
+                        },
+                    }
+                },
+            )
+        }
+      return {
+        id: 'Esp32S4S',
+        name: formatMessage({
+            id: 'Esp32S4S.name',
+            default: 'Esp32',
+        }),
+        color1: '#00897B',  // 主颜色
+        color2: '#00796D',  // 次颜色（渐变）
+        color3: '#00695F',  // 边框颜色
+        menuIconURI: icon, 
 
-            {
-                blockType: BlockType.LABEL,
-                text: formatMessage({
-                    id: 'Esp32S4S.Serial',
-                    default: 'Serial',
-                }),
-            },
-
-            {
-                opcode: 'writeText',//写入文本
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.writeText',
-                    default: 'write [TEXT] to serial port',
-                    description: 'Esp32S4S.writeText'
-                }),
-                arguments: {
-                    TEXT: {
-                        type: ArgumentType.STRING,
-                        defaultValue:'hello'
-                    },
-                }
-            },
-
-            {
-                opcode: 'readableBytes',//读取字节
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.readableBytes',
-                    default: 'readable bytes from serial port',
-                    description: 'Esp32S4S.readableBytes'
-                }),
-                disableMonitor: true,
-                arguments: {
-                  
-                }
-            },
-
-            {
-                opcode: 'readByte',//串口读取单个字节
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.readByte',
-                    default: 'read a byte from serial port',
-                    description: 'Esp32S4S.readByte'
-                }),
-                disableMonitor: true,
-                arguments: {
-                  
-                }
-            },
-
-            {
-                opcode: 'readString',//串口读取字符串
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.readString',
-                    default: 'serial read string',
-                    description: 'Esp32S4S.readString'
-                }),
-                disableMonitor: true,
-                arguments: {
-                  
-                }
-            },
-
-            {
-                opcode: 'readUntil',//读取数据直到满足条件
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.readUntil',
-                    default: 'serial read until [CHOICE]',
-                    description: 'Esp32S4S.readUntil'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'READ_UNTIL'
-                    },
-                }
-            },
-
-            {
-                opcode: 'setBaud',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.setBaud',
-                    default: 'set serial baud rate to [CHOICE]',
-                    description: 'Esp32S4S.setBaud'
-                }),
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu:'BAUD_RATE'
-                    },
-                }
-            },
-
-            // {
-            //     opcode: 'Linkbot_power_external',//电池外部
-            //     blockType: BlockType.REPORTER,
-            //     disableMonitor: true,
-            //     // blockIconURI:icon,
-            //     text: formatMessage({
-            //         id: 'Linkbot.Linkbot_power_external',
-            //         default: 'read the external battery voltage',
-            //     }),
-            // },
-        
-        ],
+        //模块 
+        blocks: blocks,
 
         menus: {
             BUTTON_MENU: {//按钮选项
                 acceptReporters: false,
                 items: [
-                    { text: "A", value: '0' },
-                    { text: "B", value: '1' },
+                    { text: "A", value: 'A' },
+                    { text: "B", value: 'B' },
                     // { text: "A+B", value: '2' }
                 ]
             },
             DIGITAL_PIN: {//数字引脚
                 acceptReporters: false,
                 items: [
-                    { text: "A0", value: '0' },
-                    { text: "A1", value: '1' },
-                    { text: "A2", value: '2' },
-                    { text: "A3", value: '3' },
-                    { text: "A4", value: '4' },
-                    { text: "A5", value: '5' },
-                    { text: "D0", value: '6' },
-                    { text: "D1", value: '7' },
-                    { text: "D2", value: '8' },
-                    { text: "D3", value: '9' },
-                    { text: "D4", value: '10' },
-                    { text: "D5", value: '11' },
-                    { text: "D6", value: '12' },
-                    { text: "D7", value: '13' },
-                    { text: "D8", value: '14' },
-                    { text: "D9", value: '15' },
-                    { text: "D10", value: '16' },
-                    { text: "D11", value: '17' },
-                    { text: "D12", value: '18' },
-                    { text: "D13", value: '19' },
-                    { text: "P003", value: '20' },
-                    { text: "P004", value: '21' },
-                    { text: "P011", value: '22' },
-                    { text: "P012", value: '23' },
-                    { text: "P013", value: '24' },
-                    { text: "P015", value: '25' },
-                    { text: "P113", value: '26' },
-                    { text: "P204", value: '27' },
-                    { text: "P400", value: '28' },
-                    { text: "P401", value: '29' },
-                    { text: "P408", value: '30' },
+                    { text: "IO0", value: 'IO0' },
+                    { text: "IO8", value: 'IO8' },
+                    { text: "IO9", value: 'IO9' },
+                    { text: "IO17", value: 'IO17' },
+                    { text: "IO18", value: 'IO18' },
+                    { text: "IO19", value: 'IO19' },
+                    { text: "IO20", value: 'IO20' },
+                    { text: "IO35", value: 'IO35' },
+                    { text: "IO36", value: 'IO36' },
+                    { text: "IO37", value: 'IO37' },
+                    { text: "IO46", value: 'IO46' },
                 ]
             },
             DIGITAL_HIGHLOW: {//高低电平*
@@ -626,7 +526,7 @@ class Esp32S4S {
                             default: 'high',
                             description: 'Esp32S4S.setDigital.DIGITAL_HIGHLOW.high'
                         }),
-                        value: '0' 
+                        value: '1' 
                     },
                     { 
                         text: formatMessage({
@@ -634,7 +534,7 @@ class Esp32S4S {
                             default: 'low',
                             description: 'Esp32S4S.setDigital.DIGITAL_HIGHLOW.low'
                         }),
-                        value: '1'
+                        value: '0'
                     }
                 ]
             },
@@ -642,23 +542,28 @@ class Esp32S4S {
             PWM_PIN: {//PWM端口
                 acceptReporters: false,
                 items: [
-                    { text: "D3", value: 'D3' },
-                    { text: "D5", value: 'D5' },
-                    { text: "D6", value: 'D6' },
-                    { text: "D9", value: 'D9' },
-                    { text: "D10", value: 'D10' },
-                    { text: "D11", value: 'D11' }
+                    { text: "IO0", value: 'IO0' },
+                    { text: "IO8", value: 'IO8' },
+                    { text: "IO9", value: 'IO9' },
+                    { text: "IO17", value: 'IO17' },
+                    { text: "IO18", value: 'IO18' },
+                    { text: "IO19", value: 'IO19' },
+                    { text: "IO20", value: 'IO20' },
+                    { text: "IO35", value: 'IO35' },
+                    { text: "IO36", value: 'IO36' },
+                    { text: "IO37", value: 'IO37' },
+                    { text: "IO46", value: 'IO46' },
                 ]
             },
             ANALOG_PIN: {//ANALOG端口
                 acceptReporters: false,
                 items: [
-                    { text: "A0", value: 'A1' },
-                    { text: "A1", value: 'A2' },
-                    { text: "A2", value: 'A3' },
-                    { text: "A3", value: 'A4' },
-                    { text: "A4", value: 'A5' },
-                    { text: "A5", value: 'A6' }
+                    { text: "IO8", value: 'IO8' },
+                    { text: "IO9", value: 'IO9' },
+                    { text: "IO17", value: 'IO17' },
+                    { text: "IO18", value: 'IO18' },
+                    { text: "IO19", value: 'IO19' },
+                    { text: "IO20", value: 'IO20' },
                 ]
             },
 
@@ -692,18 +597,40 @@ class Esp32S4S {
                 ]
             },
 
+            AUDIOSOURCE_MENU: {//选择音频位置
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.startRecording.AUDIOSOURCE.SD',
+                            default: 'SD card audio',
+                            description: 'Esp32S4S.startRecording.AUDIOSOURCE.SD'
+                        }),
+                        value: '0' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.startRecording.AUDIOSOURCE.LOCAL',
+                            default: 'Local audio',
+                            description: 'Esp32S4S.startRecording.AUDIOSOURCE.LOCAL'
+                        }),
+                        value: '1' 
+                    },
+                ]
+            },
+
             READ_UNTIL:{//串口读取数据直到
                 acceptReporters: false,
                 items: [
-                    'new line()',
+                    { text: "new line()", value: '\\n' },
                     ',',
                     '$',
                     ':',
                     '.',
                     '#',
-                    'carriage return()',
-                    'space',
-                    'tab()',
+                    { text: "carriage return()", value: '\\r' },
+                    { text: "space", value: ' ' },
+                    { text: "tab()", value: '\\t' },
                     '|',
                     ';'
                     
@@ -730,56 +657,68 @@ class Esp32S4S {
       };
     }
     
-    buttonPressed(args){
-
+    async buttonPressed(args){
+        return ICE_read(`button.is_pressed(button.${args.CHOICE})`)
     }
-    soundLevel(args){
-
+    async soundLevel(args){
+        return ICE_read(`audio.get_sound_level()`)
     }
-    startRecording(args){
-
+    async startRecording(args){
+        let position=Number(args.AUDIOSOURCE)
+        if(position === 0){
+            await ICE_send(`audio.start_recording("sd/${args.FILENAME}.wav",${args.NUM})`)
+        }else{
+            await ICE_send(`audio.start_recording("${args.FILENAME}.wav",${args.NUM})`)
+        }
+        
     }
-    playRecording(args){
-
+    async playRecording(args){
+        let position=Number(args.AUDIOSOURCE)
+        if(position === 0){
+            await ICE_send(`audio.play_recording("sd/${args.FILENAME}.wav")`)
+        }else{
+            await ICE_send(`audio.play_recording("${args.FILENAME}.wav")`)
+        }
+        
     }
-    stopPlayRecording(args){
-
+    async stopPlayRecording(args){
+        await ICE_send(`audio.stop_sounds()`)
     }
     getAudioFile(args){
 
     }
-    setVolume(args){
-
+    async setVolume(args){
+        await ICE_send(`audio.set_volume(${args.NUM})`)
     }
-    playAudio(args){
-
+    async playAudio(args){
+        await ICE_send(`audio.play_audio(${args.TEXT})`)
     }
-    stopAudio(args){
-
+    async stopAudio(args){
+        await ICE_send(`audio.stop_sounds()`)
     }
-    setDigital(args){
-
+    async setDigital(args){
+        await ICE_send(`esp_pin.digitalWrite(${args.PIN},${Number(args.CHOICE)})`)
     }
-    setPwm(args){
-
+    async setPwm(args){
+        await ICE_send(`esp_pin.analogWrite(${args.PIN},${args.NUM})`)
     }
-    readDigitalPin(args){
-
+    async readDigitalPin(args){
+        return ICE_read(`esp_pin.digitalRead(${args.PIN})`)
     }
-    readAnalogPin(args){
-        
+    async readAnalogPin(args){
+        return ICE_read(`esp_pin.analogRead(${args.PIN})`)
     }
     setInputPull(args){
 
     }
-    readPulse(args){
-
+    async readPulse(args){
+        return ICE_read(`esp_pin.pulseIn(${args.CHOICE},1,${args.NUM})`)
     }
-    getTimer(args){
-
+    async getTimer(args){
+        return ICE_read(`system.tick_get()`)
     }
-    resetTimer(args){
-
+    async resetTimer(args){
+        await ICE_send(`tick_reset()`)
     }
     writeText(args){
 
@@ -802,9 +741,8 @@ class Esp32S4S {
 
 }
 
-//发送
-async function ICMB_send(str){
-    //console.log('[发送]', str);
+async function ICE_send(str){
+    console.log('[发送]', str);
     // 发送命令到主进程
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
@@ -819,8 +757,8 @@ async function ICMB_send(str){
     }
 }
 //读取
-async function ICMB_read(str){
-    //console.log('[读取]', str);
+async function ICE_read(str){
+    console.log('[读取]', str);
     try {
         const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
         if (result.success) {
