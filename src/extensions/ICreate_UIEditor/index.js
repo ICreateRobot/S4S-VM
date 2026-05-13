@@ -777,67 +777,67 @@ class UIEditor {
                         }
                     }
                 },
-                {
-                    opcode: 'setImageSize',//设置图片大小
-                    blockType: BlockType.COMMAND,
-                    blockIconURI:icon,
-                    text: formatMessage({
-                        id: 'UIEditor.setImageSize',
-                        default: 'set Image [IMAGE] size width [WIDTH] height [HEIGHT]'
-                    }),
-                    arguments: {
-                        IMAGE: {
-                            type: ArgumentType.STRING,
-                            menu: 'imageMenu'
-                        },
-                        WIDTH: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 70
-                        },
-                        HEIGHT: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 70
-                        }
-                    }
-                },
-                {
-                    opcode: 'setImageSizeWidth',//设置图片宽度
-                    blockType: BlockType.COMMAND,
-                    blockIconURI:icon,
-                    text: formatMessage({
-                        id: 'UIEditor.setImageSizeWidth',
-                        default: 'set Image [IMAGE] size width [WIDTH]'
-                    }),
-                    arguments: {
-                        IMAGE: {
-                            type: ArgumentType.STRING,
-                            menu: 'imageMenu'
-                        },
-                        WIDTH: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 70
-                        }
-                    }
-                },
-                {
-                    opcode: 'setImageSizeHeight',//设置图片高度
-                    blockType: BlockType.COMMAND,
-                    blockIconURI:icon,
-                    text: formatMessage({
-                        id: 'UIEditor.setImageSizeHeight',
-                        default: 'set Image [IMAGE] size height [HEIGHT]'
-                    }),
-                    arguments: {
-                        IMAGE: {
-                            type: ArgumentType.STRING,
-                            menu: 'imageMenu'
-                        },
-                        HEIGHT: {
-                            type: ArgumentType.NUMBER,
-                            defaultValue: 70
-                        }       
-                     }
-                },
+                // {
+                //     opcode: 'setImageSize',//设置图片大小
+                //     blockType: BlockType.COMMAND,
+                //     blockIconURI:icon,
+                //     text: formatMessage({
+                //         id: 'UIEditor.setImageSize',
+                //         default: 'set Image [IMAGE] size width [WIDTH] height [HEIGHT]'
+                //     }),
+                //     arguments: {
+                //         IMAGE: {
+                //             type: ArgumentType.STRING,
+                //             menu: 'imageMenu'
+                //         },
+                //         WIDTH: {
+                //             type: ArgumentType.NUMBER,
+                //             defaultValue: 70
+                //         },
+                //         HEIGHT: {
+                //             type: ArgumentType.NUMBER,
+                //             defaultValue: 70
+                //         }
+                //     }
+                // },
+                // {
+                //     opcode: 'setImageSizeWidth',//设置图片宽度
+                //     blockType: BlockType.COMMAND,
+                //     blockIconURI:icon,
+                //     text: formatMessage({
+                //         id: 'UIEditor.setImageSizeWidth',
+                //         default: 'set Image [IMAGE] size width [WIDTH]'
+                //     }),
+                //     arguments: {
+                //         IMAGE: {
+                //             type: ArgumentType.STRING,
+                //             menu: 'imageMenu'
+                //         },
+                //         WIDTH: {
+                //             type: ArgumentType.NUMBER,
+                //             defaultValue: 70
+                //         }
+                //     }
+                // },
+                // {
+                //     opcode: 'setImageSizeHeight',//设置图片高度
+                //     blockType: BlockType.COMMAND,
+                //     blockIconURI:icon,
+                //     text: formatMessage({
+                //         id: 'UIEditor.setImageSizeHeight',
+                //         default: 'set Image [IMAGE] size height [HEIGHT]'
+                //     }),
+                //     arguments: {
+                //         IMAGE: {
+                //             type: ArgumentType.STRING,
+                //             menu: 'imageMenu'
+                //         },
+                //         HEIGHT: {
+                //             type: ArgumentType.NUMBER,
+                //             defaultValue: 70
+                //         }       
+                //      }
+                // },
                 {
                     opcode: 'setImagePosition',//设置图片位置
                     blockType: BlockType.COMMAND,
@@ -1125,9 +1125,7 @@ class UIEditor {
                             type: ArgumentType.STRING,
                             menu: 'buttonMenu'
                         },
-                        SUBSTACK: {                    
-                            type: ArgumentType.STATEMENT
-                        }
+                        
                     }
                 },
             )
@@ -1627,15 +1625,15 @@ class UIEditor {
                     acceptReporters: false,
                     items: [
                         { text: 'small', value: "12" },
-                        { text: 'medium', value: "14" },
-                        { text: 'large', value: "16" }
+                        { text: 'medium', value: "18" },
+                        { text: 'large', value: "24" }
                     ]
                 },
                 switchStateMenu: {
                     acceptReporters: false,
                     items: [
-                        { text: 'on', value: "true" },
-                        { text: 'off', value: "false" }
+                        { text: 'on', value: "True" },
+                        { text: 'off', value: "False" }
                     ]
                 }
             }
