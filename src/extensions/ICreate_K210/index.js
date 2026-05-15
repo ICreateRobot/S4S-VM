@@ -20,6 +20,7 @@ class ICreateK210 {
             }),
         color1: '#2196F3',   
         color2: '#21CBF3',
+        color3:'#1565C0',
         menuIconURI: icon, 
         
         blocks: [
@@ -1015,7 +1016,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuFace.face0',
-                            default: 'Face 0',
+                            default: 'Face 1',
                             description: 'k210.menuFace.face0'
                         }),
                         value: '1'
@@ -1023,7 +1024,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuFace.face1',
-                            default: 'Face 1',
+                            default: 'Face 2',
                             description: 'k210.menuFace.face1'
                         }),
                         value: '2'
@@ -1031,7 +1032,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuFace.face2',
-                            default: 'Face 2',
+                            default: 'Face 3',
                             description: 'k210.menuFace.face2'
                         }),
                         value: '3'
@@ -1039,7 +1040,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuFace.face3',
-                            default: 'Face 3',
+                            default: 'Face 4',
                             description: 'k210.menuFace.face3'
                         }),
                         value: '4'
@@ -1660,7 +1661,7 @@ class ICreateK210 {
         if(this.runtime.currentDevice === "Microbit"){
             await ICMB_send(`vision.set_mode(vision.${args.TWO})`)
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.set_mode(${args.TWO})`)
+            let code = packCommand(`vision.set_mode("${args.TWO}")`)
             await ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
             await ICE_send(`vision.set_mode(vision.${args.TWO})`)
@@ -1763,7 +1764,7 @@ class ICreateK210 {
             // const [R, G, B] = str.slice(1, -1).split(',').map(Number);
             return str;
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.color_value(${args.ONE})`)
+            let code = packCommand(`vision.color_value("${args.ONE}")`)
             const str = await ICA_read(code)
             return str
         }else if(this.runtime.currentDevice === "ESP32"){
@@ -1786,7 +1787,7 @@ class ICreateK210 {
         if(this.runtime.currentDevice === "Microbit"){
             await ICMB_send(`vision.set_color(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.set_color(${args.ONE})`)
+            let code = packCommand(`vision.set_color("${args.ONE}")`)
             await ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
             await ICE_send(`vision.set_color(vision.${args.ONE})`)
@@ -1804,7 +1805,7 @@ class ICreateK210 {
             return ICMBP_read(`vision.color_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.color_detected()`)
-            return ICA_read(code)
+            return ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
             return ICE_read(`vision.color_detected()`)
         }else{
@@ -1822,7 +1823,7 @@ class ICreateK210 {
             return ICMBP_read(`vision.color_position(vision.${args.ONE})`)
             
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.color_position(${args.ONE})`)
+            let code = packCommand(`vision.color_position("${args.ONE}")`)
             return ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
             return ICE_read(`vision.color_position(vision.${args.ONE})`)
@@ -1922,7 +1923,7 @@ class ICreateK210 {
             return ICMBP_read(`vision.tag_position(vision.${args.ONE})`)
             
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.tag_position(${args.ONE})`)
+            let code = packCommand(`vision.tag_position("${args.ONE}")`)
             return ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
             return ICE_read(`vision.tag_position(vision.${args.ONE})`)
@@ -1961,7 +1962,7 @@ class ICreateK210 {
             let info = await ICMBP_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.line_position(${args.ONE},${args.TWO})`)
+            let code = packCommand(`vision.line_position("${args.ONE}","${args.TWO}")`)
             let info =await ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
@@ -2002,7 +2003,7 @@ class ICreateK210 {
             //let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_20_CLASS)`)
             return ICMBP_read(`vision.object_detected(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.object_detected(${args.ONE})`)
+            let code = packCommand(`vision.object_detected("${args.ONE}")`)
             return ICA_read(code)
         }else if(this.runtime.currentDevice ==="ESP32"){
             return ICE_read(`vision.object_detected(vision.${args.ONE})`)
@@ -2021,7 +2022,7 @@ class ICreateK210 {
             let info = await ICMBP_read(`vision.object_position(vision.${args.ONE})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.object_position(${args.ONE})`)
+            let code = packCommand(`vision.object_position("${args.ONE}")`)
             let info =await ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
@@ -2044,7 +2045,7 @@ class ICreateK210 {
             return ICMBP_read(`vision.qr_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.qr_detected()`)
-            return ICA_read(code)
+            return ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
             return ICE_read(`vision.qr_detected()`)
         }else{
@@ -2083,7 +2084,7 @@ class ICreateK210 {
             let info = await ICMBP_read(`vision.qr_position(vision.${args.ONE})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.qr_position(${args.ONE})`)
+            let code = packCommand(`vision.qr_position("${args.ONE}")`)
             let info = await ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
@@ -2124,7 +2125,7 @@ class ICreateK210 {
             let info = await ICMBP_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.face_position(${args.TWO},${Number(args.ONE)})`)
+            let code = packCommand(`vision.face_position("${args.TWO}",${Number(args.ONE)})`)
             let info = await ICMBP_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
@@ -2145,9 +2146,9 @@ class ICreateK210 {
             let num=await ICMBP_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
             return num
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.face_attribute(${args.TWO},${Number(args.ONE)})`)
+            let code = packCommand(`vision.face_attribute("${args.TWO}",${Number(args.ONE)})`)
             let num = await ICA_read(code)
-            return num
+            return num==1
         }else if(this.runtime.currentDevice === "ESP32"){
             let num=await ICE_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
             return num
@@ -2203,7 +2204,7 @@ class ICreateK210 {
             return await ICMBP_read(`vision.face_recognized_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_recognized_detected()`)
-            return await ICA_read(code)
+            return await ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
             return await ICE_read(`vision.face_recognized_detected()`)
         }else{
@@ -2221,7 +2222,7 @@ class ICreateK210 {
             let info = await ICMBP_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.face_recognized_position(${args.TWO},${args.ONE})`)
+            let code = packCommand(`vision.face_recognized_position("${args.TWO}",${args.ONE})`)
             let info = await ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
@@ -2244,7 +2245,7 @@ class ICreateK210 {
            
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.class_recognized(${Number(args.ONE)})`)
-            return ICA_read(code)
+            return ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
             return ICE_read(`vision.class_recognized(${Number(args.ONE)})`)
         }else{
@@ -2290,11 +2291,11 @@ class ICreateK210 {
             
         }else if(this.runtime.currentDevice === "Arduino"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
-                let code = packCommand(`vision.card_detected(${args.ONE},1)`)
-                return ICA_read(code)
+                let code = packCommand(`vision.card_detected("${args.ONE}",1)`)
+                return ICA_read(code)==1
             }else{
-                let code = packCommand(`vision.card_detected(${args.ONE},2)`)
-                return ICA_read(code)
+                let code = packCommand(`vision.card_detected("${args.ONE}",2)`)
+                return ICA_read(code)==1
             }
         }else if(this.runtime.currentDevice === "ESP32"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
@@ -2316,7 +2317,7 @@ class ICreateK210 {
         if(this.runtime.currentDevice === "Microbit"){
             return ICMBP_read(`vision.card_position(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
-            let code = packCommand(`vision.card_position(${args.ONE})`)
+            let code = packCommand(`vision.card_position("${args.ONE}")`)
             return ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
             return ICE_read(`vision.card_position(vision.${args.ONE})`)
@@ -2591,7 +2592,7 @@ function buildPacket(dataBytes) {
 //发送
 async function ICA_send(dataBytes) {
     try {
-        const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
         console.log("发送数据包:", packet);
 
         const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
@@ -2611,7 +2612,7 @@ async function ICA_send(dataBytes) {
 //读取
 async function ICA_read(dataBytes){
     try {
-        const packet = buildPacket(dataBytes);
+        const packet = dataBytes;
         console.log("发送数据包:", packet);
 
         const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
@@ -2668,6 +2669,7 @@ async function ICE_read(str){
 // ##################################################################
 
 function packCommand(cmd) {
+    console.log(cmd)
     const HEADER = [0xaa, 0x01];
     const TAIL = 0x55;
   
@@ -2734,9 +2736,9 @@ function packCommand(cmd) {
       else if (isNumber(val)) {
         // OK，不加引号
       }
-      else {
-        throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
-      }
+    //   else {
+    //     throw new Error(`参数格式错误: ${val}（字符串必须带引号）`);
+    //   }
   
       const bytes = Array.from(val).map(c => c.charCodeAt(0));
   
