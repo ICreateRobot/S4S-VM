@@ -528,7 +528,7 @@ class ArduinoS4S {
                 blockIconURI:arduinoSvg,
                 text: formatMessage({
                     id: 'ArduinoS4S.ICA_S4S_getTimer',
-                    default: 'Get timer value',
+                    default: 'get timer value',
                     description: 'ArduinoS4S.ICA_S4S_getTimer'
                 }),
                 disableMonitor: true,
@@ -1695,7 +1695,7 @@ class ArduinoS4S {
     }
 
     async ICA_S4S_readPulse(args){
-        let code = packCommand(`esp_pin.pulseIn("${args.CHOICE}",${Number(args.NUM)})`)
+        let code = packCommand(`esp_pin.pulseIn("${args.CHOICE}",${Number(args.LEVEL)},${Number(args.NUM)})`)
         return ICA_read(code)
     }
 
