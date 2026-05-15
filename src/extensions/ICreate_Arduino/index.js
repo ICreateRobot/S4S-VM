@@ -144,11 +144,11 @@ class ArduinoS4S {
                     },
                     X2: {
                         type: ArgumentType.NUMRES_1000_1000,
-                        defaultValue: 1
+                        defaultValue: 50
                     },
                     Y2: {
                         type: ArgumentType.NUMRES_1000_1000,
-                        defaultValue: 1
+                        defaultValue: 50
                     }
                 }
             },
@@ -1568,60 +1568,60 @@ class ArduinoS4S {
     async ICA_S4S_oledInit(args){
         let code = packCommand(`esp_oled.init()`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
  
     async ICA_S4S_clearOled(args){
         let code = packCommand(`esp_oled.clear_screen()`)
         
-        await ICA_send(code)
-        // await ICA_send(`esp_oled.clear_screen()`)
+        await this.ICA_send(code)
+        // await this.ICA_send(`esp_oled.clear_screen()`)
     }
 
     async ICA_S4S_textSize(args){
         let code = packCommand(`esp_oled.set_text_size(${Number(args.NUM)})`)
         
-        await ICA_send(code)
-        // await ICA_send(`esp_oled.clear_screen()`)
+        await this.ICA_send(code)
+        // await this.ICA_send(`esp_oled.clear_screen()`)
     }
 
     async ICA_S4S_setTextXY(args){
         let code = packCommand(`esp_oled.print(${Number(args.X)},${Number(args.Y)},"${args.TEXT}")`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_drawPixel(args){
         let code = packCommand(`esp_oled.draw_pixel(${Number(args.X)},${Number(args.Y)})`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_drawLine(args){
         let code = packCommand(`esp_oled.draw_line(${Number(args.X1)},${Number(args.Y1)},${Number(args.X2)},${Number(args.Y2)})`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
     async ICA_S4S_drawrectAngle(args){
         let code = packCommand(`esp_oled.draw_rect(${Number(args.X)},${Number(args.Y)},${Number(args.W)},${Number(args.H)})`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_drawCircle(args){
         let code = packCommand(`esp_oled.draw_circle(${Number(args.X)},${Number(args.Y)},${Number(args.R)})`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
     async ICA_S4S_refresh(){
         let code = packCommand(`esp_oled.refresh()`)
         
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_button(args){
         let code = packCommand(`esp_pin.button_pressed()`)
-        let result =await ICA_read(code)
+        let result =await this.ICA_read(code)
         if(result==args.CHOICE){
             return true
         }
@@ -1630,83 +1630,83 @@ class ArduinoS4S {
 
     async ICA_S4S_sound(){
         let code = packCommand(`esp_audio.get_sound_level()`)
-        return ICA_read(code)
+        return this.ICA_read(code)
     }
 
     async ICA_S4S_startRecording(args){
         let code = packCommand(`esp_audio.start_recording(${Number(args.NUM)})`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_playRecording(){
         let code = packCommand(`esp_audio.play_recording(1)`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_stopPlayRecording(){
         let code = packCommand(`esp_audio.play_recording(0)`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_getAudioFile(args){
         let code = packCommand(`esp_audio.set_audio_file("${args.TEXT}")`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_setVolume(args){
         let code = packCommand(`esp_audio.set_volume(${args.NUM})`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_playAudio(){
         let code = packCommand(`esp_audio.play_audio(1)`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_stopAudio(){
         let code = packCommand(`esp_audio.play_audio(0)`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_setDigital(args){
         let code = packCommand(`esp_pin.digitalWrite("${args.PIN}",${Number(args.CHOICE)})`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_setPwm(args){
         let code = packCommand(`esp_pin.analogWrite("${args.PIN}",${Number(args.NUM)})`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     async ICA_S4S_readDigitalPin(args){
         let code = packCommand(`esp_pin.digitalRead("${args.PIN}")`)
-        let result = await ICA_read(code)
+        let result = await this.ICA_read(code)
         return result==1
     }
 
     async ICA_S4S_readAnalogPin(args){
         let code = packCommand(`esp_pin.analogRead("${args.PIN}")`)
-        return ICA_read(code)
+        return this.ICA_read(code)
     }
 
     async ICA_S4S_setInputPull(args){
         let code = packCommand(`esp_pin.pinMode("${args.PIN}",${Number(args.CHOICE)})`)
-        return ICA_read(code)
+        return this.ICA_read(code)
     }
 
     async ICA_S4S_readPulse(args){
         let code = packCommand(`esp_pin.pulseIn("${args.CHOICE}",${Number(args.LEVEL)},${Number(args.NUM)})`)
-        return ICA_read(code)
+        return this.ICA_read(code)
     }
 
     async ICA_S4S_getTimer(){
         let code = packCommand(`sys.tick_get()`)
-        return ICA_read(code)
+        return this.ICA_read(code)
     }
 
     async ICA_S4S_resetTimer(){
         let code = packCommand(`sys.tick_reset()`)
-        await ICA_send(code)
+        await this.ICA_send(code)
     }
 
     //--------------------电机---------------------------
@@ -1715,22 +1715,22 @@ class ArduinoS4S {
         const speedBytes = int16ToBytes(parseInt(args.TEXT));
         let data = [parseInt(args.CHOICE), 0, ...speedBytes];//模式+速度
 
-        await ICA_send([ 0x01, data.length, ...data]) ;
+        await this.ICA_send([ 0x01, data.length, ...data]) ;
     }
 
     //电机转编码
     async ICA_S4S_motorPosition(args){
-        await ICA_send([ 0x01, 2, parseInt(args.CHOICE), 1]) ;//模式
+        await this.ICA_send([ 0x01, 2, parseInt(args.CHOICE), 1]) ;//模式
 
         const posBytes = int32ToBytes(parseInt(args.TEXT));
         let data = [parseInt(args.CHOICE)+2, ...posBytes];//角度
-        await ICA_send([ 0x01, data.length, ...data]) ;
+        await this.ICA_send([ 0x01, data.length, ...data]) ;
     }
 
     //获取电机编码值
     async ICA_S4S_motorGetPosition(args){
-        await ICA_send([ 0x01, 2, parseInt(args.CHOICE), 1]) ;//模式
-        return ICA_read([ 0x02, 1, parseInt(args.CHOICE)+3])
+        await this.ICA_send([ 0x01, 2, parseInt(args.CHOICE), 1]) ;//模式
+        return this.ICA_read([ 0x02, 1, parseInt(args.CHOICE)+3])
     }
 
     //控制小车运动
@@ -1753,24 +1753,24 @@ class ArduinoS4S {
         }
 
         let leftdata = [80, 0, ...int16ToBytes(leftSpeed)];//左电机：模式+速度
-        await ICA_send([ 0x01, leftdata.length, ...leftdata]) ;
+        await this.ICA_send([ 0x01, leftdata.length, ...leftdata]) ;
         let rightdata = [90, 0, ...int16ToBytes(rightSpeed)];//右电机：模式+速度
-        await ICA_send([ 0x01, rightdata.length, ...rightdata]) ;
+        await this.ICA_send([ 0x01, rightdata.length, ...rightdata]) ;
     }
 
     //控制小车停止
     async ICA_S4S_CarStop(){
         let leftdata = [80, 0, ...int16ToBytes(0)];//左电机：模式+速度
-        await ICA_send([ 0x01, leftdata.length, ...leftdata]) ;
+        await this.ICA_send([ 0x01, leftdata.length, ...leftdata]) ;
         let rightdata = [90, 0, ...int16ToBytes(0)];//右电机：模式+速度
-        await ICA_send([ 0x01, rightdata.length, ...rightdata]) ;
+        await this.ICA_send([ 0x01, rightdata.length, ...rightdata]) ;
     }
 
     //--------------------舵机---------------------------
     //控制舵机
      async ICA_S4S_servo(args){
         let data = [15+parseInt(args.CHOICE), parseInt(args.TEXT)];//角度
-        await ICA_send([ 0x01, data.length, ...data]) ;
+        await this.ICA_send([ 0x01, data.length, ...data]) ;
     }
 
     //--------------------氛围灯---------------------------
@@ -1778,13 +1778,13 @@ class ArduinoS4S {
     async ICA_S4S_ambient(args){
         const [r, g, b] = args.COL.replace('#', '').match(/.{1,2}/g).map(x => parseInt(x, 16));
         let data = [0x05, parseInt(args.CHOICE), r, g, b];//亮度+颜色
-        await ICA_send([ 0x01, data.length, ...data])
+        await this.ICA_send([ 0x01, data.length, ...data])
     }
 
     //氛围灯关闭
     async ICA_S4S_ambientOFF(){
         let data = [0x05, 0, 0, 0, 0];//亮度+颜色
-        await ICA_send([ 0x01, data.length, ...data])
+        await this.ICA_send([ 0x01, data.length, ...data])
     }
 
     //--------------------陀螺仪---------------------------
@@ -1793,34 +1793,34 @@ class ArduinoS4S {
         let open =  0;
         if(args.CHOICE == "True") open = 1;
 
-        await ICA_send([ 0x01, 2, 20, open]) ;
+        await this.ICA_send([ 0x01, 2, 20, open]) ;
     }
     //陀螺仪 翻滚角
     ICA_S4S_gyroXangle(){
-        return ICA_read([ 0x02, 1, 20+4, 0x03, 2, 0, 2]);//读取角度 x
+        return this.ICA_read([ 0x02, 1, 20+4, 0x03, 2, 0, 2]);//读取角度 x
     }
 
     //陀螺仪 俯仰角
     ICA_S4S_gyroYangle(){
-        return ICA_read([ 0x02, 1, 20+4, 0x03, 2, 2, 2]);//读取角度 y
+        return this.ICA_read([ 0x02, 1, 20+4, 0x03, 2, 2, 2]);//读取角度 y
     }
     
     //陀螺仪 加速度
     ICA_S4S_acc(args){
         let index = parseInt(args.CHOICE)*2;
-        return ICA_read([ 0x02, 1, 20+2, 0x03, 2, index, 2]);//读取加速度
+        return this.ICA_read([ 0x02, 1, 20+2, 0x03, 2, index, 2]);//读取加速度
     }
 
     //陀螺仪 角速度
     ICA_S4S_gyro(args){
         let index = parseInt(args.CHOICE)*2;
-        return ICA_read([ 0x02, 1, 20+3, 0x03, 2, index, 2]);//读取角速度
+        return this.ICA_read([ 0x02, 1, 20+3, 0x03, 2, index, 2]);//读取角速度
     }
 
     //--------------------语音模块---------------------------
     //语音模块
     ICA_S4S_voice(args){
-        let value = ICA_read([ 0x02, 1, 30]);
+        let value = this.ICA_read([ 0x02, 1, 30]);
         return value == args.CHOICE;
     }
 
@@ -1876,13 +1876,13 @@ class ArduinoS4S {
     //时钟设置日期
     async ICA_S4S_rtcSetData(args){
         let data = [10+1, 0, parseInt(args.TEXT1), parseInt(args.TEXT2), parseInt(args.TEXT)];//周、月、日、年
-        await ICA_send([ 0x01, data.length, ...data]) ;
+        await this.ICA_send([ 0x01, data.length, ...data]) ;
     }
 
     //时钟设置时间
     async ICA_S4S_rtcSetTime(args){
         let data = [10+0, parseInt(args.TEXT), parseInt(args.TEXT1), parseInt(args.TEXT2)];//时、分、秒
-        await ICA_send([ 0x01, data.length, ...data]) ;
+        await this.ICA_send([ 0x01, data.length, ...data]) ;
     }
 
     //获取日期
@@ -1892,12 +1892,57 @@ class ArduinoS4S {
         if(args.CHOICE == 0){//年
             index = 3
         }
-        return ICA_read([ 0x02, 1, 10+1, 0x03, 2, index, 1]);//读取日期
+        return this.ICA_read([ 0x02, 1, 10+1, 0x03, 2, index, 1]);//读取日期
     }
 
     //获取时间
     ICA_S4S_rtcGetTime(args){
-        return ICA_read([ 0x02, 1, 10, 0x03, 2, parseInt(args.CHOICE), 1]);//读取时间
+        return this.ICA_read([ 0x02, 1, 10, 0x03, 2, parseInt(args.CHOICE), 1]);//读取时间
+    }
+
+    //发送
+    async  ICA_send(dataBytes) {
+        try {
+            // const packet = buildPacket(dataBytes);
+            const packet = dataBytes
+            console.log("发送数据包:", packet);
+
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+            console.log('[收到返回]', result);
+            if (!result.success) {
+                // showToast(result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    //读取
+    async  ICA_read(dataBytes){
+        try {
+            // const packet = buildPacket(dataBytes);
+            const packet = dataBytes;
+            console.log("发送数据包:", packet);
+
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+            if (result.success) {
+                console.log('[读取返回]', result.response);
+                return result.response;
+            } else {
+                console.error('[读取失败]', result.error);
+                // showToast(result.error)
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
     }
     
 }
@@ -1930,48 +1975,7 @@ function buildPacket(dataBytes) {
 }
 
 
-//发送
-async function ICA_send(dataBytes) {
-    try {
-        // const packet = buildPacket(dataBytes);
-        const packet = dataBytes
-        console.log("发送数据包:", packet);
 
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-
-        console.log('[收到返回]', result);
-        if (!result.success) {
-            showToast(result.error);
-        }
-        return result;
-
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-
-//读取
-async function ICA_read(dataBytes){
-    try {
-        // const packet = buildPacket(dataBytes);
-        const packet = dataBytes;
-        console.log("发送数据包:", packet);
-
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-        if (result.success) {
-            console.log('[读取返回]', result.response);
-            return result.response;
-        } else {
-            console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
 
 function packCommand(cmd) {
     const HEADER = [0xaa, 0x01];

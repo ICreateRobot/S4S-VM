@@ -1659,17 +1659,20 @@ class ICreateK210 {
     // 设置
     async settings(args){
         if(this.runtime.currentDevice === "Microbit"){
-            await ICMB_send(`vision.set_mode(vision.${args.TWO})`)
+            await this.ICMB_send(`vision.set_mode(vision.${args.TWO})`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.set_mode("${args.TWO}")`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await ICE_send(`vision.set_mode(vision.${args.TWO})`)
+            await this.ICE_send(`vision.set_mode(vision.${args.TWO})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         }   
     }
     modeMap=[
@@ -1717,7 +1720,7 @@ class ICreateK210 {
 
     async currentMode(){
         if(this.runtime.currentDevice === "Microbit"){
-            let info=await ICMBP_read(`vision.get_mode()`);
+            let info=await this.ICMBP_read(`vision.get_mode()`);
             const index = Number(info);
 
             if (!this.modeMap[index]) {
@@ -1728,7 +1731,7 @@ class ICreateK210 {
             return `'${formatMessage({ id, default: defaultText })}'`;
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.get_mode()`)
-            let info=await ICA_read(code);
+            let info=await this.ICA_read(code);
 
             const index = Number(info);
 
@@ -1739,7 +1742,7 @@ class ICreateK210 {
             const { id, default: defaultText } = this.modeMap[index];
             return `'${formatMessage({ id, default: defaultText })}'`;
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info=await ICE_read(`vision.get_mode()`);
+            let info=await this.ICE_read(`vision.get_mode()`);
             const index = Number(info);
 
             if (!this.modeMap[index]) {
@@ -1749,10 +1752,13 @@ class ICreateK210 {
             const { id, default: defaultText } = this.modeMap[index];
             return `'${formatMessage({ id, default: defaultText })}'`;
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
     }
@@ -1760,22 +1766,25 @@ class ICreateK210 {
     // ###############颜色识别###############
     async colorRecogn(args){
         if(this.runtime.currentDevice === "Microbit"){
-            const str = await ICMBP_read(`vision.color_value(vision.${args.ONE})`);
+            const str = await this.ICMBP_read(`vision.color_value(vision.${args.ONE})`);
             // const [R, G, B] = str.slice(1, -1).split(',').map(Number);
             return str;
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.color_value("${args.ONE}")`)
-            const str = await ICA_read(code)
+            const str = await this.ICA_read(code)
             return str
         }else if(this.runtime.currentDevice === "ESP32"){
-            const str = await ICE_read(`vision.color_value(vision.${args.ONE})`);
+            const str = await this.ICE_read(`vision.color_value(vision.${args.ONE})`);
             // const [R, G, B] = str.slice(1, -1).split(',').map(Number);
             return str;
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
              
@@ -1785,34 +1794,40 @@ class ICreateK210 {
     //设置追踪颜色
     async colorBlockSet(args){
         if(this.runtime.currentDevice === "Microbit"){
-            await ICMB_send(`vision.set_color(vision.${args.ONE})`)
+            await this.ICMB_send(`vision.set_color(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.set_color("${args.ONE}")`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await ICE_send(`vision.set_color(vision.${args.ONE})`)
+            await this.ICE_send(`vision.set_color(vision.${args.ONE})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         }   
         
     }
     //是否追踪到
     async colorIsTrack(){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.color_detected()`)
+            return this.ICMBP_read(`vision.color_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.color_detected()`)
-            return ICA_read(code)==1
+            return this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return ICE_read(`vision.color_detected()`)
+            return this.ICE_read(`vision.color_detected()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1820,18 +1835,21 @@ class ICreateK210 {
     //位置信息
     async colorBlockInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.color_position(vision.${args.ONE})`)
+            return this.ICMBP_read(`vision.color_position(vision.${args.ONE})`)
             
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.color_position("${args.ONE}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return ICE_read(`vision.color_position(vision.${args.ONE})`)
+            return this.ICE_read(`vision.color_position(vision.${args.ONE})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1841,20 +1859,23 @@ class ICreateK210 {
     //数量
     async tagNum(){
         if(this.runtime.currentDevice === "Microbit"){
-            let num = await ICMBP_read(`vision.tag_count()`)
+            let num = await this.ICMBP_read(`vision.tag_count()`)
             return num
         }else if(this.runtime.currentDevice ==="Arduino"){
             let code = packCommand(`vision.tag_count()`)
-            let num = await ICA_read(code)
+            let num = await this.ICA_read(code)
             return num
         }else if(this.runtime.currentDevice === "ESP32"){
-            let num = await ICE_read(`vision.tag_count()`)
+            let num = await this.ICE_read(`vision.tag_count()`)
             return num
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1862,7 +1883,7 @@ class ICreateK210 {
     //内容
     async tagCont(){
         if(this.runtime.currentDevice === "Microbit"){
-            let id = await ICMBP_read(`vision.tag_id()`)
+            let id = await this.ICMBP_read(`vision.tag_id()`)
             // if(await this.tagNum()>0){
                 return id
             // }else{
@@ -1870,20 +1891,23 @@ class ICreateK210 {
             // }
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.tag_id()`)
-            let id = await ICA_read(code)
+            let id = await this.ICA_read(code)
             return id
         }else if(this.runtime.currentDevice === "ESP32"){
-            let id = await ICE_read(`vision.tag_id()`)
+            let id = await this.ICE_read(`vision.tag_id()`)
             // if(await this.tagNum()>0){
                 return id
             // }else{
             //     return ''
             // }
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1891,7 +1915,7 @@ class ICreateK210 {
     // 旋转角度
     async tagAngle(){
         if(this.runtime.currentDevice === "Microbit"){
-            let angle = await ICMBP_read(`vision.tag_rotation()`)
+            let angle = await this.ICMBP_read(`vision.tag_rotation()`)
             // if(await this.tagNum()>0){
                 return angle
             // }else{
@@ -1899,20 +1923,23 @@ class ICreateK210 {
             // }
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.tag_rotation()`)
-            let angle = await ICA_read(code)
+            let angle = await this.ICA_read(code)
             return angle
         }else if(this.runtime.currentDevice === "ESP32"){
-            let angle = await ICE_read(`vision.tag_rotation()`)
+            let angle = await this.ICE_read(`vision.tag_rotation()`)
             // if(await this.tagNum()>0){
                 return angle
             // }else{
             //     return 0;
             // }
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1920,18 +1947,21 @@ class ICreateK210 {
     // 位置信息
     async tagInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.tag_position(vision.${args.ONE})`)
+            return this.ICMBP_read(`vision.tag_position(vision.${args.ONE})`)
             
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.tag_position("${args.ONE}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return ICE_read(`vision.tag_position(vision.${args.ONE})`)
+            return this.ICE_read(`vision.tag_position(vision.${args.ONE})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1941,17 +1971,20 @@ class ICreateK210 {
     //是否识别
     async lineIsRecog(){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.line_detected()`)
+            return this.ICMBP_read(`vision.line_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.line_detected()`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice ==="ESP32"){
-            return ICE_read(`vision.line_detected()`)
+            return this.ICE_read(`vision.line_detected()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1959,20 +1992,23 @@ class ICreateK210 {
     // 位置信息
     async lineInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
+            let info = await this.ICMBP_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.line_position("${args.ONE}","${args.TWO}")`)
-            let info =await ICA_read(code)
+            let info =await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
+            let info = await this.ICE_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -1982,17 +2018,20 @@ class ICreateK210 {
     //数量
     async objectNum(){
         if(this.runtime.currentDevice === "Microbit"){
-            return await ICMBP_read(`vision.object_count()`)
+            return await this.ICMBP_read(`vision.object_count()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code =packCommand(`vision.object_count()`)
-            return await ICA_read(code)
+            return await this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await ICE_read(`vision.object_count()`)
+            return await this.ICE_read(`vision.object_count()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2000,18 +2039,21 @@ class ICreateK210 {
     // 识别到？
     async objectIsRecogn(args){
         if(this.runtime.currentDevice === "Microbit"){
-            //let num=await ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_20_CLASS)`)
-            return ICMBP_read(`vision.object_detected(vision.${args.ONE})`)
+            //let num=await this.ICMBP_read(`aiVision.get_identify_num(ai_camera.AI_CAMERA_20_CLASS)`)
+            return this.ICMBP_read(`vision.object_detected(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.object_detected("${args.ONE}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice ==="ESP32"){
-            return ICE_read(`vision.object_detected(vision.${args.ONE})`)
+            return this.ICE_read(`vision.object_detected(vision.${args.ONE})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2019,20 +2061,23 @@ class ICreateK210 {
     // 位置信息
     async objInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.object_position(vision.${args.ONE})`)
+            let info = await this.ICMBP_read(`vision.object_position(vision.${args.ONE})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.object_position("${args.ONE}")`)
-            let info =await ICA_read(code)
+            let info =await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.object_position(vision.${args.ONE})`)
+            let info = await this.ICE_read(`vision.object_position(vision.${args.ONE})`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2042,17 +2087,20 @@ class ICreateK210 {
     //是否识别
     async qrIsRecogn(){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.qr_detected()`)
+            return this.ICMBP_read(`vision.qr_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.qr_detected()`)
-            return ICA_read(code)==1
+            return this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return ICE_read(`vision.qr_detected()`)
+            return this.ICE_read(`vision.qr_detected()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2060,20 +2108,23 @@ class ICreateK210 {
     // 内容
     async qrCont(){
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.qr_data()`)
+            let info = await this.ICMBP_read(`vision.qr_data()`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.qr_data()`)
-            let info = await ICA_read(code)
+            let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.qr_data()`)
+            let info = await this.ICE_read(`vision.qr_data()`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2081,20 +2132,23 @@ class ICreateK210 {
     // 位置信息
     async qrInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.qr_position(vision.${args.ONE})`)
+            let info = await this.ICMBP_read(`vision.qr_position(vision.${args.ONE})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.qr_position("${args.ONE}")`)
-            let info = await ICA_read(code)
+            let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.qr_position(vision.${args.ONE})`)
+            let info = await this.ICE_read(`vision.qr_position(vision.${args.ONE})`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2104,17 +2158,20 @@ class ICreateK210 {
     // 数量
     async faceAttrNum(){
         if(this.runtime.currentDevice === "Microbit"){
-            return await ICMBP_read(`vision.face_count()`)
+            return await this.ICMBP_read(`vision.face_count()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_count()`)
-            return await ICA_read(code)
+            return await this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await ICE_read(`vision.face_count()`)
+            return await this.ICE_read(`vision.face_count()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2122,20 +2179,23 @@ class ICreateK210 {
     // 位置信息
     async faceAttrInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
+            let info = await this.ICMBP_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_position("${args.TWO}",${Number(args.ONE)})`)
-            let info = await ICMBP_read(code)
+            let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
+            let info = await this.ICE_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2143,20 +2203,23 @@ class ICreateK210 {
     // 属性
     async faceAttrEmote(args){
         if(this.runtime.currentDevice === "Microbit"){
-            let num=await ICMBP_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
+            let num=await this.ICMBP_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
             return num
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_attribute("${args.TWO}",${Number(args.ONE)})`)
-            let num = await ICA_read(code)
+            let num = await this.ICA_read(code)
             return num==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            let num=await ICE_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
+            let num=await this.ICE_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
             return num
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2166,34 +2229,40 @@ class ICreateK210 {
     // 学习
     async faceLearn(){
         if(this.runtime.currentDevice === "Microbit"){
-            await ICMB_send(`vision.face_recognized_learn()`)
+            await this.ICMB_send(`vision.face_recognized_learn()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_recognized_learn()`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await ICE_read(`vision.face_recognized_learn()`)
+            await this.ICE_read(`vision.face_recognized_learn()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         } 
         
     }
     // 数量
     async faceRecogNum(){
         if(this.runtime.currentDevice === "Microbit"){
-            return await ICMBP_read(`vision.face_recognized_count()`)
+            return await this.ICMBP_read(`vision.face_recognized_count()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_recognized_count()`)
-            return await ICA_read(code)
+            return await this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await ICE_read(`vision.face_recognized_count()`)
+            return await this.ICE_read(`vision.face_recognized_count()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2201,17 +2270,20 @@ class ICreateK210 {
     // 是否检测到一张学习过的人脸
     async faceRecogLearn(){
         if(this.runtime.currentDevice === "Microbit"){
-            return await ICMBP_read(`vision.face_recognized_detected()`)
+            return await this.ICMBP_read(`vision.face_recognized_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_recognized_detected()`)
-            return await ICA_read(code)==1
+            return await this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await ICE_read(`vision.face_recognized_detected()`)
+            return await this.ICE_read(`vision.face_recognized_detected()`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2219,20 +2291,23 @@ class ICreateK210 {
     // 位置信息
     async faceRecognEmote(args){
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
+            let info = await this.ICMBP_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_recognized_position("${args.TWO}",${args.ONE})`)
-            let info = await ICA_read(code)
+            let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
+            let info = await this.ICE_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         } 
         
@@ -2241,18 +2316,21 @@ class ICreateK210 {
     // ###############深度学习###############
     async deepLearning(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.class_recognized(${Number(args.ONE)})`)
+            return this.ICMBP_read(`vision.class_recognized(${Number(args.ONE)})`)
            
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.class_recognized(${Number(args.ONE)})`)
-            return ICA_read(code)==1
+            return this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return ICE_read(`vision.class_recognized(${Number(args.ONE)})`)
+            return this.ICE_read(`vision.class_recognized(${Number(args.ONE)})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
         
@@ -2262,20 +2340,23 @@ class ICreateK210 {
     // 数量
     async roadNum(){
         if(this.runtime.currentDevice === "Microbit"){
-            let num=await ICMBP_read(`vision.card_count()`)
+            let num=await this.ICMBP_read(`vision.card_count()`)
             return num
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.card_count()`)
-            let num = await ICA_read(code)
+            let num = await this.ICA_read(code)
             return num
         }else if(this.runtime.currentDevice === "ESP32"){
-            let num=await ICE_read(`vision.card_count()`)
+            let num=await this.ICE_read(`vision.card_count()`)
             return num
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
         
@@ -2284,30 +2365,33 @@ class ICreateK210 {
     async roadRecog(args){
         if(this.runtime.currentDevice === "Microbit"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
-                return ICMBP_read(`vision.card_detected(vision.${args.ONE},1)`)
+                return this.ICMBP_read(`vision.card_detected(vision.${args.ONE},1)`)
             }else{
-                return ICMBP_read(`vision.card_detected(vision.${args.ONE},2)`)
+                return this.ICMBP_read(`vision.card_detected(vision.${args.ONE},2)`)
             }
             
         }else if(this.runtime.currentDevice === "Arduino"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
                 let code = packCommand(`vision.card_detected("${args.ONE}",1)`)
-                return ICA_read(code)==1
+                return this.ICA_read(code)==1
             }else{
                 let code = packCommand(`vision.card_detected("${args.ONE}",2)`)
-                return ICA_read(code)==1
+                return this.ICA_read(code)==1
             }
         }else if(this.runtime.currentDevice === "ESP32"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
-                return ICE_read(`vision.card_detected(vision.${args.ONE},1)`)
+                return this.ICE_read(`vision.card_detected(vision.${args.ONE},1)`)
             }else{
-                return ICE_read(`vision.card_detected(vision.${args.ONE},2)`)
+                return this.ICE_read(`vision.card_detected(vision.${args.ONE},2)`)
             }
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
         
@@ -2315,17 +2399,20 @@ class ICreateK210 {
     // 位置信息
     async roadInfo(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.card_position(vision.${args.ONE})`)
+            return this.ICMBP_read(`vision.card_position(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.card_position("${args.ONE}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return ICE_read(`vision.card_position(vision.${args.ONE})`)
+            return this.ICE_read(`vision.card_position(vision.${args.ONE})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
         
@@ -2334,16 +2421,19 @@ class ICreateK210 {
 
     async chatState(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.state_is(vision.${args.ONE})`)
+            return this.ICMBP_read(`vision.state_is(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
 
@@ -2351,63 +2441,75 @@ class ICreateK210 {
 
     async chatMotion(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.motion_command_detected(vision.${args.ONE})`)
+            return this.ICMBP_read(`vision.motion_command_detected(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
     }
 
     async chatMotionSpeed(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.motion_speed()`)
+            return this.ICMBP_read(`vision.motion_speed()`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
     }
     async chatCustomCommand(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.custom_command()`)
+            return this.ICMBP_read(`vision.custom_command()`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
     }
 
     async wirelessJoystick(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.joystick_position(vision.${args.ONE})`)
+            return this.ICMBP_read(`vision.joystick_position(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
     }
@@ -2415,16 +2517,19 @@ class ICreateK210 {
     //是否按下指定按钮
     async wirelessButton(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.button_pressed(${Number(args.ONE)})`)
+            return this.ICMBP_read(`vision.button_pressed(${Number(args.ONE)})`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
     }
@@ -2432,75 +2537,84 @@ class ICreateK210 {
     //是否按下指定键盘按键
     async wirelessKeybord(args){
         if(this.runtime.currentDevice === "Microbit"){
-            return ICMBP_read(`vision.key_pressed(${Number(args.ONE)})`)
+            return this.ICMBP_read(`vision.key_pressed(${Number(args.ONE)})`)
         }else if(this.runtime.currentDevice === "Arduino"){
 
         }else if(this.runtime.currentDevice === "ESP32"){
 
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
     }
 
     // ###############无线图传###############
     async wirelessSet(args){
-        await ICMB_send(`aiVision.set_wifi_server_ssid_passward('${args.ONE}',${args.TWO})`)
+        await this.ICMB_send(`aiVision.set_wifi_server_ssid_passward('${args.ONE}',${args.TWO})`)
     }
 
     async wirelessConnect(){
-        await ICMB_send(`aiVision.set_wifi_server_is_scan_qrcode(ture)`)
+        await this.ICMB_send(`aiVision.set_wifi_server_is_scan_qrcode(ture)`)
     }
 
     // ###############设置###############
     async lightSwitch(args){
         if(this.runtime.currentDevice === "Microbit"){
             if(Number(args.ONE)==1){
-                await ICMB_send(`vision.set_fill_light_brightness(1)`)
+                await this.ICMB_send(`vision.set_fill_light_brightness(1)`)
             }else{
-                await ICMB_send(`vision.set_fill_light_brightness(0)`)
+                await this.ICMB_send(`vision.set_fill_light_brightness(0)`)
             }
-            // await ICMB_send(`vision.fill_light(${Number(args.ONE)})`)
+            // await this.ICMB_send(`vision.fill_light(${Number(args.ONE)})`)
 
         }else if(this.runtime.currentDevice === "Arduino"){
             if(Number(args.ONE)==1){
                 let code = packCommand(`vision.set_fill_light_brightness(1)`)
-                await ICA_send(code)
+                await this.ICA_send(code)
             }else{
                 let code = packCommand(`vision.set_fill_light_brightness(0)`)
-                await ICA_send(code)
+                await this.ICA_send(code)
             }
         }else if(this.runtime.currentDevice === "ESP32"){
             if(Number(args.ONE)==1){
-                await ICE_send(`vision.set_fill_light_brightness(1)`)
+                await this.ICE_send(`vision.set_fill_light_brightness(1)`)
             }else{
-                await ICE_send(`vision.set_fill_light_brightness(0)`)
+                await this.ICE_send(`vision.set_fill_light_brightness(0)`)
             }
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         } 
         
     }
 
     async lightBrightness(args){
         if(this.runtime.currentDevice === "Microbit"){
-            await ICMB_send(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
+            await this.ICMB_send(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await ICE_send(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
+            await this.ICE_send(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         } 
         
     }
@@ -2508,23 +2622,141 @@ class ICreateK210 {
     async lightGetBrightness(){
 
         if(this.runtime.currentDevice === "Microbit"){
-            let info = await ICMBP_read(`vision.get_fill_light_brightness()`)
+            let info = await this.ICMBP_read(`vision.get_fill_light_brightness()`)
             return info
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.get_fill_light_brightness()`)
-            let info = await ICA_read(code)
+            let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await ICE_read(`vision.get_fill_light_brightness()`)
+            let info = await this.ICE_read(`vision.get_fill_light_brightness()`)
             return info
         }else{
-            showToast(formatMessage({
+            this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return
         } 
         
+    }
+    //发送
+    async ICMB_send(str){
+        console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    //读取
+    async ICMBP_read(str){
+        console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+    //发送
+    async ICA_send(dataBytes) {
+        try {
+            const packet = dataBytes;
+            console.log("发送数据包:", packet);
+
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+            console.log('[收到返回]', result);
+            if (!result.success) {
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    //读取
+    async ICA_read(dataBytes){
+        try {
+            const packet = dataBytes;
+            console.log("发送数据包:", packet);
+
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+            if (result.success) {
+                console.log('[读取返回]', result.response);
+                return result.response;
+            } else {
+                console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+
+    async ICE_send(str){
+        console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+    //读取
+    async ICE_read(str){
+        //console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
     }
 
 
@@ -2533,44 +2765,7 @@ class ICreateK210 {
 
 
 // ################################Microbit########################################
-//发送
-async function ICMB_send(str){
-    console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
-        }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
 
-//读取
-async function ICMBP_read(str){
-    console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
-
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
 // ##################################################################
 
 
@@ -2589,83 +2784,7 @@ function buildPacket(dataBytes) {
 }
 
 
-//发送
-async function ICA_send(dataBytes) {
-    try {
-        const packet = dataBytes;
-        console.log("发送数据包:", packet);
 
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-
-        console.log('[收到返回]', result);
-        if (!result.success) {
-            showToast(result.error);
-        }
-        return result;
-
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-
-//读取
-async function ICA_read(dataBytes){
-    try {
-        const packet = dataBytes;
-        console.log("发送数据包:", packet);
-
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-        if (result.success) {
-            console.log('[读取返回]', result.response);
-            return result.response;
-        } else {
-            console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
-
-async function ICE_send(str){
-    console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
-        }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-//读取
-async function ICE_read(str){
-    //console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
-
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
 // ##################################################################
 
 function packCommand(cmd) {

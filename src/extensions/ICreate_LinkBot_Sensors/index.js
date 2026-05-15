@@ -1245,37 +1245,37 @@ class LinkBotSensors {
     
     //向#倾斜
     ICM_S4S_isTitled(args){
-        return ICMB_read(`mainBoard.gyro_get_tilted() == ${args.CHOICE}`)
+        return this.ICMB_read(`mainBoard.gyro_get_tilted() == ${args.CHOICE}`)
     }
     //面朝上
     ICM_S4S_isUp(args){
-        return ICMB_read(`mainBoard.gyro_get_orientation() == ${args.CHOICE}`)
+        return this.ICMB_read(`mainBoard.gyro_get_orientation() == ${args.CHOICE}`)
     }
     //陀螺仪开关
     // async ICM_S4S_gyroOpen(args){
-    //     await ICMB_send(`mainBoard.gyro_enable(${args.CHOICE})`)
+    //     await this.ICMB_send(`mainBoard.gyro_enable(${args.CHOICE})`)
     // }
     // //陀螺仪 翻滚角
     // ICM_S4S_gyroXangle(args){
-    //     return ICMB_read(`mainBoard.gyro_get_angle(0)`)
+    //     return this.ICMB_read(`mainBoard.gyro_get_angle(0)`)
     // }
 
     // //陀螺仪 俯仰角
     // ICM_S4S_gyroYangle(args){
-    //     return ICMB_read(`mainBoard.gyro_get_angle(1)`)
+    //     return this.ICMB_read(`mainBoard.gyro_get_angle(1)`)
     // }
     ICM_S4S_gyroXY(args){
-        return ICMB_read(`mainBoard.gyro_get_angle(${args.CHOICE})`)
+        return this.ICMB_read(`mainBoard.gyro_get_angle(${args.CHOICE})`)
     }
     
     //陀螺仪 加速度
     ICM_S4S_acc(args){
-        return ICMB_read(`mainBoard.gyro_get_acc(${args.CHOICE})`)
+        return this.ICMB_read(`mainBoard.gyro_get_acc(${args.CHOICE})`)
     }
 
     //陀螺仪 角速度
     ICM_S4S_gyro(args){
-        return ICMB_read(`mainBoard.gyro_get_gyro(${args.CHOICE})`)
+        return this.ICMB_read(`mainBoard.gyro_get_gyro(${args.CHOICE})`)
     }
 
      //################################语音######################################
@@ -1284,76 +1284,94 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`voice.recognized(voice.${args.CHOICE})`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.voice_recognized("VOICE_${args.CHOICE}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`voice.recognized(voice.${args.CHOICE})`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`mainBoard.voice_get_state()==${args.CHOICE}`)
+        // return this.ICMB_read(`mainBoard.voice_get_state()==${args.CHOICE}`)
     }
     
+    toFixedNumber(val) {
+        console.log(val)
+        console.log(typeof val)
+        const num = Number(val);      // 字符串 → 数字
+        return Number(num.toFixed(2)); // 保留两位小数
+      }
     //################################超声波######################################
     //超声波
-    ICM_S4S_ultrGet(args){
+    async ICM_S4S_ultrGet(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            return ICMB_read(code)
+            let result = await this.ICMB_read(code)
+            return this.toFixedNumber(result)
         }else if(this.runtime.currentDevice=='Arduino'){
             let type='ULTRASONIC_'+getAfterDot(args.TYPE)
             code=packCommand(`cultr.ultrasonic_get_distance("${type}")`)
-            return ICA_read(code)
+            let result = await this.ICA_read(code)
+            return this.toFixedNumber(result)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            return ICE_read(code)
+            let result = await this.ICE_read(code)
+            return this.toFixedNumber(result)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`ultr.get_distance(${args.TYPE})`)
+        // return this.ICMB_read(`ultr.get_distance(${args.TYPE})`)
     }
      //超声波判断
     async ICM_S4S_ultrGetLog(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            let distance=await ICMB_read(code)
+            let distance=await this.ICMB_read(code)
             
             console.log(distance,args.NUM)
             return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else if(this.runtime.currentDevice=='Arduino'){
             let type='ULTRASONIC_'+getAfterDot(args.TYPE)
             code=packCommand(`cultr.ultrasonic_get_distance("${type}")`)
-            let distance=await ICA_read(code)
+            let distance=await this.ICA_read(code)
             
             console.log(distance,args.NUM)
             return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            let distance=await ICE_read(code)
+            let distance=await this.ICE_read(code)
             
             console.log(distance,args.NUM)
             return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`ultr.get_distance(${args.TYPE})${args.CHOICE}${args.NUM}`)
+        // return this.ICMB_read(`ultr.get_distance(${args.TYPE})${args.CHOICE}${args.NUM}`)
     }
 
    
@@ -1361,22 +1379,22 @@ class LinkBotSensors {
     //################################巡线######################################
     //灰度学习
     /* async ICM_S4S_grayStudy(args){
-        await ICMB_send(`gray.gray_study()`)
+        await this.ICMB_send(`gray.gray_study()`)
     }
 
     //二值学习
     async ICM_S4S_binaryStudy(args){
-        await ICMB_send(`gray.binary_study()`)
+        await this.ICMB_send(`gray.binary_study()`)
     }
 
     //颜色学习
     async ICM_S4S_colorStudy(args){
-        await ICMB_send(`gray.color_study(${args.CHOICE})`)
+        await this.ICMB_send(`gray.color_study(${args.CHOICE})`)
     } */
 
     //清空颜色学习
     /* async ICM_S4S_colorClear(args){
-        await ICMB_send(`gray.clear_color()`)
+        await this.ICMB_send(`gray.clear_color()`)
     } */
 
     //学习（灰度单独处理）
@@ -1384,25 +1402,28 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`line_sensor.learn(${args.CHOICE})`
-            await ICMB_send(code)
+            await this.ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_learn("${choice}")`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.learn(${args.CHOICE})`
-            await ICE_send(code)
+            await this.ICE_send(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         }
         // let code = `gray.color_study(${args.CHOICE})`;
         // if(args.CHOICE == "gray"){
         //     code = "gray.gray_study()"
         // }
-        // await ICMB_send(code)
+        // await this.ICMB_send(code)
     }
 
     //巡线获取灰度值
@@ -1410,22 +1431,25 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`line_sensor.gray(${args.CHOICE})`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_gray("${choice}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.gray(${args.CHOICE})`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`gray.gray(${args.CHOICE})`)
+        // return this.ICMB_read(`gray.gray(${args.CHOICE})`)
     }
 
     //巡线获取颜色
@@ -1434,24 +1458,27 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             let choice1='LINE_SENSOR_'+getAfterDot(args.CHOICE1)
             let choice ='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_color("${choice}","${choice1}")`)
-            let bool = await ICA_read(code)
+            let bool = await this.ICA_read(code)
             return bool==1
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`gray.color(${args.CHOICE}) == ${args.CHOICE1}`)
+        // return this.ICMB_read(`gray.color(${args.CHOICE}) == ${args.CHOICE1}`)
     }
 
     //巡线获取黑线
@@ -1459,23 +1486,26 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`line_sensor.detect_line(${args.CHOICE})`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_detect_line("${choice}")`)
-            let bool=await ICA_read(code)
+            let bool=await this.ICA_read(code)
             return bool==1
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.detect_line(${args.CHOICE})`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`gray.black(${args.CHOICE}) == 1`)
+        // return this.ICMB_read(`gray.black(${args.CHOICE}) == 1`)
     }
 
     //################################RTC######################################
@@ -1484,20 +1514,23 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
-            await ICMB_send(code)
+            await this.ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.rtc_set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
-            await ICE_send(code)
+            await this.ICE_send(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         }
-        // await ICMB_send(`mainBoard.rtc_set_date(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
+        // await this.ICMB_send(`mainBoard.rtc_set_date(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
     }
 
     //时钟设置时间
@@ -1505,20 +1538,23 @@ class LinkBotSensors {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
-            await ICMB_send(code)
+            await this.ICMB_send(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.rtc_set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`)
-            await ICA_send(code)
+            await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
-            await ICE_send(code)
+            await this.ICE_send(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
         }
-        // await ICMB_send(`mainBoard.rtc_set_time(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
+        // await this.ICMB_send(`mainBoard.rtc_set_time(${args.TEXT},${args.TEXT1},${args.TEXT2})`)
     }
 
     // 获取日期/时间
@@ -1526,162 +1562,165 @@ class LinkBotSensors {
         // const choice = parseInt(args.CHOICE);
         
         // if (choice <= 3) {
-        //     return ICMB_read(`mainBoard.rtc_get_date(${choice})`);
+        //     return this.ICMB_read(`mainBoard.rtc_get_date(${choice})`);
         // } else {
         //     const timeIndex = choice - 4;
-        //     return ICMB_read(`mainBoard.rtc_get_time(${timeIndex})`);
+        //     return this.ICMB_read(`mainBoard.rtc_get_time(${timeIndex})`);
         // }
 
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`rtc.get(${args.CHOICE})`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             console.log(args.CHOICE)
             let choice='RTC_'+getAfterDot(args.CHOICE)
             console.log(choice)
             code=packCommand(`bot.rtc_get("${choice}")`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.get(${args.CHOICE})`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
     }
 
     //获取时间
    /*  ICM_S4S_rtcGetTime(args){
-        return ICMB_read(`mainBoard.rtc_get_time(${args.CHOICE})`)
+        return this.ICMB_read(`mainBoard.rtc_get_time(${args.CHOICE})`)
     } */
 
-    
+    //发送
+    async ICA_send(dataBytes) {
+        try {
+            // const packet = buildPacket(dataBytes);
+            const packet = dataBytes
+            console.log("发送数据包:", packet);
 
-}
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
 
+            console.log('[收到返回]', result);
+            if (!result.success) {
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
 
-//发送
-async function ICA_send(dataBytes) {
-    try {
-        // const packet = buildPacket(dataBytes);
-        const packet = dataBytes
-        console.log("发送数据包:", packet);
-
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-
-        console.log('[收到返回]', result);
-        if (!result.success) {
-            showToast(result.error);
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
         }
-        return result;
-
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
     }
-}
 
-//读取
-async function ICA_read(dataBytes){
-    try {
-        // const packet = buildPacket(dataBytes);
-        const packet = dataBytes;
-        console.log("发送数据包:", packet);
+    //读取
+    async ICA_read(dataBytes){
+        try {
+            // const packet = buildPacket(dataBytes);
+            const packet = dataBytes;
+            console.log("发送数据包:", packet);
 
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-        if (result.success) {
-            console.log('[读取返回]', result.response);
-            return result.response;
-        } else {
-            console.error('[读取失败]', result.error);
-            showToast(result.error)
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+            if (result.success) {
+                console.log('[读取返回]', result.response);
+                return result.response;
+            } else {
+                console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
             return null;
         }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
     }
-}
 
-async function ICE_send(str){
-    console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
+    async ICE_send(str){
+        console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
         }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
     }
-}
-//读取
-async function ICE_read(str){
-    //console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+    //读取
+    async ICE_read(str){
+        //console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
 
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
             return null;
         }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
     }
-}
 
 
-//发送
-async function ICMB_send(str){
-    //console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
+    //发送
+    async ICMB_send(str){
+        //console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
         }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
     }
-}
-//读取
-async function ICMB_read(str){
-    //console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+    //读取
+    async ICMB_read(str){
+        //console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
 
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
             return null;
         }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
     }
+
 }
+
+
+
 function packCommand(cmd) {
     const HEADER = [0xaa, 0x01];
     const TAIL = 0x55;

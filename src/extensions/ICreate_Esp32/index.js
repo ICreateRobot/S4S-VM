@@ -245,7 +245,7 @@ class Esp32S4S {
                         menu: 'PWM_PIN'
                     },
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMBER,
                         defaultValue:255
                     },
                 }
@@ -327,7 +327,7 @@ class Esp32S4S {
                         defaultValue:'IO0'
                     },
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMBER,
                         defaultValue:2000
                     },
                 }
@@ -658,67 +658,67 @@ class Esp32S4S {
     }
     
     async buttonPressed(args){
-        return ICE_read(`button.is_pressed(button.${args.CHOICE})`)
+        return this.ICE_read(`button.is_pressed(button.${args.CHOICE})`)
     }
     async soundLevel(args){
-        return ICE_read(`audio.get_sound_level()`)
+        return this.ICE_read(`audio.get_sound_level()`)
     }
     async startRecording(args){
         let position=Number(args.AUDIOSOURCE)
         if(position === 0){
-            await ICE_send(`audio.start_recording("sd/${args.FILENAME}.wav",${args.NUM})`)
+            await this.ICE_send(`audio.start_recording("sd/${args.FILENAME}.wav",${args.NUM})`)
         }else{
-            await ICE_send(`audio.start_recording("${args.FILENAME}.wav",${args.NUM})`)
+            await this.ICE_send(`audio.start_recording("${args.FILENAME}.wav",${args.NUM})`)
         }
         
     }
     async playRecording(args){
         let position=Number(args.AUDIOSOURCE)
         if(position === 0){
-            await ICE_send(`audio.play_recording("sd/${args.FILENAME}.wav")`)
+            await this.ICE_send(`audio.play_recording("sd/${args.FILENAME}.wav")`)
         }else{
-            await ICE_send(`audio.play_recording("${args.FILENAME}.wav")`)
+            await this.ICE_send(`audio.play_recording("${args.FILENAME}.wav")`)
         }
         
     }
     async stopPlayRecording(args){
-        await ICE_send(`audio.stop_sounds()`)
+        await this.ICE_send(`audio.stop_sounds()`)
     }
     getAudioFile(args){
 
     }
     async setVolume(args){
-        await ICE_send(`audio.set_volume(${args.NUM})`)
+        await this.ICE_send(`audio.set_volume(${args.NUM})`)
     }
     async playAudio(args){
-        await ICE_send(`audio.play_audio(${args.TEXT})`)
+        await this.ICE_send(`audio.play_audio(${args.TEXT})`)
     }
     async stopAudio(args){
-        await ICE_send(`audio.stop_sounds()`)
+        await this.ICE_send(`audio.stop_sounds()`)
     }
     async setDigital(args){
-        await ICE_send(`esp_pin.digitalWrite(${args.PIN},${Number(args.CHOICE)})`)
+        await this.ICE_send(`esp_pin.digitalWrite(${args.PIN},${Number(args.CHOICE)})`)
     }
     async setPwm(args){
-        await ICE_send(`esp_pin.analogWrite(${args.PIN},${args.NUM})`)
+        await this.ICE_send(`esp_pin.analogWrite(${args.PIN},${args.NUM})`)
     }
     async readDigitalPin(args){
-        return ICE_read(`esp_pin.digitalRead(${args.PIN})`)
+        return this.ICE_read(`esp_pin.digitalRead(${args.PIN})`)
     }
     async readAnalogPin(args){
-        return ICE_read(`esp_pin.analogRead(${args.PIN})`)
+        return this.ICE_read(`esp_pin.analogRead(${args.PIN})`)
     }
     setInputPull(args){
 
     }
     async readPulse(args){
-        return ICE_read(`esp_pin.pulseIn(${args.CHOICE},1,${args.NUM})`)
+        return this.ICE_read(`esp_pin.pulseIn(${args.CHOICE},1,${args.NUM})`)
     }
     async getTimer(args){
-        return ICE_read(`system.tick_get()`)
+        return this.ICE_read(`system.tick_get()`)
     }
     async resetTimer(args){
-        await ICE_send(`tick_reset()`)
+        await this.ICE_send(`tick_reset()`)
     }
     writeText(args){
 
@@ -738,44 +738,47 @@ class Esp32S4S {
     setBaud(args){
         
     }
-
-}
-
-async function ICE_send(str){
-    console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
+    async ICE_send(str){
+        console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                // showToast(result.error)
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
         }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
     }
-}
-//读取
-async function ICE_read(str){
-    console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
-
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
+    //读取
+    async ICE_read(str){
+        console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+    
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                // showToast(result.error)
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
             return null;
         }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
     }
+
 }
+
+
 
 module.exports = Esp32S4S;

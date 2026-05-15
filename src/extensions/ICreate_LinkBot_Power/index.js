@@ -58,21 +58,24 @@ class LinkBotPower {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`device.battery()`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.device_battery()`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`device.battery()`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`mainBoard.power_get_internal_battery_level()`)
+        // return this.ICMB_read(`mainBoard.power_get_internal_battery_level()`)
     }
 
     //电池外部
@@ -80,143 +83,148 @@ class LinkBotPower {
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`device.voltage()`
-            return ICMB_read(code)
+            return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.device_voltage()`)
-            return ICA_read(code)
+            return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`device.voltage()`
-            return ICE_read(code)
+            return this.ICE_read(code)
         }else{
-            showToast(formatMessage({
+             this.runtime.ioDevices.toast.guiToast('',
+            formatMessage({
                 id: 'gui.alert.selectDevice',
                 default: 'Please select a device first'
-            }))
+            }), 
+            'error',
+             2000);
             return ''
         }
-        // return ICMB_read(`mainBoard.power_get_external_battery_voltage()`)
+        // return this.ICMB_read(`mainBoard.power_get_external_battery_voltage()`)
+    }
+
+    //发送
+    async ICA_send(dataBytes) {
+        try {
+            // const packet = buildPacket(dataBytes);
+            const packet = dataBytes
+            console.log("发送数据包:", packet);
+
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+
+            console.log('[收到返回]', result);
+            if (!result.success) {
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+
+    //读取
+    async ICA_read(dataBytes){
+        try {
+            // const packet = buildPacket(dataBytes);
+            const packet = dataBytes;
+            console.log("发送数据包:", packet);
+
+            const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
+            if (result.success) {
+                console.log('[读取返回]', result.response);
+                return result.response;
+            } else {
+                console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+
+    //发送
+    async ICMB_send(str){
+        //console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+    //读取
+    async ICMB_read(str){
+        //console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+    async ICE_send(str){
+        console.log('[发送]', str);
+        // 发送命令到主进程
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            console.log('[收到返回]', result.response || result.error);
+            if(!result.success){
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+            }
+            return result;
+        } catch (e) {
+            console.error('[发送失败]', e);
+            return { success: false, error: e.message };
+        }
+    }
+    //读取
+    async ICE_read(str){
+        //console.log('[读取]', str);
+        try {
+            const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
+            if (result.success) {
+                const raw = result.response.trim();
+                //console.log('[读取返回]', raw);
+                const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
+
+                return lines.length === 1 ? lines[0] : lines;
+            } else {
+                //console.error('[读取失败]', result.error);
+                this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+                return null;
+            }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
     }
 
    
 }
 
 
-//发送
-async function ICA_send(dataBytes) {
-    try {
-        // const packet = buildPacket(dataBytes);
-        const packet = dataBytes
-        console.log("发送数据包:", packet);
 
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-
-        console.log('[收到返回]', result);
-        if (!result.success) {
-            showToast(result.error);
-        }
-        return result;
-
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-
-//读取
-async function ICA_read(dataBytes){
-    try {
-        // const packet = buildPacket(dataBytes);
-        const packet = dataBytes;
-        console.log("发送数据包:", packet);
-
-        const result = await window.EditorPreload.serialSendCommand(packet,"Arduino");
-        if (result.success) {
-            console.log('[读取返回]', result.response);
-            return result.response;
-        } else {
-            console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
-
- //发送
- async function ICMB_send(str){
-    //console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
-        }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-//读取
-async function ICMB_read(str){
-    //console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
-
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
-async function ICE_send(str){
-    console.log('[发送]', str);
-    // 发送命令到主进程
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        console.log('[收到返回]', result.response || result.error);
-        if(!result.success){
-            showToast(result.error)
-        }
-        return result;
-    } catch (e) {
-        console.error('[发送失败]', e);
-        return { success: false, error: e.message };
-    }
-}
-//读取
-async function ICE_read(str){
-    //console.log('[读取]', str);
-    try {
-        const result = await window.EditorPreload.serialSendCommand(str,"Microbit");
-        if (result.success) {
-            const raw = result.response.trim();
-            //console.log('[读取返回]', raw);
-            const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l);// 拆成多行
-
-            return lines.length === 1 ? lines[0] : lines;
-        } else {
-            //console.error('[读取失败]', result.error);
-            showToast(result.error)
-            return null;
-        }
-    } catch (e) {
-        console.error('[读取异常]', e);
-        return null;
-    }
-}
 function packCommand(cmd) {
     const HEADER = [0xaa, 0x01];
     const TAIL = 0x55;
