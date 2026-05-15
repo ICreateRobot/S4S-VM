@@ -20,7 +20,7 @@ class LinkBotPower {
         }),
         color1: '#2196F3',  // 主颜色
         color2: '#21CBF3',  // 次颜色（渐变）
-        color3: '#36AAA1',   // 边框颜色
+        color3: '#1976D2',   // 边框颜色
         menuIconURI: icon, 
 
         //模块 

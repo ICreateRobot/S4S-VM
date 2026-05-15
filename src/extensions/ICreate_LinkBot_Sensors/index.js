@@ -26,7 +26,7 @@ class LinkBotSensors {
         }),
         color1: '#2196F3',  // 主颜色
         color2: '#21CBF3',  // 次颜色（渐变）
-        color3: '#36AAA1',   // 边框颜色
+        color3: '#1976D2',   // 边框颜色
         menuIconURI: icon, 
 
         //模块 
@@ -1286,7 +1286,7 @@ class LinkBotSensors {
             code=`voice.recognized(voice.${args.CHOICE})`
             return ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
-            code=packCommand(`bot.voice_recognized("${args.CHOICE}")`)
+            code=packCommand(`bot.voice_recognized("VOICE_${args.CHOICE}")`)
             return ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`voice.recognized(voice.${args.CHOICE})`
