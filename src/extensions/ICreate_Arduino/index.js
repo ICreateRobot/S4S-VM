@@ -425,7 +425,7 @@ class ArduinoS4S {
                         menu: 'PWM_PIN'
                     },
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMBER,
                         defaultValue:255
                     },
                 }
@@ -508,7 +508,7 @@ class ArduinoS4S {
                         menu: 'DIGITAL_HIGHLOW'
                     },
                     NUM: {
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMBER,
                         defaultValue:2000
                     },
                 }
