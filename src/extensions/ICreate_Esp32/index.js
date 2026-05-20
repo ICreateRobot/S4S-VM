@@ -75,7 +75,7 @@ class Esp32S4S {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.startRecording',
-                    default: 'Record [NUM]s as [FILENAME] using [AUDIOSOURCE].',
+                    default: 'Record [NUM]s as [FILENAME] using [AUDIOSOURCE]',
                     description: 'Esp32S4S.startRecording'
                 }),
                 arguments: {
@@ -100,7 +100,7 @@ class Esp32S4S {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4S.playRecording',
-                    default: 'play recording [FILENAME] using [AUDIOSOURCE].',
+                    default: 'play recording [FILENAME] using [AUDIOSOURCE]',
                     description: 'Esp32S4S.playRecording'
                 }),
                 arguments: {
