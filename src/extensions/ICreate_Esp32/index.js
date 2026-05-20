@@ -13,6 +13,8 @@ class Esp32S4S {
         console.log(this.runtime)
         this.runtime.on('VM_UPDATE_MODE', this.updateMode.bind(this));
         this.mode=this.runtime.runMode
+        
+ 
     }
     updateMode(obj){
         console.log(obj)
@@ -658,7 +660,7 @@ class Esp32S4S {
     }
     
     async buttonPressed(args){
-        return this.ICE_read(`button.is_pressed(button.${args.CHOICE})`)
+        return this.ICE_read_wifi(`button.is_pressed(button.${args.CHOICE})`)
     }
     async soundLevel(args){
         return this.ICE_read(`audio.get_sound_level()`)
@@ -776,6 +778,33 @@ class Esp32S4S {
             return null;
         }
     }
+
+
+    // wifi读取数据
+    async ICE_read_wifi(str){
+        try {
+            const result = await this.runtime.ioDevices.wifiIOT.readData(str,this.runtime.connKey);
+            return result;
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+    // wifi执行数据
+    // async ICE_send_wifi(str){
+    //     try {
+    //         const result = await this.runtime.ioDevices.wifiIOT.readData(str,this.runtime.connKey);
+    //         if(!result.success){
+    //             this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
+    //         }
+    //         return result;
+    //     } catch (e) {
+    //         console.error('[读取异常]', e);
+    //         return null;
+    //     }
+    // }
+
+    
 
 }
 

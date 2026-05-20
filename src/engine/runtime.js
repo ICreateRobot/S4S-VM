@@ -33,6 +33,7 @@ const MouseWheel = require('../io/mouseWheel');
 const UserData = require('../io/userData');
 const Video = require('../io/video');
 const toast = require('../io/toast');
+const wifiIOT = require('../io/wifiIOT');
 
 const StringUtil = require('../util/string-util');
 const uid = require('../util/uid');
@@ -546,7 +547,8 @@ class Runtime extends EventEmitter {
             mouseWheel: new MouseWheel(this),
             userData: new UserData(),
             video: new Video(this),
-            toast: new toast()
+            toast: new toast(),
+            wifiIOT: new wifiIOT(this)
         };
 
         /**
@@ -2275,7 +2277,7 @@ class Runtime extends EventEmitter {
      *     determines whether we show a visual report when turning on the script.
      */
     toggleScript (topBlockId, opts) {
-        console.log(this.runMode)
+        //console.log(this.runMode)
         if(this.runMode === 'upload'){
             return
         }
