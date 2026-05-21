@@ -87,7 +87,7 @@ class Esp32S4S {
                     },
                     FILENAME: {
                         type: ArgumentType.STRING,
-                        defaultValue: 'test'
+                        defaultValue: 'default'
                     },
                     AUDIOSOURCE:{
                         type: ArgumentType.STRING,
@@ -108,7 +108,7 @@ class Esp32S4S {
                 arguments: {
                     FILENAME: {
                         type: ArgumentType.STRING,
-                        defaultValue: 'test'
+                        defaultValue: 'default'
                     },
                     AUDIOSOURCE:{
                         type: ArgumentType.STRING,
