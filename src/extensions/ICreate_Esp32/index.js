@@ -663,64 +663,64 @@ class Esp32S4S {
         return this.ICE_read_wifi(`button.is_pressed(button.${args.CHOICE})`)
     }
     async soundLevel(args){
-        return this.ICE_read(`audio.get_sound_level()`)
+        return this.ICE_read_wifi(`audio.get_sound_level()`)
     }
     async startRecording(args){
         let position=Number(args.AUDIOSOURCE)
         if(position === 0){
-            await this.ICE_send(`audio.start_recording("sd/${args.FILENAME}.wav",${args.NUM})`)
+            await this.ICE_read_wifi(`audio.start_recording("sd/${args.FILENAME}.wav",${args.NUM})`)
         }else{
-            await this.ICE_send(`audio.start_recording("${args.FILENAME}.wav",${args.NUM})`)
+            await this.ICE_read_wifi(`audio.start_recording("${args.FILENAME}.wav",${args.NUM})`)
         }
         
     }
     async playRecording(args){
         let position=Number(args.AUDIOSOURCE)
         if(position === 0){
-            await this.ICE_send(`audio.play_recording("sd/${args.FILENAME}.wav")`)
+            await this.ICE_read_wifi(`audio.play_recording("sd/${args.FILENAME}.wav")`)
         }else{
-            await this.ICE_send(`audio.play_recording("${args.FILENAME}.wav")`)
+            await this.ICE_read_wifi(`audio.play_recording("${args.FILENAME}.wav")`)
         }
         
     }
     async stopPlayRecording(args){
-        await this.ICE_send(`audio.stop_sounds()`)
+        await this.ICE_read_wifi(`audio.stop_sounds()`)
     }
     getAudioFile(args){
 
     }
     async setVolume(args){
-        await this.ICE_send(`audio.set_volume(${args.NUM})`)
+        await this.ICE_read_wifi(`audio.set_volume(${args.NUM})`)
     }
     async playAudio(args){
-        await this.ICE_send(`audio.play_audio(${args.TEXT})`)
+        await this.ICE_read_wifi(`audio.play_audio(${args.TEXT})`)
     }
     async stopAudio(args){
-        await this.ICE_send(`audio.stop_sounds()`)
+        await this.ICE_read_wifi(`audio.stop_sounds()`)
     }
     async setDigital(args){
-        await this.ICE_send(`esp_pin.digitalWrite(${args.PIN},${Number(args.CHOICE)})`)
+        await this.ICE_read_wifi(`esp_pin.digitalWrite(${args.PIN},${Number(args.CHOICE)})`)
     }
     async setPwm(args){
-        await this.ICE_send(`esp_pin.analogWrite(${args.PIN},${args.NUM})`)
+        await this.ICE_read_wifi(`esp_pin.analogWrite(${args.PIN},${args.NUM})`)
     }
     async readDigitalPin(args){
-        return this.ICE_read(`esp_pin.digitalRead(${args.PIN})`)
+        return this.ICE_read_wifi(`esp_pin.digitalRead(${args.PIN})`)
     }
     async readAnalogPin(args){
-        return this.ICE_read(`esp_pin.analogRead(${args.PIN})`)
+        return this.ICE_read_wifi(`esp_pin.analogRead(${args.PIN})`)
     }
     setInputPull(args){
 
     }
     async readPulse(args){
-        return this.ICE_read(`esp_pin.pulseIn(${args.CHOICE},1,${args.NUM})`)
+        return this.ICE_read_wifi(`esp_pin.pulseIn(${args.CHOICE},1,${args.NUM})`)
     }
     async getTimer(args){
-        return this.ICE_read(`system.tick_get()`)
+        return this.ICE_read_wifi(`system.tick_get()`)
     }
     async resetTimer(args){
-        await this.ICE_send(`tick_reset()`)
+        await this.ICE_read_wifi(`system.tick_reset()`)
     }
     writeText(args){
 

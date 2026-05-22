@@ -64,7 +64,7 @@ class LinkBotPower {
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`device.battery()`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -89,7 +89,7 @@ class LinkBotPower {
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`device.voltage()`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -214,6 +214,16 @@ class LinkBotPower {
                 this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
                 return null;
             }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+    // wifi读取数据
+    async ICE_read_wifi(str){
+        try {
+            const result = await this.runtime.ioDevices.wifiIOT.readData(str,this.runtime.connKey);
+            return result;
         } catch (e) {
             console.error('[读取异常]', e);
             return null;

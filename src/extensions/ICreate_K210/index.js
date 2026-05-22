@@ -346,14 +346,18 @@ class ICreateK210 {
 
             {
                 opcode: 'qrCont',
-                blockType: BlockType.REPORTER,
+                blockType: BlockType.BOOLEAN,
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrCont',
-                    default: 'Recognized QR code content',
+                    default: 'Recognized QR code content = [TEXT]',
                     description: 'k210.qrCont'
                 }),
                 arguments:{
+                    TEXT:{
+                        type: ArgumentType.STRING,
+                        defaultValue: 'ABC'
+                    }
                 },
                 disableMonitor: true
             },
@@ -1664,7 +1668,7 @@ class ICreateK210 {
             let code = packCommand(`vision.set_mode("${args.TWO}")`)
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await this.ICE_send(`vision.set_mode(vision.${args.TWO})`)
+            await this.ICE_read_wifi(`vision.set_mode(vision.${args.TWO})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1742,7 +1746,7 @@ class ICreateK210 {
             const { id, default: defaultText } = this.modeMap[index];
             return `'${formatMessage({ id, default: defaultText })}'`;
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info=await this.ICE_read(`vision.get_mode()`);
+            let info=await this.ICE_read_wifi(`vision.get_mode()`);
             const index = Number(info);
 
             if (!this.modeMap[index]) {
@@ -1774,7 +1778,7 @@ class ICreateK210 {
             const str = await this.ICA_read(code)
             return str
         }else if(this.runtime.currentDevice === "ESP32"){
-            const str = await this.ICE_read(`vision.color_value(vision.${args.ONE})`);
+            const str = await this.ICE_read_wifi(`vision.color_value(vision.${args.ONE})`);
             // const [R, G, B] = str.slice(1, -1).split(',').map(Number);
             return str;
         }else{
@@ -1799,7 +1803,7 @@ class ICreateK210 {
             let code = packCommand(`vision.set_color("${args.ONE}")`)
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await this.ICE_send(`vision.set_color(vision.${args.ONE})`)
+            await this.ICE_read_wifi(`vision.set_color(vision.${args.ONE})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1819,7 +1823,7 @@ class ICreateK210 {
             let code = packCommand(`vision.color_detected()`)
             return this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return this.ICE_read(`vision.color_detected()`)
+            return this.ICE_read_wifi(`vision.color_detected()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1841,7 +1845,7 @@ class ICreateK210 {
             let code = packCommand(`vision.color_position("${args.ONE}")`)
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return this.ICE_read(`vision.color_position(vision.${args.ONE})`)
+            return this.ICE_read_wifi(`vision.color_position(vision.${args.ONE})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1866,7 +1870,7 @@ class ICreateK210 {
             let num = await this.ICA_read(code)
             return num
         }else if(this.runtime.currentDevice === "ESP32"){
-            let num = await this.ICE_read(`vision.tag_count()`)
+            let num = await this.ICE_read_wifi(`vision.tag_count()`)
             return num
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -1894,7 +1898,7 @@ class ICreateK210 {
             let id = await this.ICA_read(code)
             return id
         }else if(this.runtime.currentDevice === "ESP32"){
-            let id = await this.ICE_read(`vision.tag_id()`)
+            let id = await this.ICE_read_wifi(`vision.tag_id()`)
             // if(await this.tagNum()>0){
                 return id
             // }else{
@@ -1926,7 +1930,7 @@ class ICreateK210 {
             let angle = await this.ICA_read(code)
             return angle
         }else if(this.runtime.currentDevice === "ESP32"){
-            let angle = await this.ICE_read(`vision.tag_rotation()`)
+            let angle = await this.ICE_read_wifi(`vision.tag_rotation()`)
             // if(await this.tagNum()>0){
                 return angle
             // }else{
@@ -1953,7 +1957,7 @@ class ICreateK210 {
             let code = packCommand(`vision.tag_position("${args.ONE}")`)
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return this.ICE_read(`vision.tag_position(vision.${args.ONE})`)
+            return this.ICE_read_wifi(`vision.tag_position(vision.${args.ONE})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1976,7 +1980,7 @@ class ICreateK210 {
             let code = packCommand(`vision.line_detected()`)
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice ==="ESP32"){
-            return this.ICE_read(`vision.line_detected()`)
+            return this.ICE_read_wifi(`vision.line_detected()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1999,7 +2003,7 @@ class ICreateK210 {
             let info =await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
+            let info = await this.ICE_read_wifi(`vision.line_position(vision.${args.ONE},vision.${args.TWO})`)
             return info
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2023,7 +2027,7 @@ class ICreateK210 {
             let code =packCommand(`vision.object_count()`)
             return await this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await this.ICE_read(`vision.object_count()`)
+            return await this.ICE_read_wifi(`vision.object_count()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2045,7 +2049,7 @@ class ICreateK210 {
             let code = packCommand(`vision.object_detected("${args.ONE}")`)
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice ==="ESP32"){
-            return this.ICE_read(`vision.object_detected(vision.${args.ONE})`)
+            return this.ICE_read_wifi(`vision.object_detected(vision.${args.ONE})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2068,7 +2072,7 @@ class ICreateK210 {
             let info =await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.object_position(vision.${args.ONE})`)
+            let info = await this.ICE_read_wifi(`vision.object_position(vision.${args.ONE})`)
             return info
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2092,7 +2096,7 @@ class ICreateK210 {
             let code = packCommand(`vision.qr_detected()`)
             return this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return this.ICE_read(`vision.qr_detected()`)
+            return this.ICE_read_wifi(`vision.qr_detected()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2106,17 +2110,18 @@ class ICreateK210 {
         
     }
     // 内容
-    async qrCont(){
+    async qrCont(args){
+        let text = args.TEXT
         if(this.runtime.currentDevice === "Microbit"){
             let info = await this.ICMBP_read(`vision.qr_data()`)
-            return info
+            return info == text
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.qr_data()`)
             let info = await this.ICA_read(code)
-            return info
+            return info == text
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.qr_data()`)
-            return info
+            let info = await this.ICE_read_wifi(`vision.qr_data()`)
+            return info == text
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2139,7 +2144,7 @@ class ICreateK210 {
             let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.qr_position(vision.${args.ONE})`)
+            let info = await this.ICE_read_wifi(`vision.qr_position(vision.${args.ONE})`)
             return info
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2163,7 +2168,7 @@ class ICreateK210 {
             let code = packCommand(`vision.face_count()`)
             return await this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await this.ICE_read(`vision.face_count()`)
+            return await this.ICE_read_wifi(`vision.face_count()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2186,7 +2191,7 @@ class ICreateK210 {
             let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
+            let info = await this.ICE_read_wifi(`vision.face_position(vision.${args.TWO},${Number(args.ONE)})`)
             return info
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2210,7 +2215,7 @@ class ICreateK210 {
             let num = await this.ICA_read(code)
             return num==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            let num=await this.ICE_read(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
+            let num=await this.ICE_read_wifi(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
             return num
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2234,7 +2239,7 @@ class ICreateK210 {
             let code = packCommand(`vision.face_recognized_learn()`)
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await this.ICE_read(`vision.face_recognized_learn()`)
+            await this.ICE_read_wifi(`vision.face_recognized_learn()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2254,7 +2259,7 @@ class ICreateK210 {
             let code = packCommand(`vision.face_recognized_count()`)
             return await this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await this.ICE_read(`vision.face_recognized_count()`)
+            return await this.ICE_read_wifi(`vision.face_recognized_count()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2275,7 +2280,7 @@ class ICreateK210 {
             let code = packCommand(`vision.face_recognized_detected()`)
             return await this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return await this.ICE_read(`vision.face_recognized_detected()`)
+            return await this.ICE_read_wifi(`vision.face_recognized_detected()`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2298,7 +2303,7 @@ class ICreateK210 {
             let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
+            let info = await this.ICE_read_wifi(`vision.face_recognized_position(vision.${args.TWO},${args.ONE})`)
             return info
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2322,7 +2327,7 @@ class ICreateK210 {
             let code = packCommand(`vision.class_recognized(${Number(args.ONE)})`)
             return this.ICA_read(code)==1
         }else if(this.runtime.currentDevice === "ESP32"){
-            return this.ICE_read(`vision.class_recognized(${Number(args.ONE)})`)
+            return this.ICE_read_wifi(`vision.class_recognized(${Number(args.ONE)})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2347,7 +2352,7 @@ class ICreateK210 {
             let num = await this.ICA_read(code)
             return num
         }else if(this.runtime.currentDevice === "ESP32"){
-            let num=await this.ICE_read(`vision.card_count()`)
+            let num=await this.ICE_read_wifi(`vision.card_count()`)
             return num
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2380,9 +2385,9 @@ class ICreateK210 {
             }
         }else if(this.runtime.currentDevice === "ESP32"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
-                return this.ICE_read(`vision.card_detected(vision.${args.ONE},1)`)
+                return this.ICE_read_wifi(`vision.card_detected(vision.${args.ONE},1)`)
             }else{
-                return this.ICE_read(`vision.card_detected(vision.${args.ONE},2)`)
+                return this.ICE_read_wifi(`vision.card_detected(vision.${args.ONE},2)`)
             }
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2404,7 +2409,7 @@ class ICreateK210 {
             let code = packCommand(`vision.card_position("${args.ONE}")`)
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            return this.ICE_read(`vision.card_position(vision.${args.ONE})`)
+            return this.ICE_read_wifi(`vision.card_position(vision.${args.ONE})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2583,9 +2588,9 @@ class ICreateK210 {
             }
         }else if(this.runtime.currentDevice === "ESP32"){
             if(Number(args.ONE)==1){
-                await this.ICE_send(`vision.set_fill_light_brightness(1)`)
+                await this.ICE_read_wifi(`vision.set_fill_light_brightness(1)`)
             }else{
-                await this.ICE_send(`vision.set_fill_light_brightness(0)`)
+                await this.ICE_read_wifi(`vision.set_fill_light_brightness(0)`)
             }
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2606,7 +2611,7 @@ class ICreateK210 {
             let code = packCommand(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice === "ESP32"){
-            await this.ICE_send(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
+            await this.ICE_read_wifi(`vision.set_fill_light_brightness(${Number(args.ONE)})`)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -2629,7 +2634,7 @@ class ICreateK210 {
             let info = await this.ICA_read(code)
             return info
         }else if(this.runtime.currentDevice === "ESP32"){
-            let info = await this.ICE_read(`vision.get_fill_light_brightness()`)
+            let info = await this.ICE_read_wifi(`vision.get_fill_light_brightness()`)
             return info
         }else{
             this.runtime.ioDevices.toast.guiToast('',
@@ -2753,6 +2758,17 @@ class ICreateK210 {
                 this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
                 return null;
             }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+
+     // wifi读取数据
+     async ICE_read_wifi(str){
+        try {
+            const result = await this.runtime.ioDevices.wifiIOT.readData(str,this.runtime.connKey);
+            return result;
         } catch (e) {
             console.error('[读取异常]', e);
             return null;

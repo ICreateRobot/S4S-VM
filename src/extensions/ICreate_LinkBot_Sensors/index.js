@@ -1280,17 +1280,18 @@ class LinkBotSensors {
 
      //################################语音######################################
     //语音模块
-    ICM_S4S_voice(args){
+    async ICM_S4S_voice(args){
         let code=""
         if(this.runtime.currentDevice=='Microbit'){
             code=`voice.recognized(voice.${args.CHOICE})`
             return this.ICMB_read(code)
         }else if(this.runtime.currentDevice=='Arduino'){
             code=packCommand(`bot.voice_recognized("VOICE_${args.CHOICE}")`)
-            return this.ICA_read(code)
+            let bool = await this.ICA_read(code)
+            return bool==1
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`voice.recognized(voice.${args.CHOICE})`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1325,7 +1326,7 @@ class LinkBotSensors {
             return this.toFixedNumber(result)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            let result = await this.ICE_read(code)
+            let result = await this.ICE_read_wifi(code)
             return this.toFixedNumber(result)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
@@ -1357,7 +1358,7 @@ class LinkBotSensors {
             return this.operators[args.CHOICE](distance, Number(args.NUM)) 
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`ultrasonic.get_distance(${args.TYPE})`
-            let distance=await this.ICE_read(code)
+            let distance=await this.ICE_read_wifi(code)
             
             console.log(distance,args.NUM)
             return this.operators[args.CHOICE](distance, Number(args.NUM)) 
@@ -1409,7 +1410,7 @@ class LinkBotSensors {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.learn(${args.CHOICE})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1438,7 +1439,7 @@ class LinkBotSensors {
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.gray(${args.CHOICE})`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1467,7 +1468,7 @@ class LinkBotSensors {
             return bool==1
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1494,7 +1495,7 @@ class LinkBotSensors {
             return bool==1
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.detect_line(${args.CHOICE})`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1520,7 +1521,7 @@ class LinkBotSensors {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.set_date(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1544,7 +1545,7 @@ class LinkBotSensors {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.set_time(${Number(args.TEXT)},${Number(args.TEXT1)},${Number(args.TEXT2)})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1580,7 +1581,7 @@ class LinkBotSensors {
             return this.ICA_read(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`rtc.get(${args.CHOICE})`
-            return this.ICE_read(code)
+            return this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -1711,6 +1712,16 @@ class LinkBotSensors {
                 this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
                 return null;
             }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+    // wifi读取数据
+    async ICE_read_wifi(str){
+        try {
+            const result = await this.runtime.ioDevices.wifiIOT.readData(str,this.runtime.connKey);
+            return result;
         } catch (e) {
             console.error('[读取异常]', e);
             return null;

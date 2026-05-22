@@ -293,7 +293,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.set_motors(${Number(args.P1)}, ${Number(args.P2)})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -317,7 +317,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.start(${args.TYPE})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
             this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -342,7 +342,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.move(${args.TYPE},${Number(args.NUM)},${args.MODE})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -365,7 +365,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.drive(${Number(args.P1)},${Number(args.P2)})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -389,7 +389,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.drive_for(${Number(args.P1)},${Number(args.P2)},${Number(args.NUM)},${args.MODE})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -412,7 +412,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.stop()`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -435,7 +435,7 @@ class LinkBot {
             await this.ICA_send(code)
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`movement.set_speed(${Number(args.NUM)})`
-            await this.ICE_send(code)
+            await this.ICE_read_wifi(code)
         }else{
              this.runtime.ioDevices.toast.guiToast('',
             formatMessage({
@@ -558,6 +558,16 @@ class LinkBot {
                 this.runtime.ioDevices.toast.guiToast(result.id, result.error, 'error', 2000);
                 return null;
             }
+        } catch (e) {
+            console.error('[读取异常]', e);
+            return null;
+        }
+    }
+     // wifi读取数据
+     async ICE_read_wifi(str){
+        try {
+            const result = await this.runtime.ioDevices.wifiIOT.readData(str,this.runtime.connKey);
+            return result;
         } catch (e) {
             console.error('[读取异常]', e);
             return null;
