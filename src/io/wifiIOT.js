@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.20.161:3000";
+const BASE_URL = "http://139.129.32.56:3000";
 
 class wifiIOT {
     constructor (runtime) {
@@ -31,6 +31,8 @@ class wifiIOT {
 
             // 正常
             if (data.code === 200) {
+                //（加钱就删的延时）
+                await new Promise(resolve => setTimeout(resolve, 500));
                 return data.data.output;
             }else{//其他异常一并处理
                 this.runtime.ioDevices.toast.guiToast("002", "请检测设备是否在线，链接码是否正确", 'error', 2000);
