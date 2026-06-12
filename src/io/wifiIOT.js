@@ -32,7 +32,7 @@ class wifiIOT {
             // 正常
             if (data.code === 200) {
                 //（加钱就删的延时）
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 200));
                 return data.data.output;
             }else{//其他异常一并处理
                 this.runtime.ioDevices.toast.guiToast("002", "请检测设备是否在线，链接码是否正确", 'error', 2000);
