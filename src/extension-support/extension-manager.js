@@ -79,6 +79,8 @@ defaultBuiltinExtensions['Ultrasonic'] = () => require('../extensions/ICreate_Ul
 defaultBuiltinExtensions['LineFollow'] = () => require('../extensions/ICreate_LineFollow');
 defaultBuiltinExtensions['BJIoT'] = () => require('../extensions/ICreate_BJ_IoT');
 defaultBuiltinExtensions['Esp32S4SMore'] = () => require('../extensions/ICreate_Esp32_more');
+defaultBuiltinExtensions['UIIoT'] = () => require('../extensions/ICreate_UIIoT');
+
 
 /**
  * @typedef {object} ArgumentInfo - Information about an extension block argument
