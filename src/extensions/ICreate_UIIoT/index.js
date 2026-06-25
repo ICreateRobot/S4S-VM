@@ -96,18 +96,47 @@ class UIIoT {
         const blocks = [];
 
         blocks.push(
+            // {
+            //     blockType: BlockType.LABEL,
+            //     text: "hahaha",
+            // },
+
             {
-                blockType: BlockType.LABEL,
-                text: "hahaha",
+                opcode: 'showQRCode',//将所选引脚配置为输入模式
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'UIIoT.showQRCode',
+                    default: 'Remote qrcode show in x [X] y[Y] size[SIZE]',
+                    description: 'UIIoT.showQRCode'
+                }),
+                arguments: {
+                    X: {
+                        type: ArgumentType.NUMBER,
+                        defaultValue:'50'
+                    },
+                    Y: {
+                        type: ArgumentType.NUMBER,
+                        defaultValue:'50'
+                    },
+                    SIZE: {
+                        type: ArgumentType.NUMBER,
+                        defaultValue:'140'
+                    },
+                }
             },
             // =====================
             // LABEL
             // =====================
             {
                 opcode: 'labelCallback',
-                blockType: BlockType.HAT,
+                blockType: BlockType.HATCUT,
                 hideFromPalette: true,
-                text: "Label [ITEM]   Set data [DATA]",//Event 3000 ms
+                text: formatMessage({
+                    id: 'UIIoT.labelCallback',
+                    default: 'Label [ITEM]   Set data [DATA]',
+                    description: 'UIIoT.labelCallback'
+                }),//Event 3000 ms
 
                 arguments: {
                     ITEM: {
@@ -126,9 +155,14 @@ class UIIoT {
             // =====================
             {
                 opcode: 'imageCallback',
-                blockType: BlockType.HAT,
+                blockType: BlockType.HATCUT,
                 hideFromPalette: true,
-                text: "Image [ITEM]   Set image url [DATA]",
+                text: formatMessage({
+                    id: 'UIIoT.imageCallback',
+                    default: 'Image [ITEM]   Set image url [DATA]',
+                    description: 'UIIoT.imageCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
@@ -148,7 +182,12 @@ class UIIoT {
                 opcode: 'textCallback',
                 blockType: BlockType.HAT,
                 hideFromPalette: true,
-                text: "Text [ITEM] Callback width:iot_text_value",
+                text: formatMessage({
+                    id: 'UIIoT.textCallback',
+                    default: 'Text [ITEM] Callback width:iot_text_value',
+                    description: 'UIIoT.textCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
@@ -164,7 +203,12 @@ class UIIoT {
                 opcode: 'buttonCallback',
                 blockType: BlockType.HAT,
                 hideFromPalette: true,
-                text: "Button [ITEM] Callback",
+                text: formatMessage({
+                    id: 'UIIoT.buttonCallback',
+                    default: 'Button [ITEM] Callback',
+                    description: 'UIIoT.buttonCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
@@ -180,7 +224,12 @@ class UIIoT {
                 opcode: 'switchCallback',
                 blockType: BlockType.HAT,
                 hideFromPalette: true,
-                text: "Switch [ITEM] Callback width:iot_switch_value",
+                text: formatMessage({
+                    id: 'UIIoT.switchCallback',
+                    default: 'Switch [ITEM] Callback width:iot_switch_value',
+                    description: 'UIIoT.switchCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
@@ -196,7 +245,12 @@ class UIIoT {
                 opcode: 'sliderCallback',
                 blockType: BlockType.HAT,
                 hideFromPalette: true,
-                text: "Slider [ITEM] Callback width:iot_slider_value",
+                text: formatMessage({
+                    id: 'UIIoT.sliderCallback',
+                    default: 'Slider [ITEM] Callback width:iot_slider_value',
+                    description: 'UIIoT.sliderCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
@@ -210,9 +264,14 @@ class UIIoT {
             // =====================
             {
                 opcode: 'gaugeCallback',
-                blockType: BlockType.HAT,
+                blockType: BlockType.HATCUT,
                 hideFromPalette: true,
-                text: "Gauge [ITEM] Set data [DATA]",
+                text: formatMessage({
+                    id: 'UIIoT.gaugeCallback',
+                    default: 'Gauge [ITEM] Set data [DATA]',
+                    description: 'UIIoT.gaugeCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
@@ -232,7 +291,12 @@ class UIIoT {
                 opcode: 'joystickCallback',
                 blockType: BlockType.HAT,
                 hideFromPalette: true,
-                text: "Joystick [ITEM] Callback width:iot_joystick_Xvalue,iot_joystick_Yvalue",
+                text: formatMessage({
+                    id: 'UIIoT.joystickCallback',
+                    default: 'Joystick [ITEM] Callback width:iot_joystick_Xvalue,iot_joystick_Yvalue',
+                    description: 'UIIoT.joystickCallback'
+                }),
+                
                 arguments: {
                     ITEM: {
                         type: ArgumentType.STRING,
