@@ -1624,16 +1624,31 @@ class UIEditor {
                 fontSizeMenu: {
                     acceptReporters: false,
                     items: [
-                        { text: 'small', value: "12" },
-                        { text: 'medium', value: "18" },
-                        { text: 'large', value: "24" }
+                        { text: formatMessage({
+                            id: 'UIEditor.fontSizeMenu.small',
+                            default: 'small'
+                        }), value: "12" },
+                        { text: formatMessage({
+                            id: 'UIEditor.fontSizeMenu.medium',
+                            default: 'medium'
+                        }), value: "18" },
+                        { text: formatMessage({
+                            id: 'UIEditor.fontSizeMenu.large',
+                            default: 'large'
+                        }), value: "24" }
                     ]
                 },
                 switchStateMenu: {
                     acceptReporters: false,
                     items: [
-                        { text: 'on', value: "True" },
-                        { text: 'off', value: "False" }
+                        { text:formatMessage({
+                            id: 'UIEditor.switchStateMenu.on',
+                            default: 'on'
+                        }), value: "True" },
+                        { text: formatMessage({
+                            id: 'UIEditor.switchStateMenu.off',
+                            default: 'off'
+                        }), value: "False" }
                     ]
                 }
             }
