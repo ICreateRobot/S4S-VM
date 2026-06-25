@@ -1603,6 +1603,11 @@ class Runtime extends EventEmitter {
                 blockJSON.nextStatement = null; // null = available connection; undefined = terminal
             }
             break;
+        case BlockType.HATCUT:
+            blockJSON.outputShape = ScratchBlocksConstants.OUTPUT_SHAPE_SQUARE;
+            blockJSON.previousStatement = undefined;
+            blockJSON.nextStatement = undefined;      // 不能接下面
+            break;
         }
 
         // Allow extensiosn to override outputShape
