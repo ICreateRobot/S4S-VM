@@ -693,7 +693,7 @@ class Esp32S4S {
         await this.ICE_read_wifi(`audio.set_volume(${args.NUM})`)
     }
     async playAudio(args){
-        await this.ICE_read_wifi(`audio.play_audio(${args.TEXT})`)
+        await this.ICE_read_wifi(`audio.play_audio("${args.TEXT}.wav")`)
     }
     async stopAudio(args){
         await this.ICE_read_wifi(`audio.stop_sounds()`)
