@@ -1259,12 +1259,12 @@ class ArduinoS4S {
             ANALOG_PIN: {//ANALOG端口
                 acceptReporters: false,
                 items: [
-                    { text: "A0", value: 'A1' },
-                    { text: "A1", value: 'A2' },
-                    { text: "A2", value: 'A3' },
-                    { text: "A3", value: 'A4' },
-                    { text: "A4", value: 'A5' },
-                    { text: "A5", value: 'A6' }
+                    { text: "A0", value: 'A0' },
+                    { text: "A1", value: 'A1' },
+                    { text: "A2", value: 'A2' },
+                    { text: "A3", value: 'A3' },
+                    { text: "A4", value: 'A4' },
+                    { text: "A5", value: 'A5' }
                 ]
             },
             PULSE_PIN: {//PULSE_PIN端口

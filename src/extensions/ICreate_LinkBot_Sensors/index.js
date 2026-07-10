@@ -953,13 +953,7 @@ class LinkBotSensors {
                         }),
                         value: 'line_sensor.COLOR_NONE'
                     },
-                    {
-                        text: formatMessage({
-                            id: 'MicrobiteIcreateP.choiceLightRingColor.black',
-                            default: 'Black',
-                        }),
-                        value: 'line_sensor.BLACK'
-                    },
+                    
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.red',
@@ -1010,6 +1004,13 @@ class LinkBotSensors {
                             default: 'Purple',
                         }),
                         value: 'line_sensor.PURPLE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.black',
+                            default: 'Black',
+                        }),
+                        value: 'line_sensor.BLACK'
                     }
                 ]
             },
@@ -1025,14 +1026,7 @@ class LinkBotSensors {
                     //     }),
                     //     value: '0'
                     // },
-                    // {
-                    //     text: formatMessage({
-                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.black',
-                    //         default: 'Black',
-                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.black'
-                    //     }),
-                    //     value: '1'
-                    // },
+                    
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.red',
@@ -1065,14 +1059,14 @@ class LinkBotSensors {
                         }),
                         value: 'line_sensor.GREEN'
                     },
-                    // {
-                    //     text: formatMessage({
-                    //         id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
-                    //         default: 'Cyan',
-                    //         description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
-                    //     }),
-                    //     value: 'line_sensor.CYAN'
-                    // },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.qing',
+                            default: 'Cyan',
+                            description: 'MicrobiteIcreateP.choiceLightRingColor.qing'
+                        }),
+                        value: 'line_sensor.CYAN'
+                    },
                     {
                         text: formatMessage({
                             id: 'MicrobiteIcreateP.choiceLightRingColor.blue',
@@ -1088,6 +1082,13 @@ class LinkBotSensors {
                             description: 'MicrobiteIcreateP.choiceLightRingColor.purple'
                         }),
                         value: 'line_sensor.PURPLE'
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'MicrobiteIcreateP.choiceLightRingColor.black',
+                            default: 'Black',
+                        }),
+                        value: 'line_sensor.BLACK'
                     }
                 ]
             },

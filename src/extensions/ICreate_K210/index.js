@@ -30,7 +30,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.settings',
-                    default: 'Switch vision module to [TWO]',
+                    default: 'switch vision module to [TWO]',
                     description: 'k210.settings'
                 }),
                 arguments:{
@@ -47,7 +47,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.currentMode',
-                    default: 'Current mode',
+                    default: 'current mode',
                     description: 'k210.currentMode'
                 }),
                 arguments:{
@@ -70,7 +70,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorRecogn',
-                    default: 'Recognized color [ONE] value',
+                    default: 'recognized color [ONE] value',
                     description: 'k210.colorRecogn'
                 }),
                 arguments:{
@@ -98,7 +98,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorBlockSet',
-                    default: 'Set tracking color [ONE]',
+                    default: 'set tracking color [ONE]',
                     description: 'k210.colorBlockSet'
                 }),
                 arguments:{
@@ -115,7 +115,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorIsTrack',
-                    default: 'Tracked target color?',
+                    default: 'tracked target color?',
                     description: 'k210.colorIsTrack'
                 }),
                 arguments:{
@@ -129,7 +129,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.colorBlockInfo',
-                    default: 'Get color block position info [ONE]',
+                    default: 'get color block position info [ONE]',
                     description: 'k210.colorBlockInfo'
                 }),
                 arguments:{
@@ -157,7 +157,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagNum',
-                    default: 'Number of recognized tags',
+                    default: 'number of recognized tags',
                     description: 'k210.tagNum'
                 }),
                 arguments:{
@@ -172,7 +172,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagCont',
-                    default: 'Recognized tag content',
+                    default: 'recognized tag content',
                     description: 'k210.tagCont'
                 }),
                 arguments:{
@@ -187,7 +187,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagAngle',
-                    default: 'Tag rotation angle',
+                    default: 'tag rotation angle',
                     description: 'k210.tagAngle'
                 }),
                 arguments:{
@@ -203,7 +203,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.tagInfo',
-                    default: 'Recognized tag position info [ONE]',
+                    default: 'recognized tag position info [ONE]',
                     description: 'k210.tagInfo'
                 }),
                 arguments:{
@@ -229,7 +229,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lineIsRecog',
-                    default: 'Is a line recognized?',
+                    default: 'is a line recognized?',
                     description: 'k210.lineIsRecog'
                 }),
                 arguments:{
@@ -242,7 +242,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lineInfo',
-                    default: 'Get line position info at [ONE] [TWO]',
+                    default: 'get line position info at [ONE] [TWO]',
                     description: 'k210.lineInfo'
                 }),
                 arguments:{
@@ -274,7 +274,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objectNum',
-                    default: 'Number of recognized objects',
+                    default: 'number of recognized objects',
                     description: 'k210.objectNum'
                 }),
                 arguments:{
@@ -289,7 +289,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objectIsRecogn',
-                    default: 'Recognized object  [ONE]?',
+                    default: 'recognized object  [ONE]?',
                     description: 'k210.objectIsRecogn'
                 }),
                 arguments:{
@@ -307,7 +307,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.objInfo',
-                    default: 'Recognized object position info [ONE]',
+                    default: 'recognized object position info [ONE]',
                     description: 'k210.objInfo'
                 }),
                 arguments:{
@@ -324,7 +324,7 @@ class ICreateK210 {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
                     id: 'k210.qrLabel',
-                    default: 'QR code recognition',
+                    default: 'qr code recognition',
                     description: 'k210.qrLabel'
                 }),
             },
@@ -336,7 +336,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrIsRecogn',
-                    default: 'Is a QR code recognized?',
+                    default: 'is a QR code recognized?',
                     description: 'k210.qrIsRecogn'
                 }),
                 arguments:{
@@ -350,7 +350,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrCont',
-                    default: 'Recognized QR code content = [TEXT]',
+                    default: 'recognized QR code content = [TEXT]',
                     description: 'k210.qrCont'
                 }),
                 arguments:{
@@ -367,7 +367,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.qrInfo',
-                    default: 'Recognized QR code position info [ONE]',
+                    default: 'recognized QR code position info [ONE]',
                     description: 'k210.qrInfo'
                 }),
                 arguments:{
@@ -394,7 +394,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceAttrNum',
-                    default: 'Number of detected faces',
+                    default: 'number of detected faces',
                     description: 'k210.faceAttrNum'
                 }),
                 arguments:{
@@ -410,7 +410,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceAttrInfo',
-                    default: 'Detected [ONE] position info [TWO]',
+                    default: 'detected [ONE] position info [TWO]',
                     description: 'k210.faceAttrInfo'
                 }),
                 arguments:{
@@ -432,7 +432,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceAttrEmote',
-                    default: 'Is [ONE] [TWO]?',
+                    default: 'is [ONE] [TWO]?',
                     description: 'k210.faceAttrEmote'
                 }),
                 arguments:{
@@ -462,7 +462,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceLearn',
-                    default: 'Learn current face',
+                    default: 'learn current face',
                     description: 'k210.faceLearn'
                 }),
                 arguments:{
@@ -474,7 +474,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceRecogNum',
-                    default: 'Number of recognized faces',
+                    default: 'number of recognized faces',
                     description: 'k210.faceRecogNum'
                 }),
                 arguments:{
@@ -489,7 +489,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceRecogLearn',
-                    default: 'Is a learned face detected?',
+                    default: 'is a learned face detected?',
                     description: 'k210.faceRecogLearn'
                 }),
                 arguments:{
@@ -504,7 +504,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.faceRecognEmote',
-                    default: 'Recognized [ONE] position info [TWO]?',
+                    default: 'recognized [ONE] position info [TWO]?',
                     description: 'k210.faceRecognEmote'
                 }),
                 arguments:{
@@ -535,7 +535,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.deepLearning',
-                    default: 'Is [ONE] recognized?',
+                    default: 'is [ONE] recognized?',
                     description: 'k210.deepLearning'
                 }),
                 arguments:{
@@ -562,7 +562,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.roadNum',
-                    default: 'Number of recognized road signs',
+                    default: 'number of recognized road signs',
                     description: 'k210.roadNum'
                 }),
                 arguments:{
@@ -577,7 +577,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.roadRecog',
-                    default: 'Recognized road sign [ONE]?',
+                    default: 'recognized road sign [ONE]?',
                     description: 'k210.roadRecog'
                 }),
                 arguments:{
@@ -595,7 +595,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.roadInfo',
-                    default: 'Recognized road sign position info [ONE]',
+                    default: 'recognized road sign position info [ONE]',
                     description: 'k210.roadInfo'
                 }),
                 arguments:{
@@ -797,7 +797,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lightBrightness',
-                    default: 'Set fill light brightness [ONE]',
+                    default: 'set fill light brightness [ONE]',
                     description: 'k210.lightBrightness'
                 }),
                 arguments:{
@@ -813,7 +813,7 @@ class ICreateK210 {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'k210.lightGetBrightness',
-                    default: 'Fill light brightness',
+                    default: 'fill light brightness',
                     description: 'k210.lightGetBrightness'
                 }),
                 arguments:{
@@ -903,7 +903,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.turnRight',
-                            default: 'Turn Right',
+                            default: 'turn right',
                             description: 'k210.menuRoad.turnRight'
                         }),
                         value: 'TURN_RIGHT'
@@ -911,7 +911,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.turnLeft',
-                            default: 'Turn Left',
+                            default: 'turn left',
                             description: 'k210.menuRoad.turnLeft'
                         }),
                         value: 'TURN_LEFT'
@@ -919,7 +919,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.stop',
-                            default: 'Stop',
+                            default: 'stop',
                             description: 'k210.menuRoad.stop'
                         }),
                         value: 'STOP_MOVING'
@@ -927,7 +927,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.honk',
-                            default: 'Honk',
+                            default: 'honk',
                             description: 'k210.menuRoad.honk'
                         }),
                         value: 'EVENT_HONK'
@@ -935,7 +935,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.greenLight',
-                            default: 'Green Light',
+                            default: 'green light',
                             description: 'k210.menuRoad.greenLight'
                         }),
                         value: 'GREEN'
@@ -943,7 +943,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.redLight',
-                            default: 'Red Light',
+                            default: 'red light',
                             description: 'k210.menuRoad.redLight'
                         }),
                         value: 'RED'
@@ -951,7 +951,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuRoad.target',
-                            default: 'Target',
+                            default: 'target',
                             description: 'k210.menuRoad.target'
                         }),
                         value: 'EVENT_TARGET'
@@ -990,7 +990,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuEmote.open',
-                            default: 'Mouth Open',
+                            default: 'mouth open',
                             description: 'k210.menuEmote.open'
                         }),
                         value: 'FACE_OPEN_MOUTH'
@@ -998,7 +998,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuEmote.smiling',
-                            default: 'Smiling',
+                            default: 'smiling',
                             description: 'k210.menuEmote.smiling'
                         }),
                         value: 'FACE_SMILE'
@@ -1006,7 +1006,7 @@ class ICreateK210 {
                     {
                         text: formatMessage({
                             id: 'k210.menuEmote.Wearing',
-                            default: 'Wearing Glasses',
+                            default: 'wearing glasses',
                             description: 'k210.menuEmote.Wearing'
                         }),
                         value: 'FACE_GLASSES'

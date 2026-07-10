@@ -14,7 +14,7 @@ class Esp32S4SMore {
         // this.runtime.on('VM_UPDATE_MODE', this.updateMode.bind(this));
         // this.mode=this.runtime.runMode
         
-        this.runtime.emit('ADD_VARIABLE_ESPMORE','sta_record');
+        // this.runtime.emit('ADD_VARIABLE_ESPMORE','sta_record');
  
     }
     // updateMode(obj){
@@ -40,114 +40,23 @@ class Esp32S4SMore {
 
         //模块 
         blocks: [
+           
             {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.WLANSTA',
-                    default: 'WLAN STA',
-                    description: 'Esp32S4SMore.WLANSTA'
+                    id: 'Esp32S4SMore.wifi',
+                    default: 'WI-FI',
+                    description: 'Esp32S4SMore.wifi'
                 }),
             },
             {
-                opcode: 'initWlanSta',
+                opcode: 'setWifi',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.initWlanSta',
-                    default: 'init WLAN STA',
-                    description: 'Esp32S4SMore.initWlanSta'
-                }),
-                arguments:{
-                    
-                }
-            },
-            '---',
-            {
-                opcode: 'connectStatus',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.connectStatus',
-                    default: 'connect status [ONE]',
-                    description: 'Esp32S4SMore.connectStatus'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_WLAN_STATUS',
-                    }
-                },
-                disableMonitor: true
-            },
-            '---',
-            {
-                opcode: 'getRssi',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.getRssi',
-                    default: 'WLAN STA get RSSI',
-                    description: 'Esp32S4SMore.getRssi'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'wlanGetConnectStatus',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.wlanGetConnectStatus',
-                    default: 'WLAN STA get connect status',
-                    description: 'Esp32S4SMore.wlanGetConnectStatus'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'wlanStaIsConnected',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.wlanStaIsConnected',
-                    default: 'WLAN STA is connected',
-                    description: 'Esp32S4SMore.wlanStaIsConnected'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
-            },
-            '---',
-            {
-                opcode: 'staActive',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staActive',
-                    default: 'WLAN STA active [ONE]',
-                    description: 'Esp32S4SMore.staActive'
-                }),
-                arguments:{
-                    ONE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_WLAN_ACTIVE',
-                    }
-                }
-            },
-
-            {
-                opcode: 'staSetIdPass',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staSetIdPass',
-                    default: 'WLAN STA connect to SSID [ssid] password [pass]',
-                    description: 'Esp32S4SMore.staSetIdPass'
+                    id: 'Esp32S4SMore.setWifi',
+                    default: 'connect to wifi [ssid] password [pass]',
+                    description: 'Esp32S4SMore.setWifi'
                 }),
                 arguments:{
                     ssid:{
@@ -158,247 +67,1152 @@ class Esp32S4SMore {
                     }
                 }
             },
+             {
+                opcode: 'wifiIsConnected',
+                blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.wifiIsConnected',
+                    default: 'network connected ?',
+                    description: 'Esp32S4SMore.wifiIsConnected'
+                }),
+                arguments:{
+                   
+                },
+                disableMonitor: true
+            },
+            // {
+            //     opcode: 'reconnectWifi',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.reconnectWifi',
+            //         default: 'connect to Wi-Fi again',
+            //         description: 'Esp32S4SMore.reconnectWifi'
+            //     }),
+            //     arguments:{
+                  
+            //     }
+            // },
             {
-                opcode: 'staDisconnect',
+                opcode: 'wifiDisconnect',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.staDisconnect',
-                    default: 'WLAN STA disconnect',
-                    description: 'Esp32S4SMore.staDisconnect'
+                    id: 'Esp32S4SMore.wifiDisconnect',
+                    default: 'disconnect from wifi',
+                    description: 'Esp32S4SMore.wifiDisconnect'
+                }),
+                arguments:{
+                  
+                }
+            },
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.ble',
+                    default: 'Bluetooth',
+                    description: 'Esp32S4SMore.ble'
+                }),
+            },
+
+            // {
+            //     opcode: 'getBleAddress',
+            //     blockType: BlockType.REPORTER,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.getBleAddress',
+            //         default: 'get bluetooth Mac address',
+            //         description: 'Esp32S4SMore.getBleAddress'
+            //     }),
+            //     arguments:{
+                   
+            //     },
+            //     disableMonitor: true
+            // },
+
+            {
+                opcode: 'configBle',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.configBle',
+                    default: 'config bluetooth with name [NAME]',
+                    description: 'Esp32S4SMore.configBle'
+                }),
+                arguments:{
+                    NAME:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'s4s'
+                    }
+                }
+            },
+            {
+                opcode: 'startBle',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.startBle',
+                    default: 'start bluetooth service uuid [SERVICE] read characteristic [READ] write characteristic [WRITE]',
+                    description: 'Esp32S4SMore.startBle'
+                }),
+                arguments:{
+                    SERVICE:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'0000FF00-0000-1000-8000-00805F9B34FB'
+                    },
+                    READ:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'0000FF01-0000-1000-8000-00805F9B34FB'
+                    },
+                    WRITE:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'0000FF02-0000-1000-8000-00805F9B34FB'
+                    }
+                  
+                }
+            },
+            {
+                opcode: 'stopBle',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.stopBle',
+                    default: 'stop bluetooth',
+                    description: 'Esp32S4SMore.stopBle'
                 }),
                 arguments:{
                   
                 }
             },
 
-            '---',
+            // {
+            //     opcode: 'bleConnected',
+            //     blockType: BlockType.BOOLEAN,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.bleConnected',
+            //         default: 'bluetooth connected?',
+            //         description: 'Esp32S4SMore.bleConnected'
+            //     }),
+            //     arguments:{
+                  
+            //     },
+            //     disableMonitor:true
+            // },
+            // {
+            //     opcode: 'isAvailBle',
+            //     blockType: BlockType.BOOLEAN,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.isAvailBle',
+            //         default: 'is data available on bluetooth',
+            //         description: 'Esp32S4SMore.isAvailBle'
+            //     }),
+            //     arguments:{
+                  
+            //     },
+            //     disableMonitor:true
+            // },
+
             {
-                opcode: 'staGetIp',
+                opcode: 'readByteBle',
                 blockType: BlockType.REPORTER,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.staGetIp',
-                    default: 'WLAN STA get local IP',
-                    description: 'Esp32S4SMore.staGetIp'
+                    id: 'Esp32S4SMore.readByteBle',
+                    default: 'read [NUM] bytes from bluetooth with characteristic uuid [CHARA]',
+                    description: 'Esp32S4SMore.readByteBle'
                 }),
                 arguments:{
-                   
+                    NUM:{
+                        type: ArgumentType.NUMBER,
+                        defaultValue:0
+                    },
+                    CHARA:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'0000FF02-0000-1000-8000-00805F9B34FB'
+                    },
+                  
                 },
-                disableMonitor: true
-            },
-            {
-                opcode: 'staGetsubnet',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staGetsubnet',
-                    default: 'WLAN STA get subnet',
-                    description: 'Esp32S4SMore.staGetsubnet'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
+                disableMonitor:true
             },
 
             {
-                opcode: 'staGetGateway',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staGetGateway',
-                    default: 'WLAN STA get gateway',
-                    description: 'Esp32S4SMore.staGetGateway'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'staGetReconnects',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staGetReconnects',
-                    default: 'WLAN STA get reconnects(return init)',
-                    description: 'Esp32S4SMore.staGetReconnects'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
-            },
-            {
-                opcode: 'staGetTxPower',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staGetTxPower',
-                    default: 'WLAN STA get tx power(return float)',
-                    description: 'Esp32S4SMore.staGetTxPower'
-                }),
-                arguments:{
-                   
-                },
-                disableMonitor: true
-            },
-
-            '---',
-            {
-                opcode: 'staSetDhcp',
+                opcode: 'sendBle',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.staSetDhcp',
-                    default: 'WLAN STA set DHCP hostname to [NAME]',
-                    description: 'Esp32S4SMore.staSetDhcp'
+                    id: 'Esp32S4SMore.sendBle',
+                    default: 'send [DATA] on bluetooth with characteristic uuid [CHARA]',
+                    description: 'Esp32S4SMore.sendBle'
+                }),
+                arguments:{
+                    DATA:{
+                        type: ArgumentType.STRING,
+                    },
+                    CHARA:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'0000FF01-0000-1000-8000-00805F9B34FB'
+                    },
+                },
+                disableMonitor:true
+            },
+
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.http',
+                    default: 'HTTP',
+                    description: 'Esp32S4SMore.http'
+                }),
+            },
+
+            // {
+            //     opcode: 'setURLHTTP',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.setURLHTTP',
+            //         default: 'set HTTP URL [URL]',
+            //         description: 'Esp32S4SMore.setURLHTTP'
+            //     }),
+            //     arguments:{
+            //         URL:{
+            //             type: ArgumentType.STRING,
+            //         }
+            //     },
+            // },
+            {
+                opcode: 'setHeaderHTTP',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.setHeaderHTTP',
+                    default: 'set HTTP header [HEADER] value [VALUE]',
+                    description: 'Esp32S4SMore.setHeaderHTTP'
+                }),
+                arguments:{
+                    HEADER:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'Content-Type'
+                    },
+                    VALUE:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'application/json'
+                    }
+                },
+            },
+            {
+                opcode: 'sendGetHTTP',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.sendGetHTTP',
+                    default: 'send HTTP GET [TEXT]',
+                    description: 'Esp32S4SMore.sendGetHTTP'
+                }),
+                arguments:{
+                    TEXT:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'http://'
+                    }
+                },
+            },
+            {
+                opcode: 'sendPostHTTP',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.sendPostHTTP',
+                    default: 'send HTTP POST [TEXT1] data key: [KEY] value: [VALUE] ',
+                    description: 'Esp32S4SMore.sendPostHTTP'
+                }),
+                arguments:{
+                    TEXT1:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'http://'
+                    },
+                    KEY:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'data'
+                    },
+                    VALUE:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'abc'
+                    }
+                },
+            },
+
+           
+
+            {
+                opcode: 'getHTTPCode',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.getHTTPCode',
+                    default: 'get HTTP response code',
+                    description: 'Esp32S4SMore.getHTTPCode'
+                }),
+                arguments:{
+                  
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'getHTTPBody',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.getHTTPBody',
+                    default: 'get HTTP response body',
+                    description: 'Esp32S4SMore.getHTTPBody'
+                }),
+                arguments:{
+                  
+                },
+                disableMonitor:true
+            },
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnow',
+                    default: 'ESP-NOW',
+                    description: 'Esp32S4SMore.espnow'
+                }),
+            },
+
+            {
+                opcode: 'startEspnow',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.startEspnow',
+                    default: 'start ESP-NOW channel [NUM] data type [TYPE]',
+                    description: 'Esp32S4SMore.startEspnow'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.NUMBER,
+                    },
+                    TYPE:{
+                        type: ArgumentType.NUMBER,
+                    }
+                },
+            },
+
+            {
+                opcode: 'stopEspnow',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.stopEspnow',
+                    default: 'stop ESP-NOW ',
+                    description: 'Esp32S4SMore.stopEspnow'
+                }),
+                arguments:{
+                    
+                },
+            },
+
+            {
+                opcode: 'setEspnow',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.setEspnow',
+                    default: 'set ESP-NOW hotspot name [NAME] password [PASS]',
+                    description: 'Esp32S4SMore.setEspnow'
                 }),
                 arguments:{
                     NAME:{
                         type: ArgumentType.STRING,
+                    },
+                    PASS:{
+                        type: ArgumentType.STRING,
                     }
-                }
+                },
             },
+
             {
-                opcode: 'staSetReconnects',
+                opcode: 'setEspnowKey',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.staSetReconnects',
-                    default: 'WLAN STA set reconnects to [NUM] (0-254)',
-                    description: 'Esp32S4SMore.staSetReconnects'
+                    id: 'Esp32S4SMore.setEspnowKey',
+                    default: 'set ESP-NOW encryption key [KEY]',
+                    description: 'Esp32S4SMore.setEspnowKey'
+                }),
+                arguments:{
+                    KEY:{
+                        type: ArgumentType.STRING,
+                    },
+                },
+            },
+
+            // {
+            //     opcode: 'espnowAddPeer',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.espnowAddPeer',
+            //         default: 'add device [MAC] id [ID] network [NET] encrypt [ENCRY] local master key [KEY]',
+            //         description: 'Esp32S4SMore.espnowAddPeer'
+            //     }),
+            //     arguments:{
+            //         KEY:{
+            //             type: ArgumentType.STRING,
+            //         },
+            //     },
+            // },
+
+
+            {
+                opcode: 'espnowSendData',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnowSendData',
+                    default: 'send to device id [NUM] data [DATA]',
+                    description: 'Esp32S4SMore.espnowSendData'
                 }),
                 arguments:{
                     NUM:{
-                        type: ArgumentType.NUMRES0_255,
-                    }
-                }
+                        type: ArgumentType.NUMBER,
+                    },
+                    DATA:{
+                        type: ArgumentType.STRING,
+                    },
+                },
             },
+
             {
-                opcode: 'staSetTxPower',
+                opcode: 'espnowSendDataAll',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.staSetTxPower',
-                    default: 'WLAN STA set tx power to [POWER]',
-                    description: 'Esp32S4SMore.staSetTxPower'
+                    id: 'Esp32S4SMore.espnowSendDataAll',
+                    default: 'send to all device data [DATA]',
+                    description: 'Esp32S4SMore.espnowSendDataAll'
                 }),
                 arguments:{
-                    POWER:{
+                    DATA:{
                         type: ArgumentType.STRING,
-                        menu:'MENU_WLAN_POWER',
-                    }
-                }
+                    },
+                },
             },
 
-            '---',
             {
-                opcode: 'staScan',
-                blockType: BlockType.LOOP,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.staScan',
-                    default: 'for each item [VAR] in list WLAN STA scan do',
-                    description: 'Esp32S4SMore.staScan'
-                }),
-                arguments:{
-                    VAR:{
-                        type: ArgumentType.VARIABLE,
-                        defaultValue:'sta_record'
-                    }
-                    
-                }
-            },
-            {
-                opcode: 'staGetInfo',
+                opcode: 'espnowGetMode',
                 blockType: BlockType.REPORTER,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.staGetInfo',
-                    default: 'get [VAR] AP [INFO]',
-                    description: 'Esp32S4SMore.staGetInfo'
+                    id: 'Esp32S4SMore.espnowGetMode',
+                    default: 'get my address mode [MODE]',
+                    description: 'Esp32S4SMore.espnowGetMode'
                 }),
                 arguments:{
-                    VAR:{
-                        type: ArgumentType.VARIABLE,
-                        defaultValue:'sta_record'
+                    MODE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_MODE'
                     },
-                    INFO:{
-                        type: ArgumentType.NUMBER,
-                        menu:'MENU_WLAN_INFO'
-                    },
-                    
                 },
-                disableMonitor: true
+                disableMonitor:true
+            },
+            {
+                opcode: 'espnowGetDeviceInfo',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnowGetDeviceInfo',
+                    default: 'get device info from ssid [SSID]',
+                    description: 'Esp32S4SMore.espnowGetDeviceInfo'
+                }),
+                arguments:{
+                    SSID:{
+                        type: ArgumentType.STRING,
+                    },
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'espnowRecived',
+                blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnowRecived',
+                    default: 'message recived ?',
+                    description: 'Esp32S4SMore.espnowRecived'
+                }),
+                arguments:{
+                   
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'espnowGetMess',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnowGetMess',
+                    default: 'get message',
+                    description: 'Esp32S4SMore.espnowGetMess'
+                }),
+                arguments:{
+                   
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'espnowRecFromAddr',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnowRecFromAddr',
+                    default: 'received from address',
+                    description: 'Esp32S4SMore.espnowRecFromAddr'
+                }),
+                arguments:{
+                   
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'espnowMessSent',
+                blockType: BlockType.BOOLEAN,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.espnowMessSent',
+                    default: 'message sent ?',
+                    description: 'Esp32S4SMore.espnowMessSent'
+                }),
+                arguments:{
+                   
+                },
+                disableMonitor:true
             },
 
             {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.WLANAP',
-                    default: 'WLAN AP',
-                    description: 'Esp32S4SMore.WLANAP'
+                    id: 'Esp32S4SMore.uart',
+                    default: 'UART',
+                    description: 'Esp32S4SMore.uart'
                 }),
             },
             {
-                opcode: 'initWlanAp',
+                opcode: 'startUart',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.initWlanAp',
-                    default: 'init WLAN AP',
-                    description: 'Esp32S4SMore.initWlanAp'
+                    id: 'Esp32S4SMore.startUart',
+                    default: 'start UART [NUM] baud rate [BAUD] port [CHOICE]',
+                    description: 'Esp32S4SMore.startUart'
                 }),
                 arguments:{
-                    
-                }
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                    BAUD:{
+                        type: ArgumentType.NUMBER,
+                    },
+                    CHOICE:{
+                        type: ArgumentType.STRING,
+                    },
+                },
             },
+
             {
-                opcode: 'apIsConnected',
+                opcode: 'startUartTxRx',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.startUartTxRx',
+                    default: 'start UART [NUM] baud rate [BAUD] TX [TX] RX [RX]',
+                    description: 'Esp32S4SMore.startUartTxRx'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                    BAUD:{
+                        type: ArgumentType.NUMBER,
+                    },
+                    TX:{
+                        type: ArgumentType.NUMBER,
+                    },
+                    RX:{
+                        type: ArgumentType.NUMBER,
+                    },
+                },
+            },
+
+            {
+                opcode: 'stopUart',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.stopUart',
+                    default: 'stop UART [NUM]',
+                    description: 'Esp32S4SMore.stopUart'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    }
+                },
+            },
+
+            {
+                opcode: 'writeUart',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.writeUart',
+                    default: 'write to UART [NUM] [TEXT]',
+                    description: 'Esp32S4SMore.writeUart'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                    TEXT:{
+                        type: ArgumentType.STRING,
+                    },
+                },
+            },
+
+            {
+                opcode: 'writeUartByte',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.writeUartByte',
+                    default: 'write to UART [NUM] [BYTES]',
+                    description: 'Esp32S4SMore.writeUartByte'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                    BYTES:{
+                        type: ArgumentType.NUMBER,
+                    },
+                },
+            },
+
+            {
+                opcode: 'readUart',
                 blockType: BlockType.REPORTER,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.apIsConnected',
-                    default: 'WLAN AP is connected',
-                    description: 'Esp32S4SMore.apIsConnected'
+                    id: 'Esp32S4SMore.readUart',
+                    default: 'read from UART [NUM]',
+                    description: 'Esp32S4SMore.readUart'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'readByteUart',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.readByteUart',
+                    default: 'read byte from UART [NUM]',
+                    description: 'Esp32S4SMore.readByteUart'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                },
+                disableMonitor:true
+            },
+
+
+            {
+                opcode: 'readByteNumUart',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.readByteNumUart',
+                    default: 'read [NUM] characters from UART [PORT]',
+                    description: 'Esp32S4SMore.readByteNumUart'
+                }),
+                arguments:{
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+
+                    NUM:{
+                        type: ArgumentType.NUMBER,
+                    },
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'uartAvail',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.uartAvail',
+                    default: 'UART [PORT] data available?',
+                    description: 'Esp32S4SMore.uartAvail'
+                }),
+                arguments:{
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'setUartTimeout',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.setUartTimeout',
+                    default: 'set UART [PORT] timeout [NUM]',
+                    description: 'Esp32S4SMore.setUartTimeout'
+                }),
+                arguments:{
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_UART_NUM'
+                    },
+                    NUM:{
+                        type: ArgumentType.NUMBER,
+                    },
+                },
+            },
+
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.i2c',
+                    default: 'I2C',
+                    description: 'Esp32S4SMore.i2c'
+                }),
+            },
+            {
+                opcode: 'startI2CPort',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.startI2CPort',
+                    default: 'start I2C PORT [PORT] freq [FREQ]',
+                    description: 'Esp32S4SMore.startI2CPort'
+                }),
+                arguments:{
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                    FREQ:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_FREQ'
+                    },
+                },
+            },
+
+            {
+                opcode: 'startI2CSDA',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.startI2CSDA',
+                    default: 'start I2C SDA [SDA] SCL [SCL] freq [FREQ]',
+                    description: 'Esp32S4SMore.startI2CSDA'
+                }),
+                arguments:{
+                    SDA:{
+                        type: ArgumentType.NUMBER
+                    },
+                    SCL:{
+                        type: ArgumentType.NUMBER
+                    },
+                    FREQ:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_FREQ'
+                    },
+                },
+            },
+
+            {
+                opcode: 'stopI2C',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.stopI2C',
+                    default: 'stop I2C',
+                    description: 'Esp32S4SMore.stopI2C'
                 }),
                 arguments:{
                     
                 },
-                disableMonitor:true
             },
             {
-                opcode: 'apGetSsid',
+                opcode: 'setI2CAddr',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.setI2CAddr',
+                    default: 'set [I2C] device address [HEX]',
+                    description: 'Esp32S4SMore.setI2CAddr'
+                }),
+                arguments:{
+                    I2C:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                    HEX:{
+                        type: ArgumentType.NUMBER
+                    },
+                },
+            },
+            {
+                opcode: 'getAllDevice',
                 blockType: BlockType.REPORTER,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.apGetSsid',
-                    default: 'WLAN AP get SSID',
-                    description: 'Esp32S4SMore.apGetSsid'
+                    id: 'Esp32S4SMore.getAllDevice',
+                    default: 'get all devices on [PORT]',
+                    description: 'Esp32S4SMore.getAllDevice'
+                }),
+                arguments:{
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'readBytesI2C',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.readBytesI2C',
+                    default: 'read [NUM] bytes from [PORT] register [ADDR]',
+                    description: 'Esp32S4SMore.readBytesI2C'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.NUMBER
+                    },
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                    ADDR:{
+                        type: ArgumentType.NUMBER
+                    },
+                },
+                disableMonitor:true
+            },
+
+
+            {
+                opcode: 'readValueI2C',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.readValueI2C',
+                    default: 'read [NUM] values from [PORT] as [CHOICE] ',
+                    description: 'Esp32S4SMore.readValueI2C'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.NUMBER
+                    },
+                    PORT:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                    CHOICE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_UINT'
+                    },
+                },
+                disableMonitor:true
+            },
+
+            {
+                opcode: 'writeI2C',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.writeI2C',
+                    default: 'write [NUM1] to [I2C] register [NUM2]',
+                    description: 'Esp32S4SMore.writeI2C'
+                }),
+                arguments:{
+                    I2C:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                    NUM1:{
+                        type: ArgumentType.STRING
+                    },
+                    NUM2:{
+                        type: ArgumentType.STRING
+                    },
+                },
+            },
+            {
+                opcode: 'writeI2CDir',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.writeI2CDir',
+                    default: 'write [NUM] directly to [I2C] as [CHOICE]',
+                    description: 'Esp32S4SMore.writeI2CDir'
+                }),
+                arguments:{
+                    I2C:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
+                    NUM:{
+                        type: ArgumentType.STRING
+                    },
+                    CHOICE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_UINT'
+                    },
+                },
+            },
+
+
+            {
+                blockType: BlockType.LABEL,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.spi',
+                    default: 'SPI',
+                    description: 'Esp32S4SMore.spi'
+                }),
+            },
+            {
+                opcode: 'startSpi',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.startSpi',
+                    default: 'start SPI SCK [SCK] MOSI [MOSI] MISO [MISO] first bit [FIRST] mode [MODE]',
+                    description: 'Esp32S4SMore.startSpi'
+                }),
+                arguments:{
+                    SCK:{
+                        type: ArgumentType.NUMBER
+                    },
+                    MOSI:{
+                        type: ArgumentType.NUMBER
+                    },
+                    MISO:{
+                        type: ArgumentType.NUMBER
+                    },
+                    FIRST:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_SPI_FIRSTBIT'
+                    },
+                    MODE:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_SPI_MODE'
+                    },
+                },
+            },
+
+            {
+                opcode: 'stopSpi',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.stopSpi',
+                    default: 'stop SPI',
+                    description: 'Esp32S4SMore.stopSpi'
                 }),
                 arguments:{
                     
                 },
-                disableMonitor:true
             },
+
             {
-                opcode: 'apConfigWifi',
+                opcode: 'sendSpi',
                 blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
-                    id: 'Esp32S4SMore.apConfigWifi',
-                    default: 'init WLAN AP',
-                    description: 'Esp32S4SMore.apConfigWifi'
+                    id: 'Esp32S4SMore.sendSpi',
+                    default: 'send data [VAR] through [SPI] ',
+                    description: 'Esp32S4SMore.sendSpi'
                 }),
                 arguments:{
-                    
-                }
+                    VAR:{
+                        type: ArgumentType.STRING
+                    },
+                    SPI:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_SPI_TYPE'
+                    }
+                },
             },
+
+            {
+                opcode: 'sendReciveSpi',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.sendReciveSpi',
+                    default: 'send [VAR1] and receive into [VAR2] through [SPI]',
+                    description: 'Esp32S4SMore.sendReciveSpi'
+                }),
+                arguments:{
+                    VAR1:{
+                        type: ArgumentType.STRING
+                    },
+                    VAR2:{
+                        type: ArgumentType.STRING
+                    },
+                    SPI:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_SPI_TYPE'
+                    }
+                },
+            },
+
+            {
+                opcode: 'readBytesSpi',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.readBytesSpi',
+                    default: 'read [NUM] bytes from [SPI]',
+                    description: 'Esp32S4SMore.readBytesSpi'
+                }),
+                arguments:{
+                    NUM:{
+                        type: ArgumentType.NUMBER
+                    },
+                    SPI:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_SPI_TYPE'
+                    }
+                },
+                disableMonitor:true
+            },
+            {
+                opcode: 'readIntoSpi',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.readIntoSpi',
+                    default: 'read from [SPI] into [VAR]',
+                    description: 'Esp32S4SMore.readIntoSpi'
+                }),
+                arguments:{
+                    VAR:{
+                        type: ArgumentType.STRING
+                    },
+                    SPI:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_SPI_TYPE'
+                    }
+                },
+                disableMonitor:true
+            },
+            
         ],
 
         menus: {
+            MENU_SPI_TYPE:{
+                acceptReporters: false,
+                items: [
+                    { text: "SPI2_HOST", value: '1' },
+                    { text: "SPI3_HOST", value: '2' },
+                ]
+            },
+            MENU_SPI_MODE:{
+                acceptReporters: false,
+                items: [
+                    { text: "0", value: '0' },
+                    { text: "1", value: '1' },
+                    { text: "2", value: '2' },
+                    { text: "3", value: '3' },
+                ]
+            },
+            MENU_SPI_FIRSTBIT:{
+                acceptReporters: false,
+                items: [
+                    { text: "MSB", value: 'MSB' },
+                    { text: "LSB", value: 'LSB' },
+                ]
+            },
+            MENU_I2C_UINT:{
+                acceptReporters: false,
+                items: [
+                    { text: "UINT8", value: '0' },
+                    { text: "INT8", value: '1' },
+                    { text: "UINT16", value: '2' },
+                    { text: "INT16", value: '3' },
+                    { text: "UINT32", value: '4' },
+                    { text: "INT32", value: '5' },
+                    { text: "FLOAT", value: '6' },
+                ]
+            },
+            MENU_I2C_FREQ:{
+                acceptReporters: false,
+                items: [
+                    { text: "100K", value: '100000' },
+                    { text: "400K", value: '400000' },
+                ]
+            },
+            MENU_I2C_NUM:{
+                acceptReporters: false,
+                items: [
+                    { text: "i2c0", value: '0' },
+                    { text: "i2c1", value: '1' },
+                ]
+            },
+            MENU_UART_NUM:{
+                acceptReporters: false,
+                items: [
+                    { text: "0", value: '0' },
+                    { text: "1", value: '1' },
+                    { text: "2", value: '2' },
+                ]
+            },
+            MENU_MODE:{
+                acceptReporters: false,
+                items: [
+                    { text: "STA", value: '0' },
+                    { text: "AP", value: '1' },
+                ]
+            },
             MENU_WLAN_STATUS:{
                 acceptReporters: false,
                 items: [
@@ -668,7 +1482,7 @@ class Esp32S4SMore {
       };
     }
     async initWlanSta(){
-        this.runtime.emit('ADD_VARIABLE_ESPMORE','sta_record');
+        // this.runtime.emit('ADD_VARIABLE_ESPMORE','sta_record');
     }
     
     async buttonPressed(args){
