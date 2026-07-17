@@ -391,15 +391,52 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.startEspnow',
-                    default: 'start ESP-NOW channel [NUM] data type [TYPE]',
+                    default: 'start ESP-NOW channel [NUM]',
                     description: 'Esp32S4SMore.startEspnow'
                 }),
                 arguments:{
                     NUM:{
                         type: ArgumentType.NUMBER,
+                        menu:"MENU_ESPNOW_CHANNEL",
+                        defaultValue:0
                     },
-                    TYPE:{
+                    // TYPE:{
+                    //     type: ArgumentType.NUMBER,
+                    // }
+                },
+            },
+
+            {
+                opcode: 'setEspnowConfig',
+                blockType: BlockType.COMMAND,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4SMore.setEspnowConfig',
+                    default: 'ESP-NOW add peer MAC address [MAC] peer id [PEER] ifidx [IFIDX] encrypt [ENCRYPT] local master key [LMK]',
+                    description: 'Esp32S4SMore.setEspnowConfig'
+                }),
+                arguments:{
+                    MAC:{
+                        type: ArgumentType.STRING,
+                        defaultValue:'00016C06A629'
+                    },
+                    PEER:{
                         type: ArgumentType.NUMBER,
+                        defaultValue:1
+                    },
+                    IFIDX:{
+                        type: ArgumentType.NUMBER,
+                        menu:'ESPNOW_IFIDX',
+                        defaultValue:0
+                    },
+                    ENCRYPT:{
+                        type: ArgumentType.BOOLEAN,
+                        menu:'MENU_WLAN_ACTIVE',
+                        defaultValue:'False'
+                    },
+                    LMK:{
+                        type: ArgumentType.STRING,
+                        defaultValue: 'only valid when encrypt=True'
                     }
                 },
             },
@@ -424,15 +461,13 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.setEspnow',
-                    default: 'set ESP-NOW hotspot name [NAME] password [PASS]',
+                    default: 'set ESP-NOW hotspot name [NAME]',
                     description: 'Esp32S4SMore.setEspnow'
                 }),
                 arguments:{
                     NAME:{
                         type: ArgumentType.STRING,
-                    },
-                    PASS:{
-                        type: ArgumentType.STRING,
+                        defaultValue:"S4S-EspNow"
                     }
                 },
             },
@@ -443,7 +478,7 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.setEspnowKey',
-                    default: 'set ESP-NOW encryption key [KEY]',
+                    default: 'set ESP-NOW pmk encryption key [KEY]',
                     description: 'Esp32S4SMore.setEspnowKey'
                 }),
                 arguments:{
@@ -505,54 +540,60 @@ class Esp32S4SMore {
                 },
             },
 
-            {
-                opcode: 'espnowGetMode',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.espnowGetMode',
-                    default: 'get my address mode [MODE]',
-                    description: 'Esp32S4SMore.espnowGetMode'
-                }),
-                arguments:{
-                    MODE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_MODE'
-                    },
-                },
-                disableMonitor:true
-            },
+            // {
+            //     opcode: 'espnowGetMode',
+            //     blockType: BlockType.REPORTER,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.espnowGetMode',
+            //         default: 'get my address mode [MODE]',
+            //         description: 'Esp32S4SMore.espnowGetMode'
+            //     }),
+            //     arguments:{
+            //         MODE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_MODE'
+            //         },
+            //     },
+            //     disableMonitor:true
+            // },
             {
                 opcode: 'espnowGetDeviceInfo',
                 blockType: BlockType.REPORTER,
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.espnowGetDeviceInfo',
-                    default: 'get device info from ssid [SSID]',
+                    default: 'get device [INFO] from ssid [SSID]',
                     description: 'Esp32S4SMore.espnowGetDeviceInfo'
                 }),
                 arguments:{
+                    INFO:{
+                        type: ArgumentType.NUMBER,
+                        menu:"ESPNOW_INFO",
+                        defaultValue:0
+                    },
                     SSID:{
                         type: ArgumentType.STRING,
+                        defaultValue:"S4S-EspNow"
                     },
                 },
                 disableMonitor:true
             },
 
-            {
-                opcode: 'espnowRecived',
-                blockType: BlockType.BOOLEAN,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.espnowRecived',
-                    default: 'message recived ?',
-                    description: 'Esp32S4SMore.espnowRecived'
-                }),
-                arguments:{
+            // {
+            //     opcode: 'espnowRecived',
+            //     blockType: BlockType.BOOLEAN,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.espnowRecived',
+            //         default: 'message recived ?',
+            //         description: 'Esp32S4SMore.espnowRecived'
+            //     }),
+            //     arguments:{
                    
-                },
-                disableMonitor:true
-            },
+            //     },
+            //     disableMonitor:true
+            // },
 
             {
                 opcode: 'espnowGetMess',
@@ -583,21 +624,22 @@ class Esp32S4SMore {
                 },
                 disableMonitor:true
             },
-
-            {
-                opcode: 'espnowMessSent',
-                blockType: BlockType.BOOLEAN,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.espnowMessSent',
-                    default: 'message sent ?',
-                    description: 'Esp32S4SMore.espnowMessSent'
-                }),
-                arguments:{
+            // 206ef18abb48
+            // d0cf1303bde0
+            // {
+            //     opcode: 'espnowMessSent',
+            //     blockType: BlockType.BOOLEAN,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.espnowMessSent',
+            //         default: 'message sent ?',
+            //         description: 'Esp32S4SMore.espnowMessSent'
+            //     }),
+            //     arguments:{
                    
-                },
-                disableMonitor:true
-            },
+            //     },
+            //     disableMonitor:true
+            // },
 
             {
                 blockType: BlockType.LABEL,
@@ -607,28 +649,28 @@ class Esp32S4SMore {
                     description: 'Esp32S4SMore.uart'
                 }),
             },
-            {
-                opcode: 'startUart',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.startUart',
-                    default: 'start UART [NUM] baud rate [BAUD] port [CHOICE]',
-                    description: 'Esp32S4SMore.startUart'
-                }),
-                arguments:{
-                    NUM:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_UART_NUM'
-                    },
-                    BAUD:{
-                        type: ArgumentType.NUMBER,
-                    },
-                    CHOICE:{
-                        type: ArgumentType.STRING,
-                    },
-                },
-            },
+            // {
+            //     opcode: 'startUart',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.startUart',
+            //         default: 'start UART [NUM] baud rate [BAUD] port [CHOICE]',
+            //         description: 'Esp32S4SMore.startUart'
+            //     }),
+            //     arguments:{
+            //         NUM:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_UART_NUM'
+            //         },
+            //         BAUD:{
+            //             type: ArgumentType.NUMBER,
+            //         },
+            //         CHOICE:{
+            //             type: ArgumentType.STRING,
+            //         },
+            //     },
+            // },
 
             {
                 opcode: 'startUartTxRx',
@@ -646,12 +688,15 @@ class Esp32S4SMore {
                     },
                     BAUD:{
                         type: ArgumentType.NUMBER,
+                        defaultValue:'115200'
                     },
                     TX:{
                         type: ArgumentType.NUMBER,
+                        defaultValue:'45'
                     },
                     RX:{
                         type: ArgumentType.NUMBER,
+                        defaultValue:'48'
                     },
                 },
             },
@@ -699,7 +744,7 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.writeUartByte',
-                    default: 'write to UART [NUM] [BYTES]',
+                    default: 'write to UART [NUM] [TEXT] (Separate each byte with a comma.)',
                     description: 'Esp32S4SMore.writeUartByte'
                 }),
                 arguments:{
@@ -707,8 +752,8 @@ class Esp32S4SMore {
                         type: ArgumentType.STRING,
                         menu:'MENU_UART_NUM'
                     },
-                    BYTES:{
-                        type: ArgumentType.NUMBER,
+                    TEXT:{
+                        type: ArgumentType.STRING,
                     },
                 },
             },
@@ -750,39 +795,39 @@ class Esp32S4SMore {
             },
 
 
-            {
-                opcode: 'readByteNumUart',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.readByteNumUart',
-                    default: 'read [NUM] characters from UART [PORT]',
-                    description: 'Esp32S4SMore.readByteNumUart'
-                }),
-                arguments:{
-                    PORT:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_UART_NUM'
-                    },
+            // {
+            //     opcode: 'readByteNumUart',
+            //     blockType: BlockType.REPORTER,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.readByteNumUart',
+            //         default: 'read [NUM] characters from UART [PORT]',
+            //         description: 'Esp32S4SMore.readByteNumUart'
+            //     }),
+            //     arguments:{
+            //         PORT:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_UART_NUM'
+            //         },
 
-                    NUM:{
-                        type: ArgumentType.NUMBER,
-                    },
-                },
-                disableMonitor:true
-            },
+            //         NUM:{
+            //             type: ArgumentType.NUMBER,
+            //         },
+            //     },
+            //     disableMonitor:true
+            // },
 
             {
                 opcode: 'uartAvail',
-                blockType: BlockType.REPORTER,
+                blockType: BlockType.BOOLEAN,
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.uartAvail',
-                    default: 'UART [PORT] data available?',
+                    default: 'UART [NUM] data available?',
                     description: 'Esp32S4SMore.uartAvail'
                 }),
                 arguments:{
-                    PORT:{
+                    NUM:{
                         type: ArgumentType.STRING,
                         menu:'MENU_UART_NUM'
                     },
@@ -790,25 +835,25 @@ class Esp32S4SMore {
                 disableMonitor:true
             },
 
-            {
-                opcode: 'setUartTimeout',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.setUartTimeout',
-                    default: 'set UART [PORT] timeout [NUM]',
-                    description: 'Esp32S4SMore.setUartTimeout'
-                }),
-                arguments:{
-                    PORT:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_UART_NUM'
-                    },
-                    NUM:{
-                        type: ArgumentType.NUMBER,
-                    },
-                },
-            },
+            // {
+            //     opcode: 'setUartTimeout',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.setUartTimeout',
+            //         default: 'set UART [PORT] timeout [NUM]',
+            //         description: 'Esp32S4SMore.setUartTimeout'
+            //     }),
+            //     arguments:{
+            //         PORT:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_UART_NUM'
+            //         },
+            //         NUM:{
+            //             type: ArgumentType.NUMBER,
+            //         },
+            //     },
+            // },
 
 
             {
@@ -819,26 +864,26 @@ class Esp32S4SMore {
                     description: 'Esp32S4SMore.i2c'
                 }),
             },
-            {
-                opcode: 'startI2CPort',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.startI2CPort',
-                    default: 'start I2C PORT [PORT] freq [FREQ]',
-                    description: 'Esp32S4SMore.startI2CPort'
-                }),
-                arguments:{
-                    PORT:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_NUM'
-                    },
-                    FREQ:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_FREQ'
-                    },
-                },
-            },
+            // {
+            //     opcode: 'startI2CPort',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.startI2CPort',
+            //         default: 'start I2C PORT [PORT] freq [FREQ]',
+            //         description: 'Esp32S4SMore.startI2CPort'
+            //     }),
+            //     arguments:{
+            //         PORT:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_NUM'
+            //         },
+            //         FREQ:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_FREQ'
+            //         },
+            //     },
+            // },
 
             {
                 opcode: 'startI2CSDA',
@@ -846,15 +891,21 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.startI2CSDA',
-                    default: 'start I2C SDA [SDA] SCL [SCL] freq [FREQ]',
+                    default: '[I2C]start I2C SDA [SDA] SCL [SCL] freq [FREQ]',
                     description: 'Esp32S4SMore.startI2CSDA'
                 }),
                 arguments:{
+                    I2C:{
+                        type: ArgumentType.STRING,
+                        menu:'MENU_I2C_NUM'
+                    },
                     SDA:{
-                        type: ArgumentType.NUMBER
+                        type: ArgumentType.NUMBER,
+                        defaultValue:'1'
                     },
                     SCL:{
-                        type: ArgumentType.NUMBER
+                        type: ArgumentType.NUMBER,
+                        defaultValue:'2'
                     },
                     FREQ:{
                         type: ArgumentType.STRING,
@@ -863,38 +914,38 @@ class Esp32S4SMore {
                 },
             },
 
-            {
-                opcode: 'stopI2C',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.stopI2C',
-                    default: 'stop I2C',
-                    description: 'Esp32S4SMore.stopI2C'
-                }),
-                arguments:{
+            // {
+            //     opcode: 'stopI2C',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.stopI2C',
+            //         default: 'stop I2C',
+            //         description: 'Esp32S4SMore.stopI2C'
+            //     }),
+            //     arguments:{
                     
-                },
-            },
-            {
-                opcode: 'setI2CAddr',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.setI2CAddr',
-                    default: 'set [I2C] device address [HEX]',
-                    description: 'Esp32S4SMore.setI2CAddr'
-                }),
-                arguments:{
-                    I2C:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_NUM'
-                    },
-                    HEX:{
-                        type: ArgumentType.NUMBER
-                    },
-                },
-            },
+            //     },
+            // },
+            // {
+            //     opcode: 'setI2CAddr',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.setI2CAddr',
+            //         default: 'set [I2C] device address [HEX]',
+            //         description: 'Esp32S4SMore.setI2CAddr'
+            //     }),
+            //     arguments:{
+            //         I2C:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_NUM'
+            //         },
+            //         HEX:{
+            //             type: ArgumentType.NUMBER
+            //         },
+            //     },
+            // },
             {
                 opcode: 'getAllDevice',
                 blockType: BlockType.REPORTER,
@@ -938,30 +989,30 @@ class Esp32S4SMore {
             },
 
 
-            {
-                opcode: 'readValueI2C',
-                blockType: BlockType.REPORTER,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.readValueI2C',
-                    default: 'read [NUM] values from [PORT] as [CHOICE] ',
-                    description: 'Esp32S4SMore.readValueI2C'
-                }),
-                arguments:{
-                    NUM:{
-                        type: ArgumentType.NUMBER
-                    },
-                    PORT:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_NUM'
-                    },
-                    CHOICE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_UINT'
-                    },
-                },
-                disableMonitor:true
-            },
+            // {
+            //     opcode: 'readValueI2C',
+            //     blockType: BlockType.REPORTER,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.readValueI2C',
+            //         default: 'read [NUM] values from [PORT] as [CHOICE] ',
+            //         description: 'Esp32S4SMore.readValueI2C'
+            //     }),
+            //     arguments:{
+            //         NUM:{
+            //             type: ArgumentType.NUMBER
+            //         },
+            //         PORT:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_NUM'
+            //         },
+            //         CHOICE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_UINT'
+            //         },
+            //     },
+            //     disableMonitor:true
+            // },
 
             {
                 opcode: 'writeI2C',
@@ -981,33 +1032,33 @@ class Esp32S4SMore {
                         type: ArgumentType.STRING
                     },
                     NUM2:{
-                        type: ArgumentType.STRING
+                        type: ArgumentType.NUMBER
                     },
                 },
             },
-            {
-                opcode: 'writeI2CDir',
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4SMore.writeI2CDir',
-                    default: 'write [NUM] directly to [I2C] as [CHOICE]',
-                    description: 'Esp32S4SMore.writeI2CDir'
-                }),
-                arguments:{
-                    I2C:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_NUM'
-                    },
-                    NUM:{
-                        type: ArgumentType.STRING
-                    },
-                    CHOICE:{
-                        type: ArgumentType.STRING,
-                        menu:'MENU_I2C_UINT'
-                    },
-                },
-            },
+            // {
+            //     opcode: 'writeI2CDir',
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4SMore.writeI2CDir',
+            //         default: 'write [NUM] directly to [I2C] as [CHOICE]',
+            //         description: 'Esp32S4SMore.writeI2CDir'
+            //     }),
+            //     arguments:{
+            //         I2C:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_NUM'
+            //         },
+            //         NUM:{
+            //             type: ArgumentType.STRING
+            //         },
+            //         CHOICE:{
+            //             type: ArgumentType.STRING,
+            //             menu:'MENU_I2C_UINT'
+            //         },
+            //     },
+            // },
 
 
             {
@@ -1024,10 +1075,14 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.startSpi',
-                    default: 'start SPI SCK [SCK] MOSI [MOSI] MISO [MISO] first bit [FIRST] mode [MODE]',
+                    default: 'start [SPI] SCK [SCK] MOSI [MOSI] MISO [MISO] first bit [FIRST] mode [MODE]',
                     description: 'Esp32S4SMore.startSpi'
                 }),
                 arguments:{
+                    SPI:{
+                        type:ArgumentType.NUMBER,
+                        menu:'MENU_SPI_TYPE'
+                    },
                     SCK:{
                         type: ArgumentType.NUMBER
                     },
@@ -1042,7 +1097,7 @@ class Esp32S4SMore {
                         menu:'MENU_SPI_FIRSTBIT'
                     },
                     MODE:{
-                        type: ArgumentType.STRING,
+                        type: ArgumentType.NUMBER,
                         menu:'MENU_SPI_MODE'
                     },
                 },
@@ -1054,10 +1109,14 @@ class Esp32S4SMore {
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.stopSpi',
-                    default: 'stop SPI',
+                    default: 'stop SPI [SPI]',
                     description: 'Esp32S4SMore.stopSpi'
                 }),
                 arguments:{
+                    SPI:{
+                        type:ArgumentType.NUMBER,
+                        menu:'MENU_SPI_TYPE'
+                    },
                     
                 },
             },
@@ -1127,7 +1186,7 @@ class Esp32S4SMore {
             },
             {
                 opcode: 'readIntoSpi',
-                blockType: BlockType.REPORTER,
+                blockType: BlockType.COMMAND,
                 blockIconURI:icon,
                 text: formatMessage({
                     id: 'Esp32S4SMore.readIntoSpi',
@@ -1149,6 +1208,40 @@ class Esp32S4SMore {
         ],
 
         menus: {
+            ESPNOW_INFO:{
+                acceptReporters: false,
+                items: [
+                    { text: "MAC", value: '1' },
+                    { text: "Channel", value: '0' },
+                ]
+            },
+            ESPNOW_IFIDX:{
+                acceptReporters: false,
+                items: [
+                    { text: "STA_IF", value: '0' },
+                    { text: "AP_IF", value: '1' },
+                ]
+            },
+            MENU_ESPNOW_CHANNEL:{
+                acceptReporters: false,
+                items: [
+                    { text: "0", value: '0' },
+                    { text: "1", value: '1' },
+                    { text: "2", value: '2' },
+                    { text: "3", value: '3' },
+                    { text: "4", value: '4' },
+                    { text: "5", value: '5' },
+                    { text: "6", value: '6' },
+                    { text: "7", value: '7' },
+                    { text: "8", value: '8' },
+                    { text: "9", value: '9' },
+                    { text: "10", value: '10' },
+                    { text: "11", value: '11' },
+                    { text: "12", value: '12' },
+                    { text: "13", value: '13' },
+                    { text: "14", value: '14' },
+                ]
+            },
             MENU_SPI_TYPE:{
                 acceptReporters: false,
                 items: [
@@ -1286,8 +1379,8 @@ class Esp32S4SMore {
             MENU_WLAN_ACTIVE:{
                 acceptReporters: false,
                 items: [
-                    { text: "True", value: 'true' },
-                    { text: "False", value: 'false' },
+                    { text: "True", value: 'True' },
+                    { text: "False", value: 'False' },
                     // { text: "A+B", value: '2' }
                 ]
             },
