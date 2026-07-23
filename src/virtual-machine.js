@@ -62,10 +62,7 @@ const createRuntimeService = runtime => {
 class VirtualMachine extends EventEmitter {
     constructor () {
         super();
-        this.logic=createVisualLogic(this)
-        this.loadProject =(input) => this.logic.loadProject(input)
-        this._saveProjectZip = this.logic._saveProjectZip
-        this.loadSB3=(item)=>this.logic.loadSB3(item)
+        
 
         /**
          * VM runtime, to store blocks, I/O devices, sprites/targets, etc.
@@ -75,6 +72,10 @@ class VirtualMachine extends EventEmitter {
         centralDispatch.setService('runtime', createRuntimeService(this.runtime)).catch(e => {
             log.error(`Failed to register runtime service: ${JSON.stringify(e)}`);
         });
+        this.logic=createVisualLogic(this)
+        this.loadProject =(input) => this.logic.loadProject(input)
+        this._saveProjectZip = this.logic._saveProjectZip
+        this.loadSB3=(item)=>this.logic.loadSB3(item)
 
         /**
          * The "currently editing"/selected target ID for the VM.
@@ -579,6 +580,7 @@ class VirtualMachine extends EventEmitter {
      * @returns {Promise<unknown>} Compressed sb3 file in a type determined by the type argument.
      */
     saveProjectSb3 (type,modeValue=undefined) {
+        console.log('saveProjectSb3')
         return this._saveProjectZip(modeValue).generateAsync({
             // Don't configure compression here. _saveProjectZip() will set it for each file.
             type: type || 'blob',
@@ -592,6 +594,7 @@ class VirtualMachine extends EventEmitter {
      * See: https://stuk.github.io/jszip/documentation/api_streamhelper.html
      */
     saveProjectSb3Stream (type,modeValue=undefined) {
+        console.log('saveProjectSb3Stream')
         return this._saveProjectZip(modeValue).generateInternalStream({
             type: type || 'arraybuffer',
             mimeType: 'application/x.scratch.sb3',

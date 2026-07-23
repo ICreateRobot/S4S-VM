@@ -1,8 +1,19 @@
 const JSZip = require('@turbowarp/jszip');
+const formatMessage = require('format-message');
 // ================== 核心逻辑 ==================
 module.exports=function createVisualLogic(componentInstance) {
     const self = componentInstance
+    let ui=null
+    let iot=null
+    self.runtime.on('saveUI',(result)=>{
+        console.log(result)
+        ui = result
+    })
 
+    self.runtime.on('saveIot',(result)=>{
+        console.log(result)
+        iot = result
+    })
     function loadProject (input) {
         if (typeof input === 'object' && !(input instanceof ArrayBuffer) &&
           !ArrayBuffer.isView(input)) {
@@ -14,8 +25,10 @@ module.exports=function createVisualLogic(componentInstance) {
             // TODO not sure if we need to check that it also isn't a data view
             input = JSON.stringify(input);
         }
+        console.log(input)
 
         const validationPromise = new Promise((resolve, reject) => {
+            console.log('1111111111111')
             const validate = require('scratch-parser');
             // The second argument of false below indicates to the validator that the
             // input should be parsed/validated as an entire project (and not a single sprite)
@@ -23,38 +36,190 @@ module.exports=function createVisualLogic(componentInstance) {
                 if (error) {
                     return reject(error);
                 }
-                 if (res[1]) { // res[1] 是 zip 对象
-                    const modeFile = res[1].files['mode.json'];
-                    if (modeFile) {
-                        modeFile.async('text').then(content => {
-                            const mode = JSON.parse(content);
-                            self.emit('projectModeChanged', mode);
-                            // if (mode != self.mode) {
-                            //     // 如果 mode 为 false，拒绝加载并抛出提示
-                            //     return reject(new Error('项目加载被阻止：当前模式禁止加载此项目'));
-                            // } else {
-                            setTimeout(() => {
-                                _restoreModelFromZip(res[1]);
-                                resolve(res);
-                            }, 1000);//等1s
-                            // }
-                        }).catch(e => {
-                            // mode.json 解析失败仍继续加载
-                            console.warn('mode.json 解析失败，继续加载项目', e);
-                            _restoreModelFromZip(res[1]);
+                console.log(res[1])
+                //  if (res[1]) { // res[1] 是 zip 对象
+                //     const modeFile = res[1].files['mode.json'];
+                //     if (modeFile) {
+                //         modeFile.async('text').then(content => {
+                //             const mode = JSON.parse(content);
+                //             console.log('qqqqqqqqqq',mode)
+                //             self.emit('projectModeChanged', mode);
+                //             // if (mode != self.mode) {
+                //             //     // 如果 mode 为 false，拒绝加载并抛出提示
+                //             //     return reject(new Error('项目加载被阻止：当前模式禁止加载此项目'));
+                //             // } else {
+                //             setTimeout(() => {
+                //                 _restoreModelFromZip(res[1]);
+                //                 resolve(res);
+                //             }, 1000);//等1s
+                //             // }
+                //         }).catch(e => {
+                //             // mode.json 解析失败仍继续加载
+                //             console.warn('mode.json 解析失败，继续加载项目', e);
+                //             _restoreModelFromZip(res[1]);
+                //             resolve(res);
+                //         });
+                //     } else {
+                //         // 没有 mode.json 则正常加载
+                //         _restoreModelFromZip(res[1]);
+                //         resolve(res);
+                //     }
+
+                //     const uiFile = res[1].files['ui.json'];
+                //     if (uiFile) {
+                //         uiFile.async('text').then(content => {
+                //             const uiCon = JSON.parse(content);
+                //             console.log('qqqqqqqqqq',uiCon)
+                //             self.runtime.emit('projectUiChanged', uiCon);
+                //             setTimeout(() => {
+                //                 _restoreModelFromZip(res[1]);
+                //                 resolve(res);
+                //             }, 1000);//等1s
+                //             // }
+                //         }).catch(e => {
+                //             // mode.json 解析失败仍继续加载
+                //             console.warn('ui编辑器 解析失败，继续加载项目', e);
+                //             reject(formatMessage({
+                //                 id: 'loadProject.uiEditorFailed',
+                //                 default: 'Failed to load UI editor project. The project may be corrupted.',
+                //                 description: 'loadProject.uiEditorFailed'
+                //             }))
+                //             // _restoreModelFromZip(res[1]);
+                //             // resolve(res);
+                //         });
+                //     } else {
+                //         // 没有 mode.json 则正常加载
+                //         _restoreModelFromZip(res[1]);
+                //         resolve(res);
+                //     }
+
+                //     const iotFile = res[1].files['iot.json'];
+                //     if (iotFile) {
+                //         iotFile.async('text').then(content => {
+                //             const iotCon = JSON.parse(content);
+                //             console.log('qqqqqqqqqq',iotCon)
+                //             self.runtime.emit('projectIotChanged', iotCon);
+                //             setTimeout(() => {
+                //                 _restoreModelFromZip(res[1]);
+                //                 resolve(res);
+                //             }, 1000);//等1s
+                //             // }
+                //         }).catch(e => {
+                //             // mode.json 解析失败仍继续加载
+                //             console.warn('mode.json 解析失败，继续加载项目', e);
+                //             // _restoreModelFromZip(res[1]);
+                //             // resolve(res);
+                //             reject(formatMessage({
+                //                 id: 'loadProject.iotFailed',
+                //                 default: 'Failed to load IoT project. The project may be corrupted.',
+                //                 description: 'loadProject.iotFailed'
+                //             }))
+                //         });
+                //     } else {
+                //         // 没有 mode.json 则正常加载
+                //         _restoreModelFromZip(res[1]);
+                //         resolve(res);
+                //     }
+                // } else {
+                //     resolve(res);
+                // }
+                if (res[1]) { // res[1] 是 zip 对象
+                    const zip = res[1];
+                
+                    // 工具函数：延迟 1s（完全等价于你原来的 setTimeout）
+                    const delay = () => new Promise(resolve1 => setTimeout(resolve1, 1000));
+                
+                    // ===== mode.json =====
+                    const runMode = () => {
+                        const modeFile = zip.files['mode.json'];
+                        if (!modeFile) return Promise.resolve(); // 没有 mode.json，直接过
+                
+                        return modeFile.async('text')
+                            .then(content => {
+                                const mode = JSON.parse(content);
+                                console.log('qqqqqqqqqq', mode);
+                                self.emit('projectModeChanged', mode);
+                                return delay(); // 原逻辑：等 1s
+                            })
+                            .catch(e => {
+                                // 原逻辑：mode.json 解析失败仍继续加载
+                                console.warn('mode.json 解析失败，继续加载项目', e);
+                            });
+                    };
+                
+                    // ===== ui.json =====
+                    const runUi = () => {
+                        const uiFile = zip.files['ui.json'];
+                        if (!uiFile) return Promise.resolve();
+                
+                        return uiFile.async('text')
+                            .then(content => {
+                                const uiCon = JSON.parse(content);
+                                console.log('qqqqqqqqqq', uiCon);
+                                self.runtime.emit('projectUiChanged', uiCon);
+                                return delay();
+                            })
+                            .catch(e => {
+                                // 原逻辑：ui.json 解析失败 → reject
+                                console.warn('ui编辑器 解析失败，继续加载项目', e);
+                                return Promise.reject(
+                                    formatMessage({
+                                        id: 'loadProject.uiEditorFailed',
+                                        default: 'Failed to load UI editor project. The project may be corrupted.',
+                                        description: 'loadProject.uiEditorFailed'
+                                    })
+                                );
+                            });
+                            // ⚠️ 注意：这里没有 catch 吞掉错误，保证 reject 能向上传递
+                    };
+                
+                    // ===== iot.json =====
+                    const runIot = () => {
+                        const iotFile = zip.files['iot.json'];
+                        if (!iotFile) return Promise.resolve();
+                
+                        return iotFile.async('text')
+                            .then(content => {
+                                const iotCon = JSON.parse(content);
+                                console.log('qqqqqqqqqq', iotCon);
+                                self.runtime.emit('projectIotChanged', iotCon);
+                                return delay();
+                            })
+                            .catch(e => {
+                                // 原逻辑：iot.json 解析失败 → reject
+                                console.warn('iot.json 解析失败，继续加载项目', e);
+                                return Promise.reject(
+                                    formatMessage({
+                                        id: 'loadProject.iotFailed',
+                                        default: 'Failed to load IoT project. The project may be corrupted.',
+                                        description: 'loadProject.iotFailed'
+                                    })
+                                );
+                            });
+                    };
+                
+                    // ===== 严格串行执行 =====
+                    runMode()
+                        .then(runUi)
+                        .then(runIot)
+                        .then(() => {
+                            //  所有步骤成功完成
+                            _restoreModelFromZip(zip);
                             resolve(res);
+                        })
+                        .catch(err => {
+                            //  ui 或 iot 失败，直接终止
+                            reject(err);
                         });
-                    } else {
-                        // 没有 mode.json 则正常加载
-                        _restoreModelFromZip(res[1]);
-                        resolve(res);
-                    }
+                
                 } else {
                     resolve(res);
                 }
             });
+            console.log('2222222222')
         })
             .catch(error => {
+                console.log('333333333')
                 const {SB1File, ValidationError} = require('scratch-sb1-converter');
 
                 try {
@@ -77,6 +242,7 @@ module.exports=function createVisualLogic(componentInstance) {
                 }
                 // Throw original error since the input does not appear to be
                 // an SB1File.
+                console.log('44444444')
                 return Promise.reject(error);
             });
 
@@ -86,10 +252,12 @@ module.exports=function createVisualLogic(componentInstance) {
             .then(()=>{self.channelLoadModel.postMessage(true)})
             .then(()=>{self.channelLoadModel.postMessage(true)})
             .catch(error => {
+                console.log(error)
                 // Intentionally rejecting here (want errors to be handled by caller)
                 if (Object.prototype.hasOwnProperty.call(error, 'validationError')) {
                     return Promise.reject(JSON.stringify(error));
                 }
+                console.log('6666666666')
                 return Promise.reject(error);
             });
     }
@@ -156,7 +324,19 @@ module.exports=function createVisualLogic(componentInstance) {
         });
     }
 
+    function emitSaveIot() {
+        return new Promise((resolve) => {
+            self.runtime.emit('saveIot', '', resolve);
+        });
+    }
+
     function _saveProjectZip(modeValue) {
+        // console.log(ui)
+
+        // self.runtime.emit('saveIot', '', (res) => {
+        //     console.log('收到返回结果:', res);
+        // });
+        // const iotRes = await emitSaveIot();
         const projectJson = self.toJSON();
         const zip = new JSZip();
 
@@ -167,6 +347,15 @@ module.exports=function createVisualLogic(componentInstance) {
         //     zip.file('mode.json', JSON.stringify(self.mode));
         // }
         zip.file('mode.json', JSON.stringify(modeValue));
+
+        zip.file(
+            'ui.json',
+            ui
+        );
+        zip.file(
+            'iot.json',
+            iot
+        );
 
         const date = new Date(1591657163000);
         const TF_PREFIX = 'tensorflowjs_models/';

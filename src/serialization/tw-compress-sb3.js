@@ -54,22 +54,123 @@ class Pool {
     }
 }
 
+// const compress = projectData => {
+//     // projectData is modified in-place
+
+//     // The optimization here is not optimal. This is intentional.
+//     // We only compress block and comment IDs because we want to maintain 100% (not 99.99%; 100%) compatibility and be
+//     // truly lossless. Optimizing things like variable IDs will cause things such as the editor's backpack feature
+//     // to misbehave.
+
+//     // We use the same variable pool for all objects to avoid any possible issues if IDs are ever treated as unique
+//     // within a given project.
+//     const pool = new Pool();
+
+//     for (const target of projectData.targets) {
+//         // While we don't compress these IDs, we need to make sure that our compressed IDs
+//         // do not intersect, which could happen if the project was compressed with a
+//         // different tool.
+//         for (const variableId of Object.keys(target.variables)) {
+//             pool.skip(variableId);
+//         }
+//         for (const listId of Object.keys(target.lists)) {
+//             pool.skip(listId);
+//         }
+//         for (const broadcastId of Object.keys(target.broadcasts)) {
+//             pool.skip(broadcastId);
+//         }
+//         for (const blockId of Object.keys(target.blocks)) {
+//             const block = target.blocks[blockId];
+//             pool.addReference(blockId);
+//             if (Array.isArray(block)) {
+//                 // Compressed native
+//                 continue;
+//             }
+//             if (block.parent) {
+//                 pool.addReference(block.parent);
+//             }
+//             if (block.next) {
+//                 pool.addReference(block.next);
+//             }
+//             if (block.comment) {
+//                 pool.addReference(block.comment);
+//             }
+//             for (const input of Object.values(block.inputs)) {
+//                 for (let i = 1; i < input.length; i++) {
+//                     const inputValue = input[i];
+//                     if (typeof inputValue === 'string') {
+//                         pool.addReference(inputValue);
+//                     }
+//                 }
+//             }
+//         }
+
+//         for (const commentId of Object.keys(target.comments)) {
+//             const comment = target.comments[commentId];
+//             pool.addReference(commentId);
+//             if (comment.blockId) {
+//                 pool.addReference(comment.blockId);
+//             }
+//         }
+//     }
+
+//     pool.generateNewIds();
+//     for (const target of projectData.targets) {
+//         const newBlocks = {};
+//         const newComments = {};
+//         for (const blockId of Object.keys(target.blocks)) {
+//             const block = target.blocks[blockId];
+//             newBlocks[pool.getNewId(blockId)] = block;
+//             if (Array.isArray(block)) {
+//                 // Compressed native
+//                 continue;
+//             }
+//             if (block.parent) {
+//                 block.parent = pool.getNewId(block.parent);
+//             }
+//             if (block.next) {
+//                 block.next = pool.getNewId(block.next);
+//             }
+//             if (block.comment) {
+//                 block.comment = pool.getNewId(block.comment);
+//             }
+//             for (const input of Object.values(block.inputs)) {
+//                 for (let i = 1; i < input.length; i++) {
+//                     const inputValue = input[i];
+//                     if (typeof inputValue === 'string') {
+//                         input[i] = pool.getNewId(inputValue);
+//                     }
+//                 }
+//             }
+//         }
+
+//         for (const commentId of Object.keys(target.comments)) {
+//             const comment = target.comments[commentId];
+//             newComments[pool.getNewId(commentId)] = comment;
+//             if (comment.blockId) {
+//                 comment.blockId = pool.getNewId(comment.blockId);
+//             }
+//         }
+
+//         target.blocks = newBlocks;
+//         target.comments = newComments;
+//     }
+// };
+const shouldKeepId = id => {
+    if (typeof id !== 'string') return false;
+
+    return (
+        id.startsWith('iot') ||
+        id.startsWith('ui')
+    );
+};
+
 const compress = projectData => {
     // projectData is modified in-place
 
-    // The optimization here is not optimal. This is intentional.
-    // We only compress block and comment IDs because we want to maintain 100% (not 99.99%; 100%) compatibility and be
-    // truly lossless. Optimizing things like variable IDs will cause things such as the editor's backpack feature
-    // to misbehave.
-
-    // We use the same variable pool for all objects to avoid any possible issues if IDs are ever treated as unique
-    // within a given project.
     const pool = new Pool();
 
     for (const target of projectData.targets) {
-        // While we don't compress these IDs, we need to make sure that our compressed IDs
-        // do not intersect, which could happen if the project was compressed with a
-        // different tool.
         for (const variableId of Object.keys(target.variables)) {
             pool.skip(variableId);
         }
@@ -79,13 +180,17 @@ const compress = projectData => {
         for (const broadcastId of Object.keys(target.broadcasts)) {
             pool.skip(broadcastId);
         }
+
         for (const blockId of Object.keys(target.blocks)) {
             const block = target.blocks[blockId];
+
+            // 仍然加入引用池，不影响其它 ID 的生成
             pool.addReference(blockId);
+
             if (Array.isArray(block)) {
-                // Compressed native
                 continue;
             }
+
             if (block.parent) {
                 pool.addReference(block.parent);
             }
@@ -95,6 +200,7 @@ const compress = projectData => {
             if (block.comment) {
                 pool.addReference(block.comment);
             }
+
             for (const input of Object.values(block.inputs)) {
                 for (let i = 1; i < input.length; i++) {
                     const inputValue = input[i];
@@ -107,7 +213,9 @@ const compress = projectData => {
 
         for (const commentId of Object.keys(target.comments)) {
             const comment = target.comments[commentId];
+
             pool.addReference(commentId);
+
             if (comment.blockId) {
                 pool.addReference(comment.blockId);
             }
@@ -115,30 +223,48 @@ const compress = projectData => {
     }
 
     pool.generateNewIds();
+
+    // ========= 唯一新增 =========
+    const getCompressedId = id => {
+        if (!id) return id;
+        return shouldKeepId(id) ? id : pool.getNewId(id);
+    };
+    // ==========================
+
     for (const target of projectData.targets) {
         const newBlocks = {};
         const newComments = {};
+
         for (const blockId of Object.keys(target.blocks)) {
             const block = target.blocks[blockId];
-            newBlocks[pool.getNewId(blockId)] = block;
+
+            // 修改①
+            newBlocks[getCompressedId(blockId)] = block;
+
             if (Array.isArray(block)) {
-                // Compressed native
                 continue;
             }
+
+            // 修改②
             if (block.parent) {
-                block.parent = pool.getNewId(block.parent);
+                block.parent = getCompressedId(block.parent);
             }
+
+            // 修改③
             if (block.next) {
-                block.next = pool.getNewId(block.next);
+                block.next = getCompressedId(block.next);
             }
+
+            // 修改④
             if (block.comment) {
-                block.comment = pool.getNewId(block.comment);
+                block.comment = getCompressedId(block.comment);
             }
+
+            // 修改⑤
             for (const input of Object.values(block.inputs)) {
                 for (let i = 1; i < input.length; i++) {
-                    const inputValue = input[i];
-                    if (typeof inputValue === 'string') {
-                        input[i] = pool.getNewId(inputValue);
+                    if (typeof input[i] === 'string') {
+                        input[i] = getCompressedId(input[i]);
                     }
                 }
             }
@@ -146,9 +272,13 @@ const compress = projectData => {
 
         for (const commentId of Object.keys(target.comments)) {
             const comment = target.comments[commentId];
-            newComments[pool.getNewId(commentId)] = comment;
+
+            // 修改⑥
+            newComments[getCompressedId(commentId)] = comment;
+
+            // 修改⑦
             if (comment.blockId) {
-                comment.blockId = pool.getNewId(comment.blockId);
+                comment.blockId = getCompressedId(comment.blockId);
             }
         }
 

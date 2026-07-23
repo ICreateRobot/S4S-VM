@@ -15,6 +15,7 @@ class UIIoT {
 
         //记录组件数据
         this.components = {
+            title:[],
             label: [],
             image: [],
             text: [],
@@ -41,9 +42,12 @@ class UIIoT {
     // 更新组件
     updateFromUI({ id, name }) {
         for (const type in this.components) {
+            console.log('更新组件',{id, name})
             const list = this.components[type];
 
             const item = list.find(i => i.id === id);
+            console.log(list)
+            console.log(item)
             if (item) {
                 item.name = name;
                 break;
