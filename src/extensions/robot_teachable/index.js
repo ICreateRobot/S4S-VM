@@ -9,6 +9,8 @@ const posenet = require('./modules/posenet.js')
 const socket=require('../../util/socket-connect')
 const handpose = require('./modules/handpose.js')
 const imageLoad = require('../../util/imageLoad')
+const handPoseDetection = require('./modules/hand-pose-detection')
+require('./modules/hands')
 class robotteachable {
 
     constructor(runtime){
@@ -335,15 +337,40 @@ class robotteachable {
     }
 
     async loadGestureMode(){
-        //加载PoseNet模型
-        const poseNet = await handpose.load().then(model => {
-            this.poseNetmode = model; // 保存加载好的模型
-            console.log("模型加载完成")
+        // //加载PoseNet模型
+        // const poseNet = await handpose.load().then(model => {
+        //     this.poseNetmode = model; // 保存加载好的模型
+        //     console.log("模型加载完成")
 
-        })
-        .catch(e=>{
-            console.log("posenet加载出错")
-        });
+        // })
+        // .catch(e=>{
+        //     console.log("posenet加载出错")
+        // });
+        const model = handPoseDetection.SupportedModels.MediaPipeHands;
+
+        const currentURL = window.location.href;
+
+        // 获取前一级路径
+        const oneLevelUp = currentURL.substring(0, currentURL.lastIndexOf('/'));
+        // 获取前两级路径
+        const twoLevelsUp = oneLevelUp.substring(0, oneLevelUp.lastIndexOf('/'));
+        const modelPath =twoLevelsUp+'/static/aiModel/gesture/modules';  // 你的模型路径
+        const detectorConfig = {
+            runtime: 'tfjs', // 或 mediapipe
+            modelType: 'full',
+            solutionPath:modelPath+'/hands.js',
+            detectorModelUrl: modelPath+'/detector/model.json',
+            landmarkModelUrl: modelPath+'/landmark/model.json',
+            maxHands: 1
+        };
+    
+        this.poseNetmode  = await handPoseDetection.createDetector(
+            model,
+            detectorConfig
+        );
+    
+        console.log("Hand Pose Detection 加载完成");
+    
         this.channelLoad.postMessage(false)
     }
 
@@ -374,8 +401,14 @@ class robotteachable {
 
     /*使用模型*/
     predictGesture(pose,model) {
-        const landmarks=pose.landmarks;
-        const input=tf.tensor2d([landmarks.flat()]);
+        // const landmarks=pose.landmarks;
+        const landmarks = pose.keypoints.flatMap(p => [
+            p.x,
+            p.y,
+            p.z || 0
+        ]);
+        // const input=tf.tensor2d([landmarks.flat()]);
+        const input = tf.tensor2d([landmarks]);
         const floatInput=tf.cast(input,'float32');
         const result=model.predict(floatInput).arraySync();
 
@@ -485,7 +518,7 @@ class robotteachable {
             video.height = '300';
             video.autoplay = true;
             video.playsInline = true;
-            video.style.borderRadius = '50px';
+            // video.style.borderRadius = '50px';
         }else if(whatVideo=='img' || whatVideo=='net'){
             img = document.createElement('img')
             img.crossOrigin = "anonymous";  // 允许跨域访问
@@ -505,8 +538,8 @@ class robotteachable {
         canvas.height='300'
         canvas.id='show_canvas'
         canvas.style.position = 'absolute'; // 绝对定位
-        canvas.style.top = '38px';
-        canvas.style.left='12px'
+        canvas.style.top = '50px';
+        canvas.style.left='20px'
         // canvas.style.pointerEvents = 'none'; // 确保鼠标事件不会影响画布
         // canvas.style.border = '2px solid red'; // 红色 2px 宽的实线边框
 
@@ -762,12 +795,12 @@ class robotteachable {
                 const scaleY = canvasHeight / videoHeight;
 
                 // 画出手部关键点
-                hand.landmarks.forEach((landmark, index) => {
+                hand.keypoints.forEach((point, index) => {
                     // 跳过每个手指的第二个关键点 (i*4 + 1)
                     if (index % 4 === 3) return;  // 跳过手指的第二个关键点
                     // 缩放坐标
-                    const adjustedX = landmark[0] * scaleX;
-                    const adjustedY = landmark[1] * scaleY;
+                    const adjustedX = point.x
+                    const adjustedY = point.y
 
                     // 设置关键点的大小
                     const pointSize = 3;
@@ -781,14 +814,22 @@ class robotteachable {
 
                 // 绘制手指骨骼连线
                 this.connections.forEach(([startIdx, endIdx]) => {
-                    const start = hand.landmarks[startIdx];
-                    const end = hand.landmarks[endIdx];
+                    // const start = hand.keypoints[startIdx];
+                    // const end = hand.keypoints[endIdx];
 
-                    // 缩放后绘制连线
-                    const adjustedStartX = start[0] * scaleX;
-                    const adjustedStartY = start[1] * scaleY;
-                    const adjustedEndX = end[0] * scaleX;
-                    const adjustedEndY = end[1] * scaleY;
+                    // // 缩放后绘制连线
+                    // const adjustedStartX = start[0] * scaleX;
+                    // const adjustedStartY = start[1] * scaleY;
+                    // const adjustedEndX = end[0] * scaleX;
+                    // const adjustedEndY = end[1] * scaleY;
+                    const start = hand.keypoints[startIdx];
+                    const end = hand.keypoints[endIdx];
+
+                    const adjustedStartX = start.x ;
+                    const adjustedStartY = start.y ;
+
+                    const adjustedEndX = end.x ;
+                    const adjustedEndY = end.y ;
 
                     ctx.beginPath();
                     ctx.moveTo(adjustedStartX, adjustedStartY);
@@ -857,6 +898,7 @@ class robotteachable {
             // this.runtime.ioDevices.video.enableVideo()
     
             const value=document.createElement('div')
+            value.style.marginTop='20px'
             document.getElementById('popup').appendChild(value)
             if(this.classInfo.length>0){
                 for(let i=0;i<this.classInfo[0].length;i++){
@@ -868,9 +910,16 @@ class robotteachable {
                     let span = document.createElement('span');
                     span.id = 'value' + this.classInfo[0][i];
                     span.innerText = this.classInfo[1][i];
-                    span.style.width = '20%'; // 让 span 占一部分宽度，保持对齐
-                    span.style.textAlign = 'right'; // 让文本右对齐
+                    span.style.display = 'inline-block';
+                    span.style.width = '30%'; // 让 span 占一部分宽度，保持对齐
+                    span.style.textAlign = 'center'; // 让文本右对齐
                     span.style.marginRight = '10px'; // 与进度条之间添加间距
+                    span.style.whiteSpace = 'nowrap';        // 不换行
+                    span.style.overflow = 'hidden';          // 超出隐藏
+                    span.style.textOverflow = 'ellipsis';    // ... 省略号
+
+                    //  原生悬浮显示完整文本
+                    span.title = this.classInfo[1][i];
     
                     let barCon = document.createElement('div');
                     barCon.style.width = '60%';
