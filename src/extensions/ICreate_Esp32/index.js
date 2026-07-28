@@ -401,7 +401,7 @@ class Esp32S4S {
     
                 {
                     opcode: 'readableBytes',//读取字节
-                    blockType: BlockType.REPORTER,
+                    blockType: BlockType.BOOLEAN,
                     blockIconURI:icon,
                     text: formatMessage({
                         id: 'Esp32S4S.readableBytes',
