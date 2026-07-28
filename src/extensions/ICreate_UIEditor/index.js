@@ -773,7 +773,7 @@ class UIEditor {
                         },
                         PATH: {
                             type: ArgumentType.STRING,
-                            defaultValue: '/img/1.png'
+                            defaultValue: 'sd/test.png'
                         }
                     }
                 },
