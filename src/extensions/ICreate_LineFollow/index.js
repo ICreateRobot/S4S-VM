@@ -26,10 +26,6 @@ class LineFollow {
             //模块 
             blocks: [
                 {
-                    blockType: BlockType.LABEL,
-                    text: "Line Following Sensor",
-                },
-                {
                     opcode: 'ICM_S4S_setMode',//切换学习模式
                     blockType: BlockType.COMMAND,
                     // text: '巡线模块 颜色学习[CHOICE]',

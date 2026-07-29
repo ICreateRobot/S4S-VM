@@ -26,10 +26,6 @@ class Ultrasonic {
             //模块 
             blocks: [
                 {
-                    blockType: BlockType.LABEL,
-                    text:"Ultrasonic",
-                },
-                {
                     opcode: 'ICM_S4S_ultrGet',//超声波传感器
                     blockType: BlockType.REPORTER,
                     // text: '超声波传感器 距离值',
