@@ -506,7 +506,7 @@ class Esp32S4S {
             DIGITAL_PIN: {//数字引脚
                 acceptReporters: false,
                 items: [
-                    { text: "0", value: 'IO0' },
+                    // { text: "0", value: 'IO0' },
                     { text: "8", value: 'IO8' },
                     { text: "9", value: 'IO9' },
                     { text: "17", value: 'IO17' },
@@ -544,7 +544,7 @@ class Esp32S4S {
             PWM_PIN: {//PWM端口
                 acceptReporters: false,
                 items: [
-                    { text: "0", value: 'IO0' },
+                    // { text: "0", value: 'IO0' },
                     { text: "8", value: 'IO8' },
                     { text: "9", value: 'IO9' },
                     { text: "17", value: 'IO17' },
