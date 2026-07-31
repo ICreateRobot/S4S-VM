@@ -223,7 +223,7 @@ class Esp32S4S {
                     PIN: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'IO0'
+                        defaultValue:'IO8'
                     },
                     CHOICE: {
                         type: ArgumentType.STRING,
@@ -267,7 +267,7 @@ class Esp32S4S {
                     PIN: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'IO0'
+                        defaultValue:'IO8'
                     },
                 }
             },
@@ -303,7 +303,7 @@ class Esp32S4S {
                     PIN: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'IO0'
+                        defaultValue:'IO8'
                     },
                     CHOICE: {
                         type: ArgumentType.STRING,
@@ -326,7 +326,7 @@ class Esp32S4S {
                     CHOICE: {
                         type: ArgumentType.STRING,
                         menu: 'DIGITAL_PIN',
-                        defaultValue:'IO0'
+                        defaultValue:'IO8'
                     },
                     NUM: {
                         type: ArgumentType.NUMBER,
