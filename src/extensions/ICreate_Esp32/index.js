@@ -699,22 +699,22 @@ class Esp32S4S {
         await this.ICE_read_wifi(`audio.stop_sounds()`)
     }
     async setDigital(args){
-        await this.ICE_read_wifi(`esp_pin.digitalWrite(${args.PIN},${Number(args.CHOICE)})`)
+        await this.ICE_read_wifi(`esp_pin.digitalWrite('${args.PIN}',${Number(args.CHOICE)})`)
     }
     async setPwm(args){
-        await this.ICE_read_wifi(`esp_pin.analogWrite(${args.PIN},${args.NUM})`)
+        await this.ICE_read_wifi(`esp_pin.analogWrite('${args.PIN}',${args.NUM})`)
     }
     async readDigitalPin(args){
-        return this.ICE_read_wifi(`esp_pin.digitalRead(${args.PIN})`)
+        return this.ICE_read_wifi(`esp_pin.digitalRead('${args.PIN}')`)
     }
     async readAnalogPin(args){
-        return this.ICE_read_wifi(`esp_pin.analogRead(${args.PIN})`)
+        return this.ICE_read_wifi(`esp_pin.analogRead('${args.PIN}')`)
     }
     setInputPull(args){
 
     }
     async readPulse(args){
-        return this.ICE_read_wifi(`esp_pin.pulseIn(${args.CHOICE},1,${args.NUM})`)
+        return this.ICE_read_wifi(`esp_pin.pulseIn('${args.CHOICE}',1,${args.NUM})`)
     }
     async getTimer(args){
         return this.ICE_read_wifi(`system.tick_get()`)
