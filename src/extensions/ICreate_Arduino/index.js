@@ -262,6 +262,47 @@ class ArduinoS4S {
             },
 
             {
+                opcode: 'magnetStrength',
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'Esp32S4S.magnetStrength',
+                    default: 'magnetic force [CHOICE] [TYPE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_MagnetStrength'
+                    },
+                    TYPE: {
+                        type: ArgumentType.STRING,
+                        menu: 'type_MagnetStrength'
+                    }
+                }
+            },
+            {
+                opcode: 'acceleration',
+                blockType: BlockType.REPORTER,
+                blockIconURI:arduinoSvg,
+                text: formatMessage({
+                    id: 'Esp32S4S.acceleration',
+                    default: '[TYPE] [CHOICE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_accelerometer'
+                    },
+                    TYPE: {
+                        type: ArgumentType.STRING,
+                        menu: 'type_acceleration'
+                    }
+                }
+            },
+
+            {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
                     id: 'ArduinoS4S.Microphone',
@@ -1559,7 +1600,65 @@ class ArduinoS4S {
                         value: '2'
                     }
                 ]
-            }
+            },
+            choice_MagnetStrength:{//选择磁力
+                acceptReporters: false,
+                items: [
+                    { text: "X", value: 'X' },
+                    { text: "Y", value: 'Y' },
+                    { text: "Z", value: 'Z' },
+                   
+                ]
+            },
+            type_MagnetStrength:{//选择值的类型
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_MagnetStrength.raw',
+                            default: 'Raw Value',
+                            description: 'Esp32S4S.type_MagnetStrength.raw'
+                        }),
+                        value: '0' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_MagnetStrength.gauss',
+                            default: 'Gauss',
+                            description: 'Esp32S4S.type_MagnetStrength.gauss'
+                        }),
+                        value: '1' 
+                    },
+                   
+                ]
+            },
+            
+            choice_accelerometer:{//选择加速度
+                acceptReporters: false,
+                items: ['X', 'Y','Z']
+            },
+            type_acceleration:{//选择值的类型
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_acceleration.Acceleration',
+                            default: 'Acceleration',
+                            description: 'Esp32S4S.type_acceleration.Acceleration'
+                        }),
+                        value: 'Accel' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_acceleration.Angular',
+                            default: 'Angular velocity',
+                            description: 'Esp32S4S.type_acceleration.Angular'
+                        }),
+                        value: 'Gyro' 
+                    },
+                   
+                ]
+            },
         }
       };
     }
@@ -1633,6 +1732,25 @@ class ArduinoS4S {
         return this.ICA_read(code)
     }
 
+
+    async magnetStrength(args){
+        if(args.TYPE=='0'){
+            console.log(`magnetometer.getRawMagnetic${args.CHOICE}()`)
+            let code = packCommand(`magnetometer.getRawMagnetic${args.CHOICE}()`)
+            return this.ICA_read(code)
+        }else if(args.TYPE=='1'){
+            console.log(`magnetometer.getGaussField${args.CHOICE}()`)
+            let code = packCommand(`magnetometer.getGaussField${args.CHOICE}()`)
+            return this.ICA_read(code)
+        }
+        
+    }
+
+    async acceleration(args){
+        console.log(`gyro.readFloat${args.TYPE}${args.CHOICE}()`)
+        let code = packCommand(`gyro.readFloat${args.TYPE}${args.CHOICE}()`)
+        return this.ICA_read(code)
+    }
     async ICA_S4S_startRecording(args){
         let code = packCommand(`esp_audio.start_recording(${Number(args.NUM)})`)
         await this.ICA_send(code)
