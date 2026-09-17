@@ -64,6 +64,47 @@ class Esp32S4S {
             },
 
             {
+                opcode: 'magnetStrength',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4S.magnetStrength',
+                    default: 'magnetic force [CHOICE] [TYPE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_MagnetStrength'
+                    },
+                    TYPE: {
+                        type: ArgumentType.STRING,
+                        menu: 'type_MagnetStrength'
+                    }
+                }
+            },
+            {
+                opcode: 'acceleration',
+                blockType: BlockType.REPORTER,
+                blockIconURI:icon,
+                text: formatMessage({
+                    id: 'Esp32S4S.acceleration',
+                    default: '[TYPE] [CHOICE]',
+                }),
+                disableMonitor: true,
+                arguments: {
+                    CHOICE: {
+                        type: ArgumentType.STRING,
+                        menu: 'choice_accelerometer'
+                    },
+                    TYPE: {
+                        type: ArgumentType.STRING,
+                        menu: 'type_acceleration'
+                    }
+                }
+            },
+
+            {
                 blockType: BlockType.LABEL,
                 text: formatMessage({
                     id: 'Esp32S4S.Microphone',
@@ -290,27 +331,27 @@ class Esp32S4S {
                 }
             },
 
-            {
-                opcode: 'setInputPull',//将所选引脚配置为输入模式
-                blockType: BlockType.COMMAND,
-                blockIconURI:icon,
-                text: formatMessage({
-                    id: 'Esp32S4S.setInputPull',
-                    default: 'set pin [PIN] to input pull [CHOICE]',
-                    description: 'Esp32S4S.setInputPull'
-                }),
-                arguments: {
-                    PIN: {
-                        type: ArgumentType.STRING,
-                        menu: 'DIGITAL_PIN',
-                        defaultValue:'IO8'
-                    },
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'INPUT_PULL'
-                    },
-                }
-            },
+            // {
+            //     opcode: 'setInputPull',//将所选引脚配置为输入模式
+            //     blockType: BlockType.COMMAND,
+            //     blockIconURI:icon,
+            //     text: formatMessage({
+            //         id: 'Esp32S4S.setInputPull',
+            //         default: 'set pin [PIN] to input pull [CHOICE]',
+            //         description: 'Esp32S4S.setInputPull'
+            //     }),
+            //     arguments: {
+            //         PIN: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'DIGITAL_PIN',
+            //             defaultValue:'IO8'
+            //         },
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'INPUT_PULL'
+            //         },
+            //     }
+            // },
 
             {
                 opcode: 'readPulse',//测量所选引脚上高电平或低电平脉冲的持续时间
@@ -513,10 +554,9 @@ class Esp32S4S {
                     { text: "18", value: 'IO18' },
                     { text: "19", value: 'IO19' },
                     { text: "20", value: 'IO20' },
-                    { text: "35", value: 'IO35' },
-                    { text: "36", value: 'IO36' },
-                    { text: "37", value: 'IO37' },
+                    { text: "45", value: 'IO45' },
                     { text: "46", value: 'IO46' },
+                    { text: "48", value: 'IO48' },
                 ]
             },
             DIGITAL_HIGHLOW: {//高低电平*
@@ -551,10 +591,9 @@ class Esp32S4S {
                     { text: "18", value: 'IO18' },
                     { text: "19", value: 'IO19' },
                     { text: "20", value: 'IO20' },
-                    { text: "35", value: 'IO35' },
-                    { text: "36", value: 'IO36' },
-                    { text: "37", value: 'IO37' },
+                    { text: "45", value: 'IO45' },
                     { text: "46", value: 'IO46' },
+                    { text: "48", value: 'IO48' },
                 ]
             },
             ANALOG_PIN: {//ANALOG端口
@@ -654,6 +693,65 @@ class Esp32S4S {
                     // '1200'
                 ]
             },
+
+            choice_MagnetStrength:{//选择磁力
+                acceptReporters: false,
+                items: [
+                    { text: "X", value: 'X' },
+                    { text: "Y", value: 'Y' },
+                    { text: "Z", value: 'Z' },
+                   
+                ]
+            },
+            type_MagnetStrength:{//选择值的类型
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_MagnetStrength.raw',
+                            default: 'Raw Value',
+                            description: 'Esp32S4S.type_MagnetStrength.raw'
+                        }),
+                        value: '0' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_MagnetStrength.gauss',
+                            default: 'Gauss',
+                            description: 'Esp32S4S.type_MagnetStrength.gauss'
+                        }),
+                        value: '1' 
+                    },
+                   
+                ]
+            },
+            
+            choice_accelerometer:{//选择加速度
+                acceptReporters: false,
+                items: ['X', 'Y','Z']
+            },
+            type_acceleration:{//选择值的类型
+                acceptReporters: false,
+                items: [
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_acceleration.Acceleration',
+                            default: 'Acceleration',
+                            description: 'Esp32S4S.type_acceleration.Acceleration'
+                        }),
+                        value: 'Accel' 
+                    },
+                    {
+                        text: formatMessage({
+                            id: 'Esp32S4S.type_acceleration.Angular',
+                            default: 'Angular velocity',
+                            description: 'Esp32S4S.type_acceleration.Angular'
+                        }),
+                        value: 'Gyro' 
+                    },
+                   
+                ]
+            },
         }
 
       };
@@ -664,6 +762,22 @@ class Esp32S4S {
     }
     async soundLevel(args){
         return this.ICE_read_wifi(`audio.get_sound_level()`)
+    }
+
+    async magnetStrength(args){
+        if(args.TYPE=='0'){
+            console.log(`magnetometer.getRawMagnetic${args.CHOICE}()`)
+            return this.ICE_read_wifi(`magnetometer.getRawMagnetic${args.CHOICE}()`)
+        }else if(args.TYPE=='1'){
+            console.log(`magnetomete.getGaussField${args.CHOICE}()`)
+            return this.ICE_read_wifi(`magnetometer.getGaussField${args.CHOICE}()`)
+        }
+        
+    }
+
+    async acceleration(args){
+        console.log(`gyro.readFloat${args.TYPE}${args.CHOICE}()`)
+        return this.ICE_read_wifi(`gyro.readFloat${args.TYPE}${args.CHOICE}()`)
     }
     async startRecording(args){
         let position=Number(args.AUDIOSOURCE)
