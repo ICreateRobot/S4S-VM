@@ -514,7 +514,7 @@ class ArduinoS4S {
                 blockIconURI:arduinoSvg,
                 text: formatMessage({
                     id: 'ArduinoS4S.ICA_S4S_setInputPull',
-                    default: 'set pin [PIN] to input pull [CHOICE]',
+                    default: 'set pin [PIN] to [CHOICE]',
                     description: 'ArduinoS4S.ICA_S4S_setInputPull'
                 }),
                 arguments: {
@@ -529,31 +529,31 @@ class ArduinoS4S {
                 }
             },
 
-            {
-                opcode: 'ICA_S4S_readPulse',//测量所选引脚上高电平或低电平脉冲的持续时间
-                blockType: BlockType.REPORTER,
-                blockIconURI:arduinoSvg,
-                text: formatMessage({
-                    id: 'ArduinoS4S.ICA_S4S_readPulse',
-                    default: 'read pulse pin [CHOICE] [LEVEL] timeout [NUM]',
-                    description: 'ArduinoS4S.ICA_S4S_readPulse'
-                }),
-                disableMonitor: true,
-                arguments: {
-                    CHOICE: {
-                        type: ArgumentType.STRING,
-                        menu: 'PULSE_PIN'
-                    },
-                    LEVEL: {
-                        type: ArgumentType.STRING,
-                        menu: 'DIGITAL_HIGHLOW'
-                    },
-                    NUM: {
-                        type: ArgumentType.NUMBER,
-                        defaultValue:2000
-                    },
-                }
-            },
+            // {
+            //     opcode: 'ICA_S4S_readPulse',//测量所选引脚上高电平或低电平脉冲的持续时间
+            //     blockType: BlockType.REPORTER,
+            //     blockIconURI:arduinoSvg,
+            //     text: formatMessage({
+            //         id: 'ArduinoS4S.ICA_S4S_readPulse',
+            //         default: 'read pulse pin [CHOICE] [LEVEL] timeout [NUM]',
+            //         description: 'ArduinoS4S.ICA_S4S_readPulse'
+            //     }),
+            //     disableMonitor: true,
+            //     arguments: {
+            //         CHOICE: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'PULSE_PIN'
+            //         },
+            //         LEVEL: {
+            //             type: ArgumentType.STRING,
+            //             menu: 'DIGITAL_HIGHLOW'
+            //         },
+            //         NUM: {
+            //             type: ArgumentType.NUMBER,
+            //             defaultValue:2000
+            //         },
+            //     }
+            // },
 
             {
                 blockType: BlockType.LABEL,
@@ -1231,8 +1231,8 @@ class ArduinoS4S {
                     { text: "A5", value: 'A5' },
                     { text: "D0", value: 'D0' },
                     { text: "D1", value: 'D1' },
-                    { text: "D2", value: 'D2' },
-                    { text: "D3", value: 'D3' },
+                    // { text: "D2", value: 'D2' },
+                    // { text: "D3", value: 'D3' },
                     { text: "D4", value: 'D4' },
                     { text: "D5", value: 'D5' },
                     { text: "D6", value: 'D6' },
@@ -1283,8 +1283,8 @@ class ArduinoS4S {
                 items: [
                     { text: "D0", value: 'D0' },
                     { text: "D1", value: 'D1' },
-                    { text: "D2", value: 'D2' },
-                    { text: "D3", value: 'D3' },
+                    // { text: "D2", value: 'D2' },
+                    // { text: "D3", value: 'D3' },
                     { text: "D4", value: 'D4' },
                     { text: "D5", value: 'D5' },
                     { text: "D6", value: 'D6' },
@@ -1304,8 +1304,8 @@ class ArduinoS4S {
                     { text: "A1", value: 'A1' },
                     { text: "A2", value: 'A2' },
                     { text: "A3", value: 'A3' },
-                    { text: "A4", value: 'A4' },
-                    { text: "A5", value: 'A5' }
+                    // { text: "A4", value: 'A4' },
+                    // { text: "A5", value: 'A5' }
                 ]
             },
             PULSE_PIN: {//PULSE_PIN端口
