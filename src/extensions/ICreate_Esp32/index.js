@@ -288,7 +288,7 @@ class Esp32S4S {
                         menu: 'PWM_PIN'
                     },
                     NUM: {
-                        type: ArgumentType.NUMBER,
+                        type: ArgumentType.NUMRES0_65535,
                         defaultValue:255
                     },
                 }
@@ -550,13 +550,15 @@ class Esp32S4S {
                     // { text: "0", value: 'IO0' },
                     { text: "8", value: 'IO8' },
                     { text: "9", value: 'IO9' },
+                    { text: "10", value: 'IO10' },
+                    { text: "11", value: 'IO11' },
                     { text: "17", value: 'IO17' },
                     { text: "18", value: 'IO18' },
                     { text: "19", value: 'IO19' },
                     { text: "20", value: 'IO20' },
-                    { text: "45", value: 'IO45' },
+                    // { text: "45", value: 'IO45' },
                     { text: "46", value: 'IO46' },
-                    { text: "48", value: 'IO48' },
+                    // { text: "48", value: 'IO48' },
                 ]
             },
             DIGITAL_HIGHLOW: {//高低电平*
@@ -587,13 +589,15 @@ class Esp32S4S {
                     // { text: "0", value: 'IO0' },
                     { text: "8", value: 'IO8' },
                     { text: "9", value: 'IO9' },
+                    { text: "10", value: 'IO10' },
+                    { text: "11", value: 'IO11' },
                     { text: "17", value: 'IO17' },
                     { text: "18", value: 'IO18' },
                     { text: "19", value: 'IO19' },
                     { text: "20", value: 'IO20' },
-                    { text: "45", value: 'IO45' },
+                    // { text: "45", value: 'IO45' },
                     { text: "46", value: 'IO46' },
-                    { text: "48", value: 'IO48' },
+                    // { text: "48", value: 'IO48' },
                 ]
             },
             ANALOG_PIN: {//ANALOG端口
@@ -601,6 +605,8 @@ class Esp32S4S {
                 items: [
                     { text: "8", value: 'IO8' },
                     { text: "9", value: 'IO9' },
+                    { text: "10", value: 'IO10' },
+                    { text: "11", value: 'IO11' },
                     { text: "17", value: 'IO17' },
                     { text: "18", value: 'IO18' },
                     { text: "19", value: 'IO19' },
