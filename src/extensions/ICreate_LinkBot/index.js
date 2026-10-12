@@ -85,7 +85,7 @@ class LinkBot {
                     menu: 'choice_MoveType',
                 },
                 NUM: {
-                    type: ArgumentType.NUMRES0,
+                    type: ArgumentType.NUMRES0_1000,
                     defaultValue: 2
                 },
                 MODE: {
@@ -134,7 +134,7 @@ class LinkBot {
                     defaultValue: 5
                 },
                 NUM: {
-                    type: ArgumentType.NUMRES0,
+                    type: ArgumentType.NUMRES0_1000,
                     defaultValue: 2
                 },
                 MODE: {

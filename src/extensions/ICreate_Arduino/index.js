@@ -466,7 +466,7 @@ class ArduinoS4S {
                         menu: 'PWM_PIN'
                     },
                     NUM: {
-                        type: ArgumentType.NUMBER,
+                        type: ArgumentType.NUMRES0_255,
                         defaultValue:255
                     },
                 }

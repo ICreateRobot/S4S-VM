@@ -51,7 +51,7 @@ class LinkBotActuators {
                     menu: 'choice_DCmotorDIVERSION'
                 },
                 NUM: {
-                    type: ArgumentType.NUMRES0,
+                    type: ArgumentType.NUMRES0_65535,
                     defaultValue: 1
                 },
                 TYPE: {
