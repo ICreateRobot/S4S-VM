@@ -182,6 +182,19 @@ const ArgumentType = {
     *限制输入大小1-60
     */
     NUMRES1_60: 'numres1D60',
+    /**
+    *限制输入大小0-320
+    */
+    NUMRES0_320: 'numres0D320',
+     /**
+    *限制输入大小0-240
+    */
+    NUMRES0_240: 'numres0D240',
+
+    /**
+     * Variable name from dropdown menu
+     */
+    VARIABLE: 'variable'
 
 
     

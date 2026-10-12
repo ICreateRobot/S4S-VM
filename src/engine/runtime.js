@@ -298,6 +298,24 @@ const ArgumentTypeMap = (() => {
             fieldName: 'NUM'
         }
     };
+
+    map[ArgumentType.NUMRES0_320] = {
+        shadow: {
+            type: 'numres0D320',
+            fieldName: 'NUM'
+        }
+    };
+
+    map[ArgumentType.NUMRES0_240] = {
+        shadow: {
+            type: 'numres0D240',
+            fieldName: 'NUM'
+        }
+    };
+    // ArgumentTypeMap.js
+    map[ArgumentType.VARIABLE] = {
+        fieldType: 'field_variable',
+    };
     return map;
 })();
 
@@ -1807,7 +1825,20 @@ class Runtime extends EventEmitter {
 
         // Most field types are inputs (slots on the block that can have other blocks plugged into them)
         // check if this is not one of those cases. E.g. an inline image on a block.
-        if (argTypeInfo.fieldType === 'field_image') {
+        if (argTypeInfo.fieldType === 'field_variable') {
+
+            argJSON = {
+                type: 'field_variable',
+                name: placeholder,
+                variable: argInfo.defaultValue || 'sta_record',
+                variableType: ''
+            };
+        
+            // context.inputList.push(
+            //     `<field name="${xmlEscape(placeholder)}"></field>`
+            // );
+        
+        } else if (argTypeInfo.fieldType === 'field_image') {
             argJSON = this._constructInlineImageJson(argInfo);
         } else {
             // Construct input value
