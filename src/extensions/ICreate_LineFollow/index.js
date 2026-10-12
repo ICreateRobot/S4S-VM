@@ -333,7 +333,7 @@ class LineFollow {
             let choice ='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_color("${choice}","${choice1}")`)
             let bool = await this.ICA_read(code)
-            return bool==1
+            return bool=='1'
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.color(${args.CHOICE},${args.CHOICE1})`
             return this.ICE_read_wifi(code)
@@ -360,7 +360,7 @@ class LineFollow {
             let choice='LINE_SENSOR_'+getAfterDot(args.CHOICE)
             code=packCommand(`gray.line_sensor_detect_line("${choice}")`)
             let bool=await this.ICA_read(code)
-            return bool==1
+            return bool=='1'
         }else if(this.runtime.currentDevice=='ESP32'){
             code=`line_sensor.detect_line(${args.CHOICE})`
             return this.ICE_read_wifi(code)

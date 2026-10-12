@@ -1821,7 +1821,8 @@ class ICreateK210 {
             return this.ICMBP_read(`vision.color_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.color_detected()`)
-            return this.ICA_read(code)==1
+            let result = await this.ICA_read(code)
+            return result=='1'
         }else if(this.runtime.currentDevice === "ESP32"){
             return this.ICE_read_wifi(`vision.color_detected()`)
         }else{
@@ -1978,7 +1979,8 @@ class ICreateK210 {
             return this.ICMBP_read(`vision.line_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.line_detected()`)
-            return this.ICA_read(code)
+            let result = await this.ICA_read(code)
+            return result == '1'
         }else if(this.runtime.currentDevice ==="ESP32"){
             return this.ICE_read_wifi(`vision.line_detected()`)
         }else{
@@ -2047,7 +2049,8 @@ class ICreateK210 {
             return this.ICMBP_read(`vision.object_detected(vision.${args.ONE})`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.object_detected("${args.ONE}")`)
-            return this.ICA_read(code)
+            let result = await this.ICA_read(code)
+            return result == '1'
         }else if(this.runtime.currentDevice ==="ESP32"){
             return this.ICE_read_wifi(`vision.object_detected(vision.${args.ONE})`)
         }else{
@@ -2094,7 +2097,8 @@ class ICreateK210 {
             return this.ICMBP_read(`vision.qr_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.qr_detected()`)
-            return this.ICA_read(code)==1
+            let result = await this.ICA_read(code)
+            return result=='1'
         }else if(this.runtime.currentDevice === "ESP32"){
             return this.ICE_read_wifi(`vision.qr_detected()`)
         }else{
@@ -2213,7 +2217,7 @@ class ICreateK210 {
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_attribute("${args.TWO}",${Number(args.ONE)})`)
             let num = await this.ICA_read(code)
-            return num==1
+            return num=='1'
         }else if(this.runtime.currentDevice === "ESP32"){
             let num=await this.ICE_read_wifi(`vision.face_attribute(vision.${args.TWO},${Number(args.ONE)})`)
             return num
@@ -2278,7 +2282,8 @@ class ICreateK210 {
             return await this.ICMBP_read(`vision.face_recognized_detected()`)
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.face_recognized_detected()`)
-            return await this.ICA_read(code)==1
+            let result = await this.ICA_read(code)
+            return result=='1'
         }else if(this.runtime.currentDevice === "ESP32"){
             return await this.ICE_read_wifi(`vision.face_recognized_detected()`)
         }else{
@@ -2325,7 +2330,8 @@ class ICreateK210 {
            
         }else if(this.runtime.currentDevice === "Arduino"){
             let code = packCommand(`vision.class_recognized(${Number(args.ONE)})`)
-            return this.ICA_read(code)==1
+            let result = await this.ICA_read(code)
+            return result=='1'
         }else if(this.runtime.currentDevice === "ESP32"){
             return this.ICE_read_wifi(`vision.class_recognized(${Number(args.ONE)})`)
         }else{
@@ -2378,10 +2384,12 @@ class ICreateK210 {
         }else if(this.runtime.currentDevice === "Arduino"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
                 let code = packCommand(`vision.card_detected("${args.ONE}",1)`)
-                return this.ICA_read(code)==1
+                let result = await this.ICA_read(code)
+                return result=='1'
             }else{
                 let code = packCommand(`vision.card_detected("${args.ONE}",2)`)
-                return this.ICA_read(code)==1
+                let result = await this.ICA_read(code)
+                return result =='1'
             }
         }else if(this.runtime.currentDevice === "ESP32"){
             if(args.ONE=='RED' || args.ONE=='GREEN'){
