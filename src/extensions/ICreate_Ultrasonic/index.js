@@ -9,6 +9,13 @@ class Ultrasonic {
     
     constructor(runtime) {
         this.runtime = runtime;
+        this.operators = {
+            '<':  (a, b) => a < b,
+            '>':  (a, b) => a > b,
+            '==': (a, b) => a == b,
+            '<=': (a, b) => a <= b,
+            '>=': (a, b) => a >= b
+        };
     }
 
     getInfo() {
