@@ -265,11 +265,11 @@ class UIEditor {
                             menu: 'labelMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -288,7 +288,7 @@ class UIEditor {
                             menu: 'labelMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -307,7 +307,7 @@ class UIEditor {
                             menu: 'labelMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -459,11 +459,11 @@ class UIEditor {
                             menu: 'rectangleMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }       
                     }
@@ -482,7 +482,7 @@ class UIEditor {
                             menu: 'rectangleMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -501,7 +501,7 @@ class UIEditor {
                             menu: 'rectangleMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -592,11 +592,11 @@ class UIEditor {
                             menu: 'circleMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {        
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -615,7 +615,7 @@ class UIEditor {
                             menu: 'circleMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -634,7 +634,7 @@ class UIEditor {
                             menu: 'circleMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -707,19 +707,19 @@ class UIEditor {
                             menu: 'lineMenu'
                         },
                         X1: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y1: {        
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         },
                         X2: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y2: {        
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -852,11 +852,11 @@ class UIEditor {
                             menu: 'imageMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {    
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0 
                         }
                     }
@@ -875,7 +875,7 @@ class UIEditor {
                             menu: 'imageMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -894,7 +894,7 @@ class UIEditor {
                             menu: 'imageMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -1008,11 +1008,11 @@ class UIEditor {
                             menu: 'buttonMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -1031,7 +1031,7 @@ class UIEditor {
                             menu: 'buttonMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -1050,7 +1050,7 @@ class UIEditor {
                             menu: 'buttonMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -1256,11 +1256,11 @@ class UIEditor {
                             menu: 'switchMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -1279,7 +1279,7 @@ class UIEditor {
                             menu: 'switchMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -1298,7 +1298,7 @@ class UIEditor {
                             menu: 'switchMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -1469,11 +1469,11 @@ class UIEditor {
                             menu: 'sliderMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
@@ -1492,7 +1492,7 @@ class UIEditor {
                             menu: 'sliderMenu'
                         },
                         X: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_320,
                             defaultValue: 0
                         }
                     }
@@ -1511,7 +1511,7 @@ class UIEditor {
                             menu: 'sliderMenu'
                         },
                         Y: {
-                            type: ArgumentType.NUMBER,
+                            type: ArgumentType.NUMRES0_240,
                             defaultValue: 0
                         }
                     }
